@@ -1,8 +1,7 @@
 const express = require('express'); //Ładujemy bibliotekę Express (czyli framework do budowania serwera w Node.js)
-const app = express(); //express() tworzy instancję aplikacji Express – coś jak „serwer aplikacji”.Przypisujemy to do app, dzięki czemu możemy dodawać do tej aplikacji trasy (app.get, app.post, itd.).
-                        //Tworzymy aplikację Express – to jest nasz "serwer"
-const PORT = process.env.PORT || 3000; //process.env.PORT – zmienna środowiskowa (np. ustawiana przez Railway). Jeśli brak, używamy domyślnie portu 3000
-                                       //|| 3000 – jeśli nie ma takiej zmiennej, to użyj "3000" jako domyślnego portu.
+const app = express(); //express() tworzy instancję aplikacji Express – coś jak „serwer aplikacji”.Przypisujemy to do app, dzięki czemu możemy dodawać do tej aplikacji trasy (app.get, app.post, itd.). //Tworzymy aplikację Express – to jest nasz "serwer"
+const PORT = process.env.PORT || 3000; //process.env.PORT – zmienna środowiskowa (np. ustawiana przez Railway). Jeśli brak, używamy domyślnie portu 3000 //|| 3000 – jeśli nie ma takiej zmiennej, to użyj "3000" jako domyślnego portu.
+const cors = require('cors'); // Ładujemy bibliotekę CORS – pozwala naszemu backendowi zezwalać na połączenia z innych domen (np. frontend Reacta na innym porcie)
 
 //Endpoint GET
 app.get('/', (req, res) => { //app.get() – definiuje trasę GET (czyli taką, którą użytkownik odwiedza np. przez przeglądarkę).'/' – to ścieżka główna (localhost:3000/).
@@ -10,6 +9,7 @@ app.get('/', (req, res) => { //app.get() – definiuje trasę GET (czyli taką, 
   res.send('Hello from EasyKcal API!'); //res.send(...) – wysyłamy tekst jako odpowiedź
 });
 
+app.use(cors()); // Middleware – pozwala innym aplikacjom (np. frontendowi z Reacta) wysyłać zapytania do backendu (domyślnie było to zablokowane)
 app.use(express.json()); //pozwala odczytać JSON z ciała żądań(np. POST z frontendu). Middleware – pozwala czytać dane JSON z ciała żądań POST
 
 //Endpoint POST
