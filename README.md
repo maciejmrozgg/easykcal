@@ -23,7 +23,7 @@
 ### 🔹 Backend (Node.js):
 - Node.js + Express
 - PostgreSQL (jako baza danych)
-- Knex.js / Prisma (ORM – do obsługi bazy)
+- 1.Knex.js - z poziomu backendu – migracje || 2.Z poziomu pgAdmin (lub DBeaver) || 3.Bezpośrednio w np.Railway
 - Dotenv (do zmiennych środowiskowych)
 
 ### 🔹 Baza danych:
