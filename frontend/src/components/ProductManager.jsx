@@ -9,7 +9,7 @@ export default function ProductManager() { //komponent
   // Pobranie produktów
   const fetchProducts = async () => { //funkcja strzałkowa do pobrania produktów
     try {
-      const res = await fetch('http://localhost:3000/products'); //await - zaczekaj na odpowiedz serwera z backendu Express
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/products`); //await - zaczekaj na odpowiedz serwera z backendu Express
       const data = await res.json(); //poczekaj na zmiane odpowiedzi z JSON na obiekt
       setProducts(data); //aktualizacja stanu produktów(data - dane które otrzymaliśmy w odpowiedzi(zmienione z JSON na obiekt) z GET)
     } catch {
@@ -26,7 +26,7 @@ export default function ProductManager() { //komponent
     setError(''); //zmiana stanu (ustawienie tak jak bylo domyslnie)
 
     try { //ponizej kod ktory moze sie nie udac:
-      const res = await fetch('http://localhost:3000/products', { //await - zaczekaj na odpowiedz serwera z backendu Express
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/products`, { //await - zaczekaj na odpowiedz serwera z backendu Express
         method: 'POST', //wysyłamy więc POST
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, kcalPer100g: Number(kcalPer100g) }), //wysyłamy dane w formacie JSON
@@ -67,13 +67,13 @@ export default function ProductManager() { //komponent
       {error && <p style={{ color: 'red' }}>{error}</p>}
 
       <h3>Lista produktów</h3> 
-      <ul>
+      <ol>
         {products.map((p) => ( //dla każdego elementu w tablicy products wywołujemy funkcję(tu strzałkową z pojedyńczym produktem), która zwraca JSX.React tworzy z tego tablicę elementów, które wstawia do DOM.
           <li key={p.id}> {/* unikalny identyfikator elementu, potrzebny Reactowi do optymalizacji renderowania(tu id produktu) */}
             {p.name} - {p.kcal_per_100g} kcal {/* wyświetlenie(w formie listy nieuporządkowanej <ul> ) nazwy produktu oraz ilości kcal na 100g wraz z dopiskiem na końcu kcal*/}
           </li>
         ))}
-      </ul>
+      </ol>
     </div>
   );
 }

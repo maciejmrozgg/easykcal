@@ -13,7 +13,7 @@ export default function Calculator() { //komponent
   useEffect(() => { //useEffect działa po renderze komponentu, tutaj tylko raz, bo przekazaliśmy []. Być może do zmiany, zeby po dodaniu produktu bez przeładowania aktualizowała się lista?
     const fetchProducts = async () => { //wywołanie funkcji asynchronicznej, która wykona się po przełądowaniu strony(tylko raz pobierze wszystkie produkty)
       try {
-        const res = await fetch('http://localhost:3000/products'); //await - zaczekaj na odpowiedz serwera z backendu Express
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/products`); //await - zaczekaj na odpowiedz serwera z backendu Express
         const data = await res.json(); //do zmiennej stalej "data" zapisujemy zawartość zwróconej odpowiedzi w formacie JSON,która zamieni sie z JSON na obiekt
         setProducts(data); //aktualizacja stanu produktów(data - dane które otrzymaliśmy w odpowiedzi(zmienione z JSON na obiekt) z GET)
       } catch {
@@ -29,7 +29,7 @@ export default function Calculator() { //komponent
     setResult(null); //zmiana stanu (ustawienie tak jak bylo domyslnie)
 
     try {
-      const response = await fetch('http://localhost:3000/calculate', { //await - zaczekaj na odpowiedz serwera z backendu Express
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/calculate`, { //await - zaczekaj na odpowiedz serwera z backendu Express
         method: 'POST', //wysyłamy więc POST
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ //wysyłamy dane w formacie JSON

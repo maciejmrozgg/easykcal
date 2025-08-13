@@ -1,8 +1,20 @@
+const dotenv = require('dotenv');
+dotenv.config();
+
 const express = require('express'); //Ładujemy bibliotekę Express (czyli framework do budowania serwera w Node.js)
 const app = express(); //express() tworzy instancję aplikacji Express – coś jak „serwer aplikacji”.Przypisujemy to do app, dzięki czemu możemy dodawać do tej aplikacji trasy (app.get, app.post, itd.). //Tworzymy aplikację Express – to jest nasz "serwer"
 const PORT = process.env.PORT || 3000; //process.env.PORT – zmienna środowiskowa (np. ustawiana przez Railway). Jeśli brak, używamy domyślnie portu 3000 //|| 3000 – jeśli nie ma takiej zmiennej, to użyj "3000" jako domyślnego portu.
+const HOST = process.env.HOST;
 const cors = require('cors'); // Ładujemy bibliotekę CORS – pozwala naszemu backendowi zezwalać na połączenia z innych domen (np. frontend Reacta na innym porcie)
 const pool = require('./db'); // Ładujemy obiekt pool z db.js(połączenie z bazą - lokalną)
+
+const https = require('https');
+const fs = require('fs');
+
+
+// Wczytanie certyfikatu mkcert
+const key = fs.readFileSync(process.env.KEY_PATH);
+const cert = fs.readFileSync(process.env.CERT_PATH);
 
 //Endpoint GET
 app.get('/', (req, res) => { //app.get() – definiuje trasę GET (czyli taką, którą użytkownik odwiedza np. przez przeglądarkę).'/' – to ścieżka główna (localhost:3000/).
@@ -60,6 +72,6 @@ app.get('/products', async (req, res) => { //trasa GET na scieżce /products
 });
 
 // Uruchamiamy nasłuchiwanie serwera
-app.listen(PORT, () => { //app.listen(PORT, ...) – uruchamia nasłuchiwanie serwera na porcie
-  console.log(`Server running on http://localhost:${PORT}`); //Kiedy serwer wystartuje, wywoła się funkcja, która pokazuje tekst w konsoli.
+https.createServer({ key, cert }, app).listen(PORT, HOST, () => { 
+  console.log(`Server running at https://${HOST}:${PORT}`); //Kiedy serwer wystartuje, wywoła się funkcja, która pokazuje tekst w konsoli.
 });
