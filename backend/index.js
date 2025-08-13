@@ -48,6 +48,17 @@ app.post('/products', async (req, res) => { //trasa POST na ścieżce /products
   }
 });
 
+//Endpoint GET /products - pobranie wszystkich produktów
+app.get('/products', async (req, res) => { //trasa GET na scieżce /products
+  try {
+    const result = await pool.query('SELECT * FROM products ORDER BY id ASC');
+    res.json(result.rows) //Zwracamy listę produktó w formacie JSON
+  } catch (err) {
+    console.error('Błąd pobierania produktów:', err);
+    res.status(500).json({ error: 'Błąd serwera przy pobieraniu produktu'});
+  }
+});
+
 // Uruchamiamy nasłuchiwanie serwera
 app.listen(PORT, () => { //app.listen(PORT, ...) – uruchamia nasłuchiwanie serwera na porcie
   console.log(`Server running on http://localhost:${PORT}`); //Kiedy serwer wystartuje, wywoła się funkcja, która pokazuje tekst w konsoli.
