@@ -8,6 +8,7 @@ export default function Calculator() { //komponent
   const [result, setResult] = useState(null); //wynik
   const [error, setError] = useState(''); //błąd
   const [manualMode, setManualMode] = useState(false); // tryb ręcznego wpisywania kalorii
+  const [filteredProducts, setFilteredProducts] = useState([]);
 
   // Pobieranie listy produktów
   useEffect(() => { //useEffect działa po renderze komponentu, tutaj tylko raz, bo przekazaliśmy []. Być może do zmiany, zeby po dodaniu produktu bez przeładowania aktualizowała się lista?
@@ -47,18 +48,6 @@ export default function Calculator() { //komponent
     }
   };
 
-  // Obsługa zmiany produktu
-  const handleProductChange = (productId) => {  //Funkcja strzałkowa przyjmuje productId – czyli wartość wybraną w <select>
-    setSelectedProduct(productId); //Ustawia w stanie selectedProduct aktualnie wybrany produkt. Dzięki temu React wie, który <option> jest zaznaczony
-    if (productId === '') { //Sprawdza, czy użytkownik nie wybrał żadnego produktu ('' to wartość domyślna w <option>)
-      setKcalPer100g(''); //Jeśli nie wybrano produktu, kcalPer100g jest czyszczone ('') i funkcja kończy działanie (return)
-      return; 
-    }
-    const prod = products.find((p) => p.id === Number(productId)); //find szuka w tablicy(products), które id jest równe wybranemu productId. 
-    //productId z <select> jest stringiem, a p.id w produkcie jest liczbą, dlatego używamy Number(productId)
-    if (prod) setKcalPer100g(prod.kcal_per_100g); //jeśli produkt został znaleziony (prod istnieje), ustawiamy w stanie kcalPer100g jego wartość kalorii
-  };
-
   return (
     <div>
       <h2>Kalkulator kalorii</h2>
@@ -71,17 +60,36 @@ export default function Calculator() { //komponent
         {!manualMode ? ( //jeśli nie w trybie manualnym to wyświetl:
           <div>
             <label>Produkt: </label>
-            <select
+            <input
+              type="text"
               value={selectedProduct}
-              onChange={(e) => handleProductChange(e.target.value)}
-            >
-              <option value="">-- wybierz produkt --</option>
-              {products.map((p) => (
-                <option key={p.id} value={p.id}>
-                  {p.name} ({p.kcal_per_100g} kcal/100g)
-                </option>
-              ))}
-            </select>
+              onChange={(e) => {
+                setSelectedProduct(e.target.value);
+                // filtrujemy produkty do wyświetlenia w sugestiach
+                const filtered = products.filter((p) =>
+                  p.name.toLowerCase().includes(e.target.value.toLowerCase())
+                );
+                setFilteredProducts(filtered);
+              }}
+              placeholder="Wpisz nazwę produktu..."
+            />
+            {selectedProduct && filteredProducts.length > 0 && (
+              <ul style={{ border: '1px solid #ccc', padding: 0, marginTop: 0 }}>
+                {filteredProducts.map((p) => (
+                  <li
+                    key={p.id}
+                    style={{ listStyle: 'none', padding: '0.2rem', cursor: 'pointer' }}
+                    onClick={() => {
+                      setSelectedProduct(p.name);
+                      setKcalPer100g(p.kcal_per_100g);
+                      setFilteredProducts([]);
+                    }}
+                  >
+                    {p.name} ({p.kcal_per_100g} kcal/100g)
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
         ) : ( //a jeśli w trybie manualnym to wyświetl:
           <div>

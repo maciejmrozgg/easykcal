@@ -62,12 +62,22 @@ app.post('/products', async (req, res) => { //trasa POST na ścieżce /products
 
 //Endpoint GET /products - pobranie wszystkich produktów
 app.get('/products', async (req, res) => { //trasa GET na scieżce /products
+  const search = req.query.search;
+  console.log("🔍 Parametr search:", search);
+
   try {
-    const result = await pool.query('SELECT * FROM products ORDER BY id ASC');
-    res.json(result.rows) //Zwracamy listę produktó w formacie JSON
+    let result;
+    if(search) {
+      result = await pool.query('SELECT * FROM products WHERE name ILIKE $1 ORDER BY id ASC',
+        [`%${search}%`]
+      );
+    } else {
+      result = await pool.query('SELECT * FROM products ORDER BY id ASC');
+    }
+    return res.json(result.rows) //Zwracamy listę produktó w formacie JSON
   } catch (err) {
     console.error('Błąd pobierania produktów:', err);
-    res.status(500).json({ error: 'Błąd serwera przy pobieraniu produktu'});
+    return res.status(500).json({ error: 'Błąd serwera przy pobieraniu produktu'});
   }
 });
 

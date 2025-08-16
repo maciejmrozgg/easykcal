@@ -5,11 +5,16 @@ export default function ProductManager() { //komponent
   const [name, setName] = useState(''); //nazwa składnika
   const [kcalPer100g, setKcalPer100g] = useState(''); //kcal na 100g
   const [error, setError] = useState(''); //błąd
+  const [search, setSearch] = useState('');
 
   // Pobranie produktów
-  const fetchProducts = async () => { //funkcja strzałkowa do pobrania produktów
+  const fetchProducts = async (query = '') => { //funkcja strzałkowa do pobrania produktów
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/products`); //await - zaczekaj na odpowiedz serwera z backendu Express
+      const url = query
+      ? `${import.meta.env.VITE_API_URL}/products?search=${encodeURIComponent(query)}`
+      : `${import.meta.env.VITE_API_URL}/products`;
+
+      const res = await fetch(url); //await - zaczekaj na odpowiedz serwera z backendu Express
       const data = await res.json(); //poczekaj na zmiane odpowiedzi z JSON na obiekt
       setProducts(data); //aktualizacja stanu produktów(data - dane które otrzymaliśmy w odpowiedzi(zmienione z JSON na obiekt) z GET)
     } catch {
@@ -43,9 +48,18 @@ export default function ProductManager() { //komponent
     }
   };
 
+  //Obłsuga wyszukiwania
+  const handleSearchChange = (e) => {
+    const value = e.target.value;
+    setSearch(value);
+    fetchProducts(value);
+  }
+
   return (
     <div>
       <h2>Zarządzanie produktami</h2>
+
+      {/* Formularz dodawania */}
       <form onSubmit={handleAddProduct}> {/*wywołanie funkcji strzałkwowej 'handleAddProduct' po wysłaniu formularza*/}
         <input
           type="text"
@@ -66,6 +80,16 @@ export default function ProductManager() { //komponent
 
       {error && <p style={{ color: 'red' }}>{error}</p>}
 
+       {/* Wyszukiwarka */}
+      <h3>Wyszukaj produkt</h3>
+      <input
+        type="text"
+        placeholder="Wpisz nazwę..."
+        value={search}
+        onChange={handleSearchChange}
+      />
+
+      {/* Lista */}
       <h3>Lista produktów</h3> 
       <ol>
         {products.map((p) => ( //dla każdego elementu w tablicy products wywołujemy funkcję(tu strzałkową z pojedyńczym produktem), która zwraca JSX.React tworzy z tego tablicę elementów, które wstawia do DOM.
