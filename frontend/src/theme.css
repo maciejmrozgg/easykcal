@@ -1,27 +1,31 @@
 /* Jasny motyw */
 .light-theme {
-  --bg-color: #f5f2f7; /* jasne tło całej strony */
-  --text-color: #333;   /* ciemniejszy tekst dla lepszej czytelności */
-  --component-bg: linear-gradient(135deg, #f7941d 0%, #9b59b6 100%); /* łagodniejszy fiolet */
-  --button-bg: #fff;
-  --button-color: #9b59b6; /* fioletowy */
-  --button-hover-bg: #f7941d; /* pomarańczowy */
-  --button-hover-color: #fff;
-  --input-bg: #fff;
-  --input-color: #333;
-  --result-bg: linear-gradient(90deg, #9b59b6, #f7941d); /* gradient wyników */
+  --bg-color: #fefefe;                  /* neutralne, jasne tło */
+  --text-color: #1a1a1a;                /* ciemny, czytelny tekst */
+  --component-bg: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%); /* subtelny fioletowy gradient */
+  --button-bg: #ffffff;                  /* biały przycisk */
+  --button-color: #6c5ce7;               /* fioletowy tekst/przyciski */
+  --button-hover-bg: #6c5ce7;            /* fiolet przy hover */
+  --button-hover-color: #ffffff;         /* biały tekst przy hover */
+  --input-bg: #f7f7f7;                   /* jasnoszare tło inputów */
+  --input-color: #1a1a1a;                /* ciemny tekst w inputach */
+  --result-bg: linear-gradient(90deg, #6c5ce7, #a29bfe); /* gradient dla wyników */
+  --navbar-bg: #1f1f1f;
+  --navbar-color: #ffffff;
 }
 
+/* Ciemny motyw */
 .dark-theme {
-  --bg-color: #121212;        /* ciemniejsze tło dla mniej męczącego wzroku */
-  --text-color: #ffd700;      /* złoty tekst */
-  --component-bg: linear-gradient(135deg, #1c1c1c 0%, #b71c1c 100%); /* ciemnoczerwony gradient */
-  --button-bg: #1c1c1c;
-  --button-color: #ff5722;    /* bardziej stonowana czerwień */
-  --button-hover-bg: #ffd700; /* złoto przy hover */
-  --button-hover-color: #1c1c1c;
-  --input-bg: #333;
-  --input-color: #fff;
-  --result-bg: linear-gradient(90deg, #ffd700, #b71c1c); /* złoto → ciemna czerwień */
+  --bg-color: #121212;                   /* klasyczne ciemne tło */
+  --text-color: #e0e0e0;                 /* jasny tekst dla kontrastu */
+  --component-bg: linear-gradient(135deg, #2d3436 0%, #636e72 100%); /* elegancki ciemnoszary gradient */
+  --button-bg: #1f1f1f;                  /* ciemny przycisk */
+  --button-color: #00cec9;               /* nowoczesny turkusowy kolor tekstu */
+  --button-hover-bg: #00cec9;            /* turkusowy przy hover */
+  --button-hover-color: #1f1f1f;         /* ciemny tekst przy hover */
+  --input-bg: #1e1e1e;                   /* ciemne inputy */
+  --input-color: #e0e0e0;                /* jasny tekst w inputach */
+  --result-bg: linear-gradient(90deg, #00cec9, #0984e3); /* turkus → niebieski gradient */
+  --navbar-bg: #e0e0e0;
+  --navbar-color: #1e1e1e;
 }
-

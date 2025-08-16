@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'; //import hooków (specjalnych funkcji Reacta)
 
-export default function Calculator() { //komponent 
+export default function Calculator( {addProduct }) { //komponent 
   const [products, setProducts] = useState([]); //tworzy stan lokalny komponentu gdzie products to aktualna wartosc, a setProducts to funkcja do jej aktualizacji.Wartosc poczatkowa to pusta tablica.
   const [selectedProduct, setSelectedProduct] = useState(''); //wybrany produkt
   const [kcalPer100g, setKcalPer100g] = useState(''); //liczba kcal na 100g
@@ -42,7 +42,21 @@ export default function Calculator() { //komponent
       const data = await response.json(); //poczekaj az odpowiedz zamieni sie z JSON na obiekt
       if (!response.ok) throw new Error(data.error || 'Coś poszło nie tak'); //jesli coś poszło nie tak z odpowiedzią wyrzuć bład,zapisz błąd w data i wyświetl komunikat'Coś poszło nie tak'
 
-      setResult(Math.round(data.result * 100) / 100); //na koniec do obiektu result dodaj dane z odpowiedzi z serwera czyli np. : 55, 100. Result będzie wynosić 55 kcal.
+      const calculatedResult = (Math.round(data.result * 100) / 100); //na koniec do obiektu result dodaj dane z odpowiedzi z serwera czyli np. : 55, 100. Result będzie wynosić 55 kcal.
+      setResult(calculatedResult);
+
+      // dodanie produktu do NutritionSummary
+      addProduct({
+      name: selectedProduct || 'Ręcznie wpisany produkt',
+      kcal: calculatedResult,
+    });
+
+      // opcjonalnie wyczyszczenie formularza
+      setSelectedProduct('');
+      setKcalPer100g('');
+      setWeight('');
+      setFilteredProducts([]);
+
     } catch (err) { //co robic, gdy cos pojdzie nie tak:
       setError(err.message); //zmiana stanu - zapisanie do obiektu error wiadomosci z błędem
     }
@@ -82,6 +96,7 @@ export default function Calculator() { //komponent
                     onClick={() => {
                       setSelectedProduct(p.name);
                       setKcalPer100g(p.kcal_per_100g);
+                      setWeight('');
                       setFilteredProducts([]);
                     }}
                   >
