@@ -74,7 +74,7 @@ export default function Calculator() { //komponent
               placeholder="Wpisz nazwę produktu..."
             />
             {selectedProduct && filteredProducts.length > 0 && (
-              <ul style={{ border: '1px solid #ccc', padding: 0, marginTop: 0 }}>
+              <ul className="product-suggestions">
                 {filteredProducts.map((p) => (
                   <li
                     key={p.id}
@@ -114,9 +114,10 @@ export default function Calculator() { //komponent
         </div>
         
         <button type="submit">Oblicz</button> 
-      </form>
-      {/* wyświetlenie wyniku obliczeń */}
-      {result !== null && <p>Kalorie: <strong>{result}</strong> kcal</p>}
+          </form>
+          {/* wyświetlenie wyniku obliczeń */}
+          {result !== null && (<div className="calorie-result">{result} kcal</div>
+        )}
       {error && <p style={{ color: 'red' }}>{error}</p>}
     </div>
   );

@@ -1,0 +1,27 @@
+/* Jasny motyw */
+.light-theme {
+  --bg-color: #f5f2f7; /* jasne tło całej strony */
+  --text-color: #333;   /* ciemniejszy tekst dla lepszej czytelności */
+  --component-bg: linear-gradient(135deg, #f7941d 0%, #9b59b6 100%); /* łagodniejszy fiolet */
+  --button-bg: #fff;
+  --button-color: #9b59b6; /* fioletowy */
+  --button-hover-bg: #f7941d; /* pomarańczowy */
+  --button-hover-color: #fff;
+  --input-bg: #fff;
+  --input-color: #333;
+  --result-bg: linear-gradient(90deg, #9b59b6, #f7941d); /* gradient wyników */
+}
+
+.dark-theme {
+  --bg-color: #121212;        /* ciemniejsze tło dla mniej męczącego wzroku */
+  --text-color: #ffd700;      /* złoty tekst */
+  --component-bg: linear-gradient(135deg, #1c1c1c 0%, #b71c1c 100%); /* ciemnoczerwony gradient */
+  --button-bg: #1c1c1c;
+  --button-color: #ff5722;    /* bardziej stonowana czerwień */
+  --button-hover-bg: #ffd700; /* złoto przy hover */
+  --button-hover-color: #1c1c1c;
+  --input-bg: #333;
+  --input-color: #fff;
+  --result-bg: linear-gradient(90deg, #ffd700, #b71c1c); /* złoto → ciemna czerwień */
+}
+
