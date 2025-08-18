@@ -1,0 +1,104 @@
+/* Navbar */
+body {
+  padding-top: 60px; /* miejsce na navbar */
+}
+
+.navbar {
+  position: fixed;
+  inset: 0 0 auto 0; /* top:0; left:0; right:0 */
+  height: 60px;
+  background-color: var(--navbar-bg);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  z-index: 1000;
+}
+
+/* Logo */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: bold;
+  text-decoration: none;
+  color: var(--navbar-color);
+  font-size: 1.2rem; 
+}
+
+/* Kontener przycisków logowania/rejestracji */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Pojedynczy przycisk w nav-links */
+.navbar .nav-links .btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  min-width: 80px;
+  padding: 0 12px;
+  border-radius: 8px;
+  text-decoration: none;
+  border: 1px solid var(--button-color);
+  background: var(--button-bg);
+  color: var(--button-color);
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex-shrink: 1;
+}
+
+.navbar .nav-links .btn:hover {
+  background: var(--button-hover-bg);
+  color: var(--button-hover-color);
+}
+
+/* Theme switcher osobno */
+.navbar .themeSwitcher {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  border: 1px solid var(--button-color);
+  background: var(--button-bg);
+  color: var(--button-color);
+  cursor: pointer;
+  font-size: 18px;
+  margin-top: 14px; /*TODO*/
+  padding: 0;      
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navbar .themeSwitcher:hover {
+  background: var(--button-hover-bg);
+  color: var(--button-hover-color);
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* odstęp między przyciskami a themeSwitcher */
+}
+
+/* Responsive dla małych ekranów */
+@media (max-width: 420px) {
+  .nav-links {
+    gap: 8px;
+  }
+  .nav-links .btn {
+    height: 36px;
+    min-width: 60px;
+    padding: 0 8px;
+  }
+  .themeSwitcher {
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+  }
+}

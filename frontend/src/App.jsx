@@ -3,7 +3,8 @@ import Calculator from './components/Calculator'; //Import komponentu Calculator
 import ProductManager from './components/ProductManager'; //Import komponentu ProductManager z folderu components
 import Navbar from './components/Navbar';
 import NutritionSummary from './components/NutritionSummary';
-import './theme.css';
+import Footer from './components/Footer';
+import './styles/theme.css';
 
 function App() { //Główny komponent aplikacji – łączy i wyświetla wszystkie podkomponenty
    const [darkMode, setDarkMode] = useState(false);
@@ -34,6 +35,10 @@ function App() { //Główny komponent aplikacji – łączy i wyświetla wszystk
         
         <div className="component">
           <ProductManager />
+        </div>
+
+        <div className="component">
+          <Footer />
         </div>
       
     </div>

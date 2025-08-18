@@ -72,7 +72,7 @@ input:focus {
 }
 
 /* Przyciski */
-button {
+.app-container button {
   background-color: var(--button-bg);
   color: var(--button-color);
   border: 1px solid transparent;
@@ -84,7 +84,7 @@ button {
   transition: background-color 0.4s ease, color 0.4s ease, border 0.4s ease;
 }
 
-button:hover {
+.app-container button:hover {
   background-color: var(--button-hover-bg);
   color: var(--button-hover-color);
 }
@@ -97,6 +97,7 @@ button:hover {
   margin-top: 0.2rem;
   max-height: 150px;
   overflow-y: auto;
+  font-weight: bold;
   padding: 0;
   list-style: none;
   border: 1px solid #fff;
@@ -111,6 +112,8 @@ button:hover {
 
 .product-suggestions li:hover {
   background-color: var(--button-bg);
+  border: 1px solid var(--button-hover-bg);
+  border-radius: 5px;
   color: var(--button-color);
 }
 
@@ -130,16 +133,24 @@ button:hover {
   animation: pulse 2s infinite;
 }
 
+@keyframes pulse {
+  0% { transform: scale(1); box-shadow: 0 6px 20px rgba(0,0,0,0.4); }
+  50% { transform: scale(1.05); box-shadow: 0 8px 25px rgba(0,0,0,0.5); }
+  100% { transform: scale(1); box-shadow: 0 6px 20px rgba(0,0,0,0.4); }
+}
+
 /* Lista produktów */
 ol {
-  padding-left: 2rem; /* odsunięcie numeracji od lewej krawędzi */
+  padding-left: 2rem;
   margin-bottom: 1.5rem;
+  font-size: 1.1rem;
 }
 
 ol li {
   margin-bottom: 0.5rem;
   line-height: 1.4;
 }
+
 /* Podsumowanie */
 .products-grid {
   display: flex;
@@ -156,10 +167,17 @@ ol li {
 .product-card {
   border: 1px solid #ccc;
   border-radius: 8px;
+  font-weight: 500;
   padding: 10px;
   width: 120px;
   text-align: center;
-  background-color: #f5f5f5;
+  background-color: var(--button-bg);
+}
+
+.product-card.total {
+  background-color: #d1ffd6;
+  font-weight: bold;
+  color: var(--product-card-total);
 }
 
 .plus {
@@ -168,20 +186,9 @@ ol li {
   font-size: 1.2rem;
 }
 
-.product-card.total {
-  background-color: #d1ffd6;
-  font-weight: bold;
-}
+/* ------------------Responsywność------------------ */
 
-
-
-@keyframes pulse {
-  0% { transform: scale(1); box-shadow: 0 6px 20px rgba(0,0,0,0.4); }
-  50% { transform: scale(1.05); box-shadow: 0 8px 25px rgba(0,0,0,0.5); }
-  100% { transform: scale(1); box-shadow: 0 6px 20px rgba(0,0,0,0.4); }
-}
-
-/* Responsywność */
+/* Responsywność 600x*/
 @media (max-width: 600px) {
   .app-container {
     padding: 1rem;
@@ -216,7 +223,7 @@ ol li {
     font-size: 0.95rem;
   }
 }
-
+/* Responsywność 400x*/
 @media (max-width: 400px) {
   .themeSwitcher {
     width: 40px;

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'; //import hookow
+import '../styles/ProductManager.css';
 
 export default function ProductManager() { //komponent
   const [products, setProducts] = useState([]); //tworzy stan lokalny komponentu gdzie products to aktualna wartosc, a setProducts to funkcja do jej aktualizacji.Wartosc poczatkowa to pusta tablica.
@@ -6,6 +7,7 @@ export default function ProductManager() { //komponent
   const [kcalPer100g, setKcalPer100g] = useState(''); //kcal na 100g
   const [error, setError] = useState(''); //błąd
   const [search, setSearch] = useState('');
+  const [visibleCount, setVisibleCount] = useState(10);
 
   // Pobranie produktów
   const fetchProducts = async (query = '') => { //funkcja strzałkowa do pobrania produktów
@@ -92,12 +94,27 @@ export default function ProductManager() { //komponent
       {/* Lista */}
       <h3>Lista produktów</h3> 
       <ol>
-        {products.map((p) => ( //dla każdego elementu w tablicy products wywołujemy funkcję(tu strzałkową z pojedyńczym produktem), która zwraca JSX.React tworzy z tego tablicę elementów, które wstawia do DOM.
+        {products.slice(0,visibleCount).map((p) => ( //dla każdego elementu w tablicy products wywołujemy funkcję(tu strzałkową z pojedyńczym produktem), która zwraca JSX.React tworzy z tego tablicę elementów, które wstawia do DOM.
           <li key={p.id}> {/* unikalny identyfikator elementu, potrzebny Reactowi do optymalizacji renderowania(tu id produktu) */}
-            {p.name} - {p.kcal_per_100g} kcal {/* wyświetlenie(w formie listy nieuporządkowanej <ul> ) nazwy produktu oraz ilości kcal na 100g wraz z dopiskiem na końcu kcal*/}
+            {p.name} - {p.kcal_per_100g} kcal {/* wyświetlenie(w formie listy uporządkowanej <li> ) nazwy produktu oraz ilości kcal na 100g wraz z dopiskiem na końcu kcal*/}
           </li>
         ))}
       </ol>
+
+      {/* Pokaż więcej tylko jeśli jest coś do pokazania */}
+      {visibleCount < products.length && (
+        <button className="pm-button" onClick={() => setVisibleCount(Math.min(visibleCount + 10, products.length))}>Pokaż więcej</button>
+      )}
+
+      {/* Pokaż mniej */}
+      {visibleCount > 10 && (
+        <button className="pm-button" onClick={() => setVisibleCount(Math.max(visibleCount - 10, 10))}>Pokaż mniej</button>
+      )}
+
+      {/* Pokaż wszystkie */}
+      {visibleCount < products.length && (
+        <button className="pm-button" onClick={() => setVisibleCount(products.length)}>Pokaż wszystkie</button>
+      )}
     </div>
   );
 }

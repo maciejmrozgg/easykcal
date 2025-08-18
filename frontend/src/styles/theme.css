@@ -5,13 +5,14 @@
   --component-bg: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%); /* subtelny fioletowy gradient */
   --button-bg: #ffffff;                  /* biały przycisk */
   --button-color: #6c5ce7;               /* fioletowy tekst/przyciski */
-  --button-hover-bg: #6c5ce7;            /* fiolet przy hover */
+  --button-hover-bg: #5b4ebd;            /* fiolet przy hover */
   --button-hover-color: #ffffff;         /* biały tekst przy hover */
   --input-bg: #f7f7f7;                   /* jasnoszare tło inputów */
   --input-color: #1a1a1a;                /* ciemny tekst w inputach */
   --result-bg: linear-gradient(90deg, #6c5ce7, #a29bfe); /* gradient dla wyników */
   --navbar-bg: #1f1f1f;
   --navbar-color: #ffffff;
+  --product-card-total: #121212;
 }
 
 /* Ciemny motyw */
@@ -28,4 +29,5 @@
   --result-bg: linear-gradient(90deg, #00cec9, #0984e3); /* turkus → niebieski gradient */
   --navbar-bg: #e0e0e0;
   --navbar-color: #1e1e1e;
+  --product-card-total: #121212;
 }
