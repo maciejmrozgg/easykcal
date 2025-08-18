@@ -16,14 +16,28 @@ const fs = require('fs');
 const key = fs.readFileSync(process.env.KEY_PATH);
 const cert = fs.readFileSync(process.env.CERT_PATH);
 
+const allowedOrigins = [process.env.ALLOWED_ORIGINS];
+
+app.use(cors({ // Middleware – pozwala innym aplikacjom (np. frontendowi z Reacta) wysyłać zapytania do backendu (domyślnie było to zablokowane)
+  origin: function(origin, callback){
+    // pozwól jeśli brak origin (np. Postman) lub jeśli origin jest na liście
+    if(!origin || allowedOrigins.includes(origin)){
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
+})); 
+
+app.use(express.json()); //pozwala odczytać JSON z ciała żądań(np. POST z frontendu). Middleware – pozwala czytać dane JSON z ciała żądań POST
+
+/*
 //Endpoint GET
 app.get('/', (req, res) => { //app.get() – definiuje trasę GET (czyli taką, którą użytkownik odwiedza np. przez przeglądarkę).'/' – to ścieżka główna (localhost:3000/).
                              //req = request (żądanie użytkownika, np. dane, nagłówki). res = response (odpowiedź serwera, czyli to co my wysyłamy)
   res.send('Hello from EasyKcal API!'); //res.send(...) – wysyłamy tekst jako odpowiedź
 });
-
-app.use(cors()); // Middleware – pozwala innym aplikacjom (np. frontendowi z Reacta) wysyłać zapytania do backendu (domyślnie było to zablokowane)
-app.use(express.json()); //pozwala odczytać JSON z ciała żądań(np. POST z frontendu). Middleware – pozwala czytać dane JSON z ciała żądań POST
+*/
 
 //Endpoint POST /calculate - kalkulator
 app.post('/calculate', (req,res) => { //app.post() - Definiujemy trasę POST na ścieżce '/calculate'
@@ -36,6 +50,18 @@ app.post('/calculate', (req,res) => { //app.post() - Definiujemy trasę POST na 
     const result = (kcalPer100g / 100) * weight; //Obliczamy kalorie na podstawie wagii
 
     res.json({result}); //zwrócenie wyniku w formacie JSON
+});
+
+//Endpoint POST /calculate-reverse - odwrócony kalkulator
+app.post('/calculate-reverse', (req,res) => {
+    const { calories, kcalPer100g } = req.body;
+
+    if (!calories || !kcalPer100g) {
+        return res.status(400).json({ error: 'Brakuje danych wejściowych' });
+    }
+
+    const weight = (calories * 100) / kcalPer100g;
+    res.json({ weight });
 });
 
 //Endpoint POST /products - zapis produktu do bazy

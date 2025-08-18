@@ -70,7 +70,7 @@ export default function Calculator( {addProduct }) { //komponent
   };
 
   //Funkcja do obliczeń(odwrotny kalkulator)
-  const handleReverseCalc = (e) => {
+  const handleReverseCalc = async (e) => {
   e.preventDefault();
   setError('');
 
@@ -79,16 +79,27 @@ export default function Calculator( {addProduct }) { //komponent
     return;
   }
 
-  const grams = (Number(reverseCalories) * 100) / Number(reverseKcalPer100g);
-  setReverseResult(grams);
+  try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/calculate-reverse`, {
+        method: 'POST', 
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          calories: Number(reverseCalories),
+          kcalPer100g: Number(reverseKcalPer100g),
+        }),
+      });
 
-   // zapisz ostatnie wartości do wyświetlenia
-  setLastReverseKcalPer100g(reverseKcalPer100g);
-
-  // reset pól
-  setReverseCalories('');
-  setReverseKcalPer100g('');
-};
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || 'Coś poszło nie tak');
+      
+      setReverseResult(Math.round(data.weight * 100) / 100);
+      setLastReverseKcalPer100g(reverseKcalPer100g);
+      setReverseCalories('');
+      setReverseKcalPer100g('');
+    } catch (err) {
+      setError(err.message);
+    }
+  };
 
   return (
     <div>
