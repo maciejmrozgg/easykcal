@@ -1,0 +1,30 @@
+/* About section */
+#about {
+  background: var(--about-section-bg);
+  color: var(--about-section-text);
+  border-radius: 12px;
+  padding: 60px 20px;
+  margin-bottom: 40px;
+}
+
+/* Contact section */
+#contact {
+  background: var(--contact-section-bg);
+  color: var(--contact-section-text);
+  border-radius: 12px;
+  padding: 60px 20px;
+  margin-bottom: 40px;
+}
+
+/* Linki w obu sekcjach */
+#about a,
+#contact a {
+  color: var(--section-link-color);
+  text-decoration: underline;
+}
+
+#about a:hover,
+#contact a:hover {
+  color: var(--section-link-hover);
+  text-decoration: none;
+}

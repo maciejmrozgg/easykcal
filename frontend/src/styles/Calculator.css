@@ -1,0 +1,168 @@
+.reverse-calculator {
+  background-color: var(--reverse-calculator-bg); 
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.reverse-calculator h3 {
+  color: var(--text-color);
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.reverse-calculator label {
+  display: block;
+  margin-bottom: 0.25rem;
+  color: var(--text-color);
+  font-weight: 500;
+}
+
+/* Wynik kalorii w kalkulatorze kcal -> g */
+.reverse-result {
+  background: var(--reverse-calculator-result);
+  color: #fff;
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  padding: 1rem 1.5rem;
+  border-radius: 16px;
+  border: 2px solid rgba(255,255,255,0.6);
+  margin-top: 1rem;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  animation: pulse 2s infinite;
+  position: relative;
+  overflow: hidden;
+}
+
+.reverse-result::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: rgba(255,255,255,0.1);
+  transform: rotate(45deg);
+  animation: shine 2s infinite linear;
+}
+
+@keyframes shine {
+  0% { transform: rotate(45deg) translateX(-200%); }
+  50% { transform: rotate(45deg) translateX(200%); }
+  100% { transform: rotate(45deg) translateX(-200%); }
+}
+
+.reverse-calculator input {
+    background-color: var(--reverse-calculator-input-bg);
+    border: var(--reverse-calculator-input-border);
+    color: var(--reverse-calculator-input-text)
+}
+
+.reverse-calculator button {
+    background-color: var(--reverse-calculator-button);
+    color: var(--reverse-calculator-button-text)
+}
+
+.reverse-calculator button:hover {
+  background-color: var(--reverse-calculator-button-hover-bg);
+  color: var(--reverse-calculator-button-hover-color);
+}
+
+/*Przycisk zmiany kalkulatora*/
+.app-container .reverse-calculator + .swap-btn,
+.app-container .swap-btn {
+  background-color: var(--reverse-calculator-button);
+  margin-left: 1rem;
+}
+
+.app-container .reverse-calculator + .swap-btn,
+.app-container .swap-btn:hover {
+  background-color: var(--reverse-calculator-button-hover-bg);
+  margin-left: 1rem;
+}
+
+/* Wynik kalorii w kalkulatorze g -> kcal */
+.calorie-result {
+  background: var(--result-bg);
+  color: white;
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  border: 2px solid rgba(255,255,255,0.5);
+  margin-top: 1rem;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+  transition: all 0.3s ease;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); box-shadow: 0 6px 20px rgba(0,0,0,0.4); }
+  50% { transform: scale(1.05); box-shadow: 0 8px 25px rgba(0,0,0,0.5); }
+  100% { transform: scale(1); box-shadow: 0 6px 20px rgba(0,0,0,0.4); }
+}
+
+/* Lista podpowiedzi produktów */
+.product-suggestions {
+  background-color: var(--component-bg);
+  color: var(--text-color);
+  border-radius: 8px;
+  margin-top: 0.2rem;
+  max-height: 150px;
+  overflow-y: auto;
+  font-weight: bold;
+  padding: 0;
+  list-style: none;
+  border: 1px solid #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.product-suggestions li {
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.product-suggestions li:hover {
+  background-color: var(--button-bg);
+  border: 1px solid var(--button-hover-bg);
+  border-radius: 5px;
+  color: var(--button-color);
+}
+
+/* ------------------Responsywność------------------ */
+@media (max-width: 600px) {
+  .reverse-result {
+    font-size: 1.6rem;
+    padding: 0.8rem 1rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .reverse-result {
+    font-size: 1.4rem;
+    padding: 0.6rem 0.8rem;
+  }
+}
+
+
+@media (max-width: 600px) {
+  .app-container .reverse-calculator + .swap-btn,
+  .app-container .swap-btn {
+    margin-left: 0;  
+    width: 100%;     
+    text-align: center;
+    margin-top: 0.5rem; 
+  }
+
+  .app-container .reverse-calculator + .swap-btn:hover,
+  .app-container .swap-btn:hover {
+    margin-left: 0;  
+    width: 100%;     
+    text-align: center;
+    margin-top: 0.5rem;
+  }
+}

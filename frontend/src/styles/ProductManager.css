@@ -18,3 +18,20 @@
   background-color: var(--button-hover-bg);
   color: var(--button-hover-color);
 }
+
+/* Lista produktów */
+ol {
+  padding-left: 2rem;
+  margin-bottom: 1.5rem;
+  font-size: 1.1rem;
+  color: var(--text-color);
+}
+
+ol li {
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
+}
+
+ol li::marker {
+  color: var(--product-list-marker);
+}

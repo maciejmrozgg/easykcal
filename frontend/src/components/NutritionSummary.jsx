@@ -1,3 +1,5 @@
+import '../styles/NutritionSummary.css';
+
 export default function NutritionSummary({ selectedProducts }) {
   const totalKcal = parseFloat(
   selectedProducts.reduce((sum, p) => sum + p.kcal, 0).toFixed(2)

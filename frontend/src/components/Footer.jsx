@@ -1,4 +1,5 @@
 import '../styles/Footer.css';
+import '../styles/Sections.css';
 import { FaGithub, FaLinkedin } from 'react-icons/fa'; // ikony z react-icons
 
 export default function Footer() {

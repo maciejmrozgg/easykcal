@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react'; //import hooków (specjalnych funkcji Reacta)
+import { FaExchangeAlt } from 'react-icons/fa';
+import '../styles/Calculator.css';
 
 export default function Calculator( {addProduct }) { //komponent 
   const [products, setProducts] = useState([]); //tworzy stan lokalny komponentu gdzie products to aktualna wartosc, a setProducts to funkcja do jej aktualizacji.Wartosc poczatkowa to pusta tablica.
@@ -9,6 +11,11 @@ export default function Calculator( {addProduct }) { //komponent
   const [error, setError] = useState(''); //błąd
   const [manualMode, setManualMode] = useState(false); // tryb ręcznego wpisywania kalorii
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const [reverseMode, setReverseMode] = useState(false);
+  const [reverseCalories, setReverseCalories] = useState('');
+  const [reverseKcalPer100g, setReverseKcalPer100g] = useState('');
+  const [reverseResult, setReverseResult] = useState(null);
+  const [lastReverseKcalPer100g, setLastReverseKcalPer100g] = useState('');
 
   // Pobieranie listy produktów
   useEffect(() => { //useEffect działa po renderze komponentu, tutaj tylko raz, bo przekazaliśmy []. Być może do zmiany, zeby po dodaniu produktu bez przeładowania aktualizowała się lista?
@@ -62,6 +69,27 @@ export default function Calculator( {addProduct }) { //komponent
     }
   };
 
+  //Funkcja do obliczeń(odwrotny kalkulator)
+  const handleReverseCalc = (e) => {
+  e.preventDefault();
+  setError('');
+
+  if (!reverseCalories || !reverseKcalPer100g) {
+    setError('Podaj wszystkie wartości');
+    return;
+  }
+
+  const grams = (Number(reverseCalories) * 100) / Number(reverseKcalPer100g);
+  setReverseResult(grams);
+
+   // zapisz ostatnie wartości do wyświetlenia
+  setLastReverseKcalPer100g(reverseKcalPer100g);
+
+  // reset pól
+  setReverseCalories('');
+  setReverseKcalPer100g('');
+};
+
   return (
     <div>
       <h2>Kalkulator kalorii</h2>
@@ -70,6 +98,47 @@ export default function Calculator( {addProduct }) { //komponent
         {manualMode ? 'Wybierz z listy produktów' : 'Wpisz kalorie ręcznie'} {/* operator trojargumentowy - jesli manualMode: true to wyswietl 'Wybierz z listy produktów', jeśli false to 'Wpisz kalorie ręcznie' */}
       </button>
 
+      <button onClick={() => setReverseMode(!reverseMode)} className="swap-btn">
+        <FaExchangeAlt /> {reverseMode ? 'Tryb kcal → g' : 'Tryb g → kcal'}
+      </button>
+      {/* Odwrócony kalkulator */}
+      {reverseMode && (
+          <form onSubmit={handleReverseCalc} className="reverse-calculator" style={{ marginTop: '1rem' }}>
+            <h3>Przelicz kalorie na gramy</h3>
+            
+            <div>
+              <label>Kalorie: </label>
+              <input
+                type="number"
+                placeholder="Wpisz liczbę kalorii..."
+                value={reverseCalories}
+                onChange={(e) => setReverseCalories(e.target.value)}
+                required
+              />
+            </div>
+
+            <div>
+              <label>Kcal na 100g: </label>
+              <input
+                type="number"
+                placeholder="Wpisz kalorie na 100g..."
+                value={reverseKcalPer100g}
+                onChange={(e) => setReverseKcalPer100g(e.target.value)}
+                required
+              />
+            </div>
+
+            <button type="submit">Oblicz</button>
+
+            {reverseResult !== null && (
+              <div className="reverse-result">
+                {reverseResult.toFixed(2)} g 
+                <span className="unit-hint">(dla {lastReverseKcalPer100g} kcal/100g)</span>
+              </div>
+            )}
+          </form>
+        )}
+      {/* Kalkulator */}
       <form onSubmit={handleSubmit} style={{ marginTop: '1rem' }}>
         {!manualMode ? ( //jeśli nie w trybie manualnym to wyświetl:
           <div>
@@ -111,6 +180,7 @@ export default function Calculator( {addProduct }) { //komponent
             <label>Kalorie na 100g: </label>
             <input
               type="number"
+              placeholder='Wpisz kalorie na 100g...'
               value={kcalPer100g}
               onChange={(e) => setKcalPer100g(e.target.value)}
               required
@@ -122,6 +192,7 @@ export default function Calculator( {addProduct }) { //komponent
           <label>Waga (g): </label>
           <input
             type="number"
+            placeholder='Wprowadź wagę...'
             value={weight}
             onChange={(e) => setWeight(e.target.value)}
             required

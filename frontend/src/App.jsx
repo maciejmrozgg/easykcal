@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import Calculator from './components/Calculator'; //Import komponentu Calculator z folderu components
-import ProductManager from './components/ProductManager'; //Import komponentu ProductManager z folderu components
+import Calculator from './components/Calculator';
+import ProductManager from './components/ProductManager'; 
 import Navbar from './components/Navbar';
 import NutritionSummary from './components/NutritionSummary';
 import Footer from './components/Footer';
+import About from './components/About';
+import Contact from './components/Contact';
 import './styles/theme.css';
 
 function App() { //Główny komponent aplikacji – łączy i wyświetla wszystkie podkomponenty
@@ -35,6 +37,14 @@ function App() { //Główny komponent aplikacji – łączy i wyświetla wszystk
         
         <div className="component">
           <ProductManager />
+        </div>
+
+        <div className="component">
+          <About />
+        </div>
+
+        <div className="component">
+          <Contact />
         </div>
 
         <div className="component">

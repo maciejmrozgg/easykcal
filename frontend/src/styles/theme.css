@@ -13,6 +13,20 @@
   --navbar-bg: #1f1f1f;
   --navbar-color: #ffffff;
   --product-card-total: #121212;
+  --reverse-calculator-bg: #ffe5d9;
+  --reverse-calculator-result: linear-gradient(135deg, #ff9a76 0%, #ffd6a5 100%);
+  --reverse-calculator-input-bg:#fff3e0;
+  --reverse-calculator-input-border: 1px solid #ffb07c;
+  --reverse-calculator-button: #ffe0b2; 
+  --reverse-calculator-button-text: #6c5ce7;
+  --reverse-calculator-button-hover-bg: #f9c784;
+  --reverse-calculator-button-hover-color: #fff;
+  --about-section-bg: linear-gradient(135deg, #e0f0ff, #ffffff); 
+  --about-section-text: #0b3d91;  
+  --contact-section-bg: #fff7e6;
+  --contact-section-text: #333333; 
+  --product-list-text: #1a1a1a;       
+  --product-list-marker: #fff7e6;
 }
 
 /* Ciemny motyw */
@@ -30,4 +44,21 @@
   --navbar-bg: #e0e0e0;
   --navbar-color: #1e1e1e;
   --product-card-total: #121212;
+  --reverse-calculator-bg: #1e1e1e; 
+  --reverse-calculator-result: linear-gradient(135deg, #2c3e50 0%, #4b6cb7 100%);
+  --reverse-calculator-input-bg:#3b4b5b; 
+  --reverse-calculator-input-text: #e0e0e0; 
+  --reverse-calculator-input-border: 1px solid #5a7ec1;
+  --reverse-calculator-button: #0984e3;
+  --reverse-calculator-button-text: #fff;
+  --reverse-calculator-button-hover-bg: #4aa3f0;
+  --reverse-calculator-button-hover-color: #1e1e1e;
+  --about-section-bg: linear-gradient(135deg, #1e1e2f, #2a2a3f); 
+  --about-section-text: #c0d6ff; 
+  --contact-section-bg: #2b2b3b; 
+  --contact-section-text: #e0e0e0; 
+  --section-link-color: #66ccff;
+  --section-link-hover: #3399cc; 
+  --product-list-text: #e0e0e0; 
+  --product-list-marker: #00cec9;
 }
