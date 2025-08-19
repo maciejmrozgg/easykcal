@@ -1,15 +1,17 @@
-import { useState, useEffect } from 'react'; //import hooków (specjalnych funkcji Reacta)
+import { useState, useEffect } from 'react';
 import { FaExchangeAlt } from 'react-icons/fa';
 import './Calculator.css';
+import { calculateCalories, calculateReverse } from './calculatorApi';
+import { fetchProducts } from '../products/productApi';
 
-export default function Calculator( {addProduct }) { //komponent 
-  const [products, setProducts] = useState([]); //tworzy stan lokalny komponentu gdzie products to aktualna wartosc, a setProducts to funkcja do jej aktualizacji.Wartosc poczatkowa to pusta tablica.
-  const [selectedProduct, setSelectedProduct] = useState(''); //wybrany produkt
-  const [kcalPer100g, setKcalPer100g] = useState(''); //liczba kcal na 100g
-  const [weight, setWeight] = useState(''); //waga
-  const [result, setResult] = useState(null); //wynik
-  const [error, setError] = useState(''); //błąd
-  const [manualMode, setManualMode] = useState(false); // tryb ręcznego wpisywania kalorii
+export default function Calculator({ addProduct }) {
+  const [products, setProducts] = useState([]);
+  const [selectedProduct, setSelectedProduct] = useState('');
+  const [kcalPer100g, setKcalPer100g] = useState('');
+  const [weight, setWeight] = useState('');
+  const [result, setResult] = useState(null);
+  const [error, setError] = useState('');
+  const [manualMode, setManualMode] = useState(false);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [reverseMode, setReverseMode] = useState(false);
   const [reverseCalories, setReverseCalories] = useState('');
@@ -17,82 +19,42 @@ export default function Calculator( {addProduct }) { //komponent
   const [reverseResult, setReverseResult] = useState(null);
   const [lastReverseKcalPer100g, setLastReverseKcalPer100g] = useState('');
 
-  // Pobieranie listy produktów
-  useEffect(() => { //useEffect działa po renderze komponentu, tutaj tylko raz, bo przekazaliśmy []. Być może do zmiany, zeby po dodaniu produktu bez przeładowania aktualizowała się lista?
-    const fetchProducts = async () => { //wywołanie funkcji asynchronicznej, która wykona się po przełądowaniu strony(tylko raz pobierze wszystkie produkty)
+  useEffect(() => {
+    const loadProducts = async () => {
       try {
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/products`); //await - zaczekaj na odpowiedz serwera z backendu Express
-        const data = await res.json(); //do zmiennej stalej "data" zapisujemy zawartość zwróconej odpowiedzi w formacie JSON,która zamieni sie z JSON na obiekt
-        setProducts(data); //aktualizacja stanu produktów(data - dane które otrzymaliśmy w odpowiedzi(zmienione z JSON na obiekt) z GET)
-      } catch {
-        setError('Błąd pobierania produktów'); //jeśli coś pojdzie nie tak: aktualizacja stanu error
+        const data = await fetchProducts();
+        setProducts(data);
+      } catch (err) {
+        setError(err.message);
       }
     };
-    fetchProducts(); //to wywołanie funkcji, więc cała logika asynchroniczna w niej zawarta zostanie uruchomiona w momencie montowania komponentu
-  }, []); // [] oznacza, że useEffect uruchomi się tylko raz po montażu komponentu
+    loadProducts();
+  }, []);
 
-  const handleSubmit = async (e) => { //funkcja wywolywana na event onSubmit
-    e.preventDefault(); //blokuje domyślne zachowanie formularza, czyli przeładowanie strony po kliknięciu submit. Dzięki temu możemy obsłużyć formularz w React, bez utraty stanu aplikacji.
-    setError(''); //zmiana stanu (ustawienie tak jak bylo domyslnie)
-    setResult(null); //zmiana stanu (ustawienie tak jak bylo domyslnie)
-
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    setResult(null);
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/calculator/calculate`, { //await - zaczekaj na odpowiedz serwera z backendu Express
-        method: 'POST', //wysyłamy więc POST
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ //wysyłamy dane w formacie JSON
-          kcalPer100g: Number(kcalPer100g),
-          weight: Number(weight),
-        }),
-      });
-
-      const data = await response.json(); //poczekaj az odpowiedz zamieni sie z JSON na obiekt
-      if (!response.ok) throw new Error(data.error || 'Coś poszło nie tak'); //jesli coś poszło nie tak z odpowiedzią wyrzuć bład,zapisz błąd w data i wyświetl komunikat'Coś poszło nie tak'
-
-      const calculatedResult = (Math.round(data.result * 100) / 100); //na koniec do obiektu result dodaj dane z odpowiedzi z serwera czyli np. : 55, 100. Result będzie wynosić 55 kcal.
-      setResult(calculatedResult);
-
-      // dodanie produktu do NutritionSummary
-      addProduct({
-      name: selectedProduct || 'Ręcznie wpisany produkt',
-      kcal: calculatedResult,
-    });
-
-      // opcjonalnie wyczyszczenie formularza
+      const calculated = await calculateCalories(kcalPer100g, weight);
+      setResult(calculated);
+      addProduct({ name: selectedProduct || 'Ręcznie wpisany produkt', kcal: calculated });
       setSelectedProduct('');
       setKcalPer100g('');
       setWeight('');
       setFilteredProducts([]);
-
-    } catch (err) { //co robic, gdy cos pojdzie nie tak:
-      setError(err.message); //zmiana stanu - zapisanie do obiektu error wiadomosci z błędem
+    } catch (err) {
+      setError(err.message);
     }
   };
 
-  //Funkcja do obliczeń(odwrotny kalkulator)
   const handleReverseCalc = async (e) => {
-  e.preventDefault();
-  setError('');
-
-  if (!reverseCalories || !reverseKcalPer100g) {
-    setError('Podaj wszystkie wartości');
-    return;
-  }
-
-  try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/calculator/calculate-reverse`, {
-        method: 'POST', 
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          calories: Number(reverseCalories),
-          kcalPer100g: Number(reverseKcalPer100g),
-        }),
-      });
-
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.error || 'Coś poszło nie tak');
-      
-      setReverseResult(Math.round(data.weight * 100) / 100);
+    e.preventDefault();
+    setError('');
+    if (!reverseCalories || !reverseKcalPer100g) return setError('Podaj wszystkie wartości');
+    try {
+      const weight = await calculateReverse(reverseCalories, reverseKcalPer100g);
+      setReverseResult(weight);
       setLastReverseKcalPer100g(reverseKcalPer100g);
       setReverseCalories('');
       setReverseKcalPer100g('');

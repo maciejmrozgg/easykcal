@@ -9,7 +9,7 @@ import Calculator from './features/calculator/Calculator';
 import ProductManager from './features/products/ProductManager';
 import NutritionSummary from './features/nutrition/NutritionSummary';
 
-import './styles/theme.css';
+import './theme/theme.css';
 
 function App() { //Główny komponent aplikacji – łączy i wyświetla wszystkie podkomponenty
    const [darkMode, setDarkMode] = useState(false);
