@@ -38,3 +38,15 @@ exports.deleteOneProduct = async (req,res, next) => {
     next(err);
   }
 };
+
+exports.updateOneProduct = async (req, res, next) => {
+  const id = req.params.id;
+  const newData = req.body;
+
+  try {
+    const updatedProduct = await productModel.updateProduct(id, newData);
+    res.json(updatedProduct);
+  } catch (err) {
+    next(err);
+  }
+};

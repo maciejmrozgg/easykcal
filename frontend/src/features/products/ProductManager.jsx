@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import './ProductManager.css';
-import { fetchProducts, addProduct as addProductApi, deleteProduct as deleteProductApi } from './productApi';
+import { fetchProducts, addProduct as addProductApi, deleteProduct as deleteProductApi, updateProduct as updateProductApi } from './productApi';
 
 export default function ProductManager() {
   const [products, setProducts] = useState([]);
@@ -28,11 +28,10 @@ export default function ProductManager() {
     setError('');
     try {
       const newProduct = await addProductApi({ name, kcalPer100g });
-      setProducts([...products, newProduct]);
+      setProducts(prev => [newProduct, ...prev]);
       setName('');
       setKcalPer100g('');
 
-      setVisibleCount(prev => prev +1);
     } catch (err) {
       setError(err.message);
     }
@@ -47,6 +46,20 @@ export default function ProductManager() {
       setError(err.message);
     }
   }
+
+  const handleEditProduct = async (p) => {
+  const newName = window.prompt('Nowa nazwa produktu:', p.name);
+  const newKcal = window.prompt('Nowa wartość kcal/100g:', p.kcal_per_100g);
+
+  if (!newName || !newKcal) return;
+
+  try {
+    const updated = await updateProductApi(p.id, { name: newName, kcalPer100g: newKcal });
+    setProducts(prev => prev.map(prod => prod.id === p.id ? updated : prod));
+  } catch (err) {
+    setError(err.message);
+  }
+};
 
   const handleSearchChange = (e) => {
     const value = e.target.value;
@@ -70,10 +83,20 @@ export default function ProductManager() {
       <h3>Lista produktów</h3>
       <ol>
         {products.slice(0, visibleCount).map(p => 
-        <li key={p.id}>{p.name} - {p.kcal_per_100g} kcal 
-        <button className='delbtn' onClick={() => handleDeleteProduct(p.id)}>🗑️ DELETE</button>
-        </li>
-      )}
+          <li key={p.id}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span>{p.name} - {p.kcal_per_100g} kcal</span>
+              <span>
+                <button className='editbtn' onClick={() => handleEditProduct(p)}>✏️ EDIT</button>
+                <button className='delbtn' onClick={() => {
+                  if(window.confirm(`Czy napewno chcesz usunąć produkt "${p.name}"?`)) {
+                    handleDeleteProduct(p.id);
+                  }
+                }}>🗑️ DELETE</button>
+              </span>
+            </div>
+          </li>
+        )}
       </ol>
 
       {visibleCount < products.length && <button className='pm-button' onClick={() => setVisibleCount(Math.min(visibleCount + 10, products.length))}>Pokaż więcej</button>}
