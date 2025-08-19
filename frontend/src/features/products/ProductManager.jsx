@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'; //import hookow
-import '../styles/ProductManager.css';
+import './ProductManager.css';
 
 export default function ProductManager() { //komponent
   const [products, setProducts] = useState([]); //tworzy stan lokalny komponentu gdzie products to aktualna wartosc, a setProducts to funkcja do jej aktualizacji.Wartosc poczatkowa to pusta tablica.

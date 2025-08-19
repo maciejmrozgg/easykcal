@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'; //import hooków (specjalnych funkcji Reacta)
 import { FaExchangeAlt } from 'react-icons/fa';
-import '../styles/Calculator.css';
+import './Calculator.css';
 
 export default function Calculator( {addProduct }) { //komponent 
   const [products, setProducts] = useState([]); //tworzy stan lokalny komponentu gdzie products to aktualna wartosc, a setProducts to funkcja do jej aktualizacji.Wartosc poczatkowa to pusta tablica.
@@ -37,7 +37,7 @@ export default function Calculator( {addProduct }) { //komponent
     setResult(null); //zmiana stanu (ustawienie tak jak bylo domyslnie)
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/calculate`, { //await - zaczekaj na odpowiedz serwera z backendu Express
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/calculator/calculate`, { //await - zaczekaj na odpowiedz serwera z backendu Express
         method: 'POST', //wysyłamy więc POST
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ //wysyłamy dane w formacie JSON
@@ -80,7 +80,7 @@ export default function Calculator( {addProduct }) { //komponent
   }
 
   try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/calculate-reverse`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/calculator/calculate-reverse`, {
         method: 'POST', 
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 

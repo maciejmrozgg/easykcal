@@ -1,4 +1,4 @@
-import '../styles/NutritionSummary.css';
+import './NutritionSummary.css';
 
 export default function NutritionSummary({ selectedProducts }) {
   const totalKcal = parseFloat(

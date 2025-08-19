@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import Calculator from './components/Calculator';
-import ProductManager from './components/ProductManager'; 
+
 import Navbar from './components/Navbar';
-import NutritionSummary from './components/NutritionSummary';
 import Footer from './components/Footer';
 import About from './components/About';
 import Contact from './components/Contact';
+
+import Calculator from './features/calculator/Calculator';
+import ProductManager from './features/products/ProductManager';
+import NutritionSummary from './features/nutrition/NutritionSummary';
+
 import './styles/theme.css';
 
 function App() { //Główny komponent aplikacji – łączy i wyświetla wszystkie podkomponenty
