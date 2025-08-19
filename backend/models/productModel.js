@@ -20,3 +20,11 @@ exports.insertProduct = async (name, kcalPer100g) => {
   );
   return result.rows[0];
 };
+
+exports.deleteProduct = async (id) => {
+  const result = await pool.query(
+    'DELETE FROM products WHERE id = $1 RETURNING *',
+    [id]
+  );
+  return result.rows[0];
+}

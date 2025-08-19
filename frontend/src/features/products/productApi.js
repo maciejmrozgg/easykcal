@@ -28,3 +28,16 @@ export async function addProduct({ name, kcalPer100g }) {
     throw new Error(err.message || 'Błąd dodawania produktu');
   }
 }
+
+export async function deleteProduct(id) {
+  try {
+    const res = await fetch(`${API_URL}/products/${id}`, {
+      method: 'DELETE',
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Błąd dodawania produktu');
+    return data;
+  } catch (err) {
+    throw new Error(err.message || 'Błąd dodawania produktu');
+  }
+}
