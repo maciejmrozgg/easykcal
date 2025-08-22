@@ -2,7 +2,7 @@ import './NutritionSummary.css';
 
 export default function NutritionSummary({ selectedProducts }) {
   const totalKcal = parseFloat(
-  selectedProducts.reduce((sum, p) => sum + p.kcal, 0).toFixed(2)
+  selectedProducts.reduce((sum, p) => sum + (p.result || 0), 0).toFixed(2)
 );
 
   return (
@@ -13,7 +13,7 @@ export default function NutritionSummary({ selectedProducts }) {
           <div key={index} className="product-card-wrapper">
             <div className="product-card">
               <div className="product-name">{product.name}</div>
-              <div className="product-kcal">{product.kcal} kcal</div>
+              <div className="product-kcal">{product.weight} g - {product.result.toFixed(2)} kcal</div>
             </div>
             {/* Dodajemy + tylko jeśli to nie ostatni produkt */}
             {index < selectedProducts.length - 1 && <span className="plus">+</span>}

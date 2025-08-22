@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState,useRef } from 'react';
 import './ProductManager.css';
 import { useProducts } from './ProductsContext';
 
@@ -9,6 +9,8 @@ export default function ProductManager() {
   const [kcalPer100g, setKcalPer100g] = useState('');
   const [search, setSearch] = useState('');
   const [visibleCount, setVisibleCount] = useState(10);
+
+  const listRef = useRef(null);
 
   const handleAddProduct = async (e) => {
     e.preventDefault();
@@ -38,6 +40,18 @@ export default function ProductManager() {
     loadProducts(value);
   };
 
+  const scrollToTop = () => {
+      if (listRef.current) {
+        listRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+  };
+
+  const scrollToBottom = () => {
+    if (listRef.current) {
+      listRef.current.scrollTo({ top: listRef.current.scrollHeight, behavior: 'smooth' });
+    }
+  };
+
   return (
     <div>
       <h2>Zarządzanie produktami</h2>
@@ -52,23 +66,32 @@ export default function ProductManager() {
       <input type="text" placeholder="Wpisz nazwę..." value={search} onChange={handleSearchChange} />
 
       <h3>Lista produktów</h3>
-      <ol>
-        {products.slice(0, visibleCount).map(p => 
-          <li key={p.id}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span>{p.name} - {p.kcal_per_100g} kcal</span>
-              <span>
-                <button className='editbtn' onClick={() => handleEditProduct(p)}>✏️ EDIT</button>
-                <button className='delbtn' onClick={() => handleDeleteProduct(p.id)}>🗑️ DELETE</button>
-              </span>
-            </div>
+        <ol ref={listRef} className="scrollable-list">
+          {products.slice(0, visibleCount).map(p => 
+            <li key={p.id}>
+              <div className="li-content">
+                <span>{p.name} - {p.kcalPer100g} kcal</span>
+                  <span>
+                    <button className='editbtn' onClick={() => handleEditProduct(p)}>✏️ EDIT</button>
+                    <button className='delbtn' onClick={() => handleDeleteProduct(p.id)}>🗑️ DELETE</button>
+                  </span>
+              </div>
           </li>
-        )}
-      </ol>
+          )}
+        </ol>
 
       {visibleCount < products.length && <button className='pm-button' onClick={() => setVisibleCount(Math.min(visibleCount + 10, products.length))}>Pokaż więcej</button>}
       {visibleCount > 10 && <button className='pm-button' onClick={() => setVisibleCount(Math.max(visibleCount - 10, 10))}>Pokaż mniej</button>}
       {visibleCount < products.length && <button className='pm-button' onClick={() => setVisibleCount(products.length)}>Pokaż wszystkie</button>}
+      {visibleCount > 10 && <button className='pm-button' onClick={() => setVisibleCount(10)}>Resetuj widok</button>}
+
+      {visibleCount > 10 && (
+        <div className="scroll-buttons-container">
+          <button className="scroll-buttons" onClick={scrollToTop}>⬆️ Przewiń do góry</button>
+          <button className="scroll-buttons" onClick={scrollToBottom}>⬇️ Przewiń na dół</button>
+        </div>
+      )}
+
     </div>
   );
 }

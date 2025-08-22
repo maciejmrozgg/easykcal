@@ -15,7 +15,7 @@ exports.getProducts = async (search) => {
     return result.rows.map(p => ({
       id: p.id,
       name: p.name,
-      kcalPer100g: p.kcal_per_100g, //conversion snake -> camel
+      kcalPer100g: p.kcal_per_100g, //conversion snake_case -> camelCase
     }));
   };
 
@@ -29,7 +29,7 @@ exports.insertProduct = async (name, kcalPer100g) => {
   return {
     id: result.rows[0].id,
     name: result.rows[0].name,
-    kcalPer100g: result.rows[0].kcal_per_100g, //conversion snake -> camel
+    kcalPer100g: result.rows[0].kcal_per_100g, //conversion snake_case -> camelCase
   };
 };
 
@@ -43,7 +43,7 @@ exports.deleteProduct = async (id) => {
    return {
     id: result.rows[0].id,
     name: result.rows[0].name,
-    kcalPer100g: result.rows[0].kcal_per_100g, //conversion snake -> camel
+    kcalPer100g: result.rows[0].kcal_per_100g, //conversion snake_case -> camelCase
   };
 }
 
@@ -64,6 +64,6 @@ exports.updateProduct = async (id, newData) => {
    return {
     id: result.rows[0].id,
     name: result.rows[0].name,
-    kcalPer100g: result.rows[0].kcal_per_100g, //conversion snake -> camel
+    kcalPer100g: result.rows[0].kcal_per_100g, //conversion snake_case -> camelCase
   };
 };

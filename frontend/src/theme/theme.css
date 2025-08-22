@@ -27,6 +27,10 @@
   --contact-section-text: #333333; 
   --product-list-text: #1a1a1a;       
   --product-list-marker: #fff7e6;
+  --scroll-button-bg: #6c5ce7;       
+  --scroll-button-color: #ffffff;    
+  --scroll-button-hover-bg: #5b4ebd; 
+  --scroll-button-hover-color: #ffffff;
 }
 
 /* Ciemny motyw */
@@ -61,4 +65,8 @@
   --section-link-hover: #3399cc; 
   --product-list-text: #e0e0e0; 
   --product-list-marker: #00cec9;
+  --scroll-button-bg: #00cec9;      
+  --scroll-button-color: #121212;    
+  --scroll-button-hover-bg: #00b2aa; 
+  --scroll-button-hover-color: #121212;
 }
