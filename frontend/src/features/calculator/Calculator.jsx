@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { FaExchangeAlt } from 'react-icons/fa';
 import './Calculator.css';
 import { calculateCalories, calculateReverse } from './calculatorApi';
-import { useProducts } from '../products/ProductsContext';
+import { useProducts } from '../products/useProducts';
 
 export default function Calculator( { addProduct }) {
   const { products } = useProducts();

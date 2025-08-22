@@ -8,7 +8,7 @@ import Contact from './components/Contact';
 import Calculator from './features/calculator/Calculator';
 import ProductManager from './features/products/ProductManager';
 import NutritionSummary from './features/nutrition/NutritionSummary';
-import { ProductsProvider } from './features/products/ProductsContext';
+import { ProductsProvider } from './features/products/ProductsProvider';
 
 import './theme/theme.css';
 

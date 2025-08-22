@@ -1,6 +1,6 @@
 import { useState,useRef } from 'react';
 import './ProductManager.css';
-import { useProducts } from './ProductsContext';
+import { useProducts } from './useProducts';
 
 export default function ProductManager() {
   const { products, error, addProduct, deleteProduct, updateProduct, loadProducts } = useProducts();
