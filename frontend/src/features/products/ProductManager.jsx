@@ -1,65 +1,36 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import './ProductManager.css';
-import { fetchProducts, addProduct as addProductApi, deleteProduct as deleteProductApi, updateProduct as updateProductApi } from './productApi';
+import { useProducts } from './ProductsContext';
 
 export default function ProductManager() {
-  const [products, setProducts] = useState([]);
+  const { products, error, addProduct, deleteProduct, updateProduct, loadProducts } = useProducts();
+
   const [name, setName] = useState('');
   const [kcalPer100g, setKcalPer100g] = useState('');
-  const [error, setError] = useState('');
   const [search, setSearch] = useState('');
   const [visibleCount, setVisibleCount] = useState(10);
 
-  const loadProducts = async (query = '') => {
-    try {
-      const data = await fetchProducts(query);
-      setProducts(data);
-    } catch (err) {
-      setError(err.message);
-    }
-  };
-
-  useEffect(() => {
-    loadProducts();
-  }, []);
-
   const handleAddProduct = async (e) => {
     e.preventDefault();
-    setError('');
-    try {
-      const newProduct = await addProductApi({ name, kcalPer100g });
-      setProducts(prev => [newProduct, ...prev]);
-      setName('');
-      setKcalPer100g('');
-
-    } catch (err) {
-      setError(err.message);
-    }
+    await addProduct({ name, kcalPer100g });
+    setName('');
+    setKcalPer100g('');
   };
 
   const handleDeleteProduct = async (id) => {
-    setError('');
-    try {
-      await deleteProductApi(id);
-      setProducts(prev => prev.filter(p => p.id !== id));
-    } catch(err) {
-      setError(err.message);
+    if (window.confirm('Czy na pewno chcesz usunąć produkt?')) {
+      await deleteProduct(id);
     }
-  }
+  };
 
   const handleEditProduct = async (p) => {
-  const newName = window.prompt('Nowa nazwa produktu:', p.name);
-  const newKcal = window.prompt('Nowa wartość kcal/100g:', p.kcal_per_100g);
+    const newName = window.prompt('Nowa nazwa produktu:', p.name);
+    const newKcal = window.prompt('Nowa wartość kcal/100g:', p.kcal_per_100g);
 
-  if (!newName || !newKcal) return;
+    if (!newName || !newKcal) return;
 
-  try {
-    const updated = await updateProductApi(p.id, { name: newName, kcalPer100g: newKcal });
-    setProducts(prev => prev.map(prod => prod.id === p.id ? updated : prod));
-  } catch (err) {
-    setError(err.message);
-  }
-};
+    await updateProduct(p.id, { name: newName, kcalPer100g: newKcal });
+  };
 
   const handleSearchChange = (e) => {
     const value = e.target.value;
@@ -88,11 +59,7 @@ export default function ProductManager() {
               <span>{p.name} - {p.kcal_per_100g} kcal</span>
               <span>
                 <button className='editbtn' onClick={() => handleEditProduct(p)}>✏️ EDIT</button>
-                <button className='delbtn' onClick={() => {
-                  if(window.confirm(`Czy napewno chcesz usunąć produkt "${p.name}"?`)) {
-                    handleDeleteProduct(p.id);
-                  }
-                }}>🗑️ DELETE</button>
+                <button className='delbtn' onClick={() => handleDeleteProduct(p.id)}>🗑️ DELETE</button>
               </span>
             </div>
           </li>

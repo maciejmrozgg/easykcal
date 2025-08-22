@@ -8,6 +8,7 @@ import Contact from './components/Contact';
 import Calculator from './features/calculator/Calculator';
 import ProductManager from './features/products/ProductManager';
 import NutritionSummary from './features/nutrition/NutritionSummary';
+import { ProductsProvider } from './features/products/ProductsContext';
 
 import './theme/theme.css';
 
@@ -24,20 +25,19 @@ function App() { //Główny komponent aplikacji – łączy i wyświetla wszystk
   }, [darkMode]);
 
   return (
-     <div className="app-container">
-      <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
-
+      <ProductsProvider>
+      <div className="app-container">
+        <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
         <h1>EasyKcal</h1>
-        
+
         <div className="component">
-          <Calculator addProduct={addProduct}/>
-          
+          <Calculator addProduct={addProduct} />
         </div>
 
         <div className="component">
           <NutritionSummary selectedProducts={selectedProducts} />
         </div>
-        
+
         <div className="component">
           <ProductManager />
         </div>
@@ -53,8 +53,8 @@ function App() { //Główny komponent aplikacji – łączy i wyświetla wszystk
         <div className="component">
           <Footer />
         </div>
-      
-    </div>
+      </div>
+    </ProductsProvider>
   );
 }
 

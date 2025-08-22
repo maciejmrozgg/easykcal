@@ -1,11 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState} from 'react';
 import { FaExchangeAlt } from 'react-icons/fa';
 import './Calculator.css';
 import { calculateCalories, calculateReverse } from './calculatorApi';
-import { fetchProducts } from '../products/productApi';
+import { useProducts } from '../products/ProductsContext';
 
-export default function Calculator({ addProduct }) {
-  const [products, setProducts] = useState([]);
+export default function Calculator() {
+  const { products } = useProducts();
+
   const [selectedProduct, setSelectedProduct] = useState('');
   const [kcalPer100g, setKcalPer100g] = useState('');
   const [weight, setWeight] = useState('');
@@ -19,18 +20,6 @@ export default function Calculator({ addProduct }) {
   const [reverseResult, setReverseResult] = useState(null);
   const [lastReverseKcalPer100g, setLastReverseKcalPer100g] = useState('');
 
-  useEffect(() => {
-    const loadProducts = async () => {
-      try {
-        const data = await fetchProducts();
-        setProducts(data);
-      } catch (err) {
-        setError(err.message);
-      }
-    };
-    loadProducts();
-  }, []);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -38,7 +27,6 @@ export default function Calculator({ addProduct }) {
     try {
       const calculated = await calculateCalories(kcalPer100g, weight);
       setResult(calculated);
-      addProduct({ name: selectedProduct || 'Ręcznie wpisany produkt', kcal: calculated });
       setSelectedProduct('');
       setKcalPer100g('');
       setWeight('');
