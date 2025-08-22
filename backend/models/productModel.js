@@ -4,7 +4,7 @@ const pool = require('../config/db');
 exports.getProducts = async (search) => {
   let result;
   if (search) {
-    const result = await pool.query(
+    result = await pool.query(
       'SELECT * FROM products WHERE name ILIKE $1 ORDER BY id ASC',
       [`%${search}%`]
     );
