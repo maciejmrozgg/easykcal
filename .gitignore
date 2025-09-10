@@ -4,3 +4,6 @@ node_modules
 
 # Certyfikaty lokalne mkcert
 *.pem
+
+struktura.txt
+tree.js
