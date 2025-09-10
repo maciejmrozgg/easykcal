@@ -38,7 +38,7 @@ export default function Calculator( { addProduct }) {
       setResult(calculated);
 
       addProduct({
-        name: selectedProduct || 'Ręcznie wprowadzony',
+        name: selectedProduct || 'Ręcznie wprowadzona wartość',
         kcalPer100g: kcalNum,
         weight: weightNum,
         result: calculated
@@ -126,7 +126,8 @@ export default function Calculator( { addProduct }) {
       )}
 
       {/* Kalkulator */}
-      <form onSubmit={handleSubmit} style={{ marginTop: '1rem' }}>
+      <form onSubmit={handleSubmit} style={{ marginTop: '1rem' }} className="calculator">
+        <h3>Przelicz gramy na kalorie</h3>
         {!manualMode ? (
           <div>
             <label>Produkt: </label>
