@@ -28,7 +28,7 @@ export default function Calculator( { addProduct }) {
     const kcalNum = parseFloat(kcalPer100g);
     const weightNum = parseFloat(weight);
 
-    if (!kcalPer100g || !weight || isNaN(kcalNum) || isNaN(weightNum)) {
+    if (!kcalPer100g || !weight || isNaN(kcalNum) || isNaN(weightNum) || kcalNum <= 0 || weightNum <= 0) {
       setError('Nieprawidłowa wartość kalorii lub wagi');
       return;
     }
