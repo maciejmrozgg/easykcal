@@ -1,4 +1,4 @@
-/* Jasny motyw */
+/* Light mode */
 .light-theme {
   --bg-color: #fefefe;                  /* neutralne, jasne tło */
   --text-color: #1a1a1a;                /* ciemny, czytelny tekst */
@@ -33,18 +33,18 @@
   --scroll-button-hover-color: #ffffff;
 }
 
-/* Ciemny motyw */
+/* Dark mode */
 .dark-theme {
-  --bg-color: #121212;                   /* klasyczne ciemne tło */
-  --text-color: #e0e0e0;                 /* jasny tekst dla kontrastu */
-  --component-bg: linear-gradient(135deg, #2d3436 0%, #636e72 100%); /* elegancki ciemnoszary gradient */
-  --button-bg: #1f1f1f;                  /* ciemny przycisk */
-  --button-color: #00cec9;               /* nowoczesny turkusowy kolor tekstu */
-  --button-hover-bg: #00cec9;            /* turkusowy przy hover */
-  --button-hover-color: #1f1f1f;         /* ciemny tekst przy hover */
-  --input-bg: #1e1e1e;                   /* ciemne inputy */
-  --input-color: #e0e0e0;                /* jasny tekst w inputach */
-  --result-bg: linear-gradient(90deg, #00cec9, #0984e3); /* turkus → niebieski gradient */
+  --bg-color: #121212;                  
+  --text-color: #e0e0e0;                
+  --component-bg: linear-gradient(135deg, #2d3436 0%, #636e72 100%); 
+  --button-bg: #1f1f1f;                 
+  --button-color: #00cec9;             
+  --button-hover-bg: #00cec9;          
+  --button-hover-color: #1f1f1f;        
+  --input-bg: #1e1e1e;                  
+  --input-color: #e0e0e0;                
+  --result-bg: linear-gradient(90deg, #00cec9, #0984e3); 
   --navbar-bg: #e0e0e0;
   --navbar-color: #1e1e1e;
   --product-card-total: #121212;
