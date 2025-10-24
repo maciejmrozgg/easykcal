@@ -13,7 +13,7 @@ import { ProductsProvider } from './components/products/context/ProductsProvider
 import './theme/theme.css';
 
 function App() {
-   const [darkMode, setDarkMode] = useState(false);
+   const [darkMode, setDarkMode] = useState(true);
    const [selectedProducts, setSelectedProducts] = useState([]);
 
    const addProduct = (product) => {
