@@ -5,7 +5,7 @@ import {
   addProduct as addProductApi,
   deleteProduct as deleteProductApi,
   updateProduct as updateProductApi,
-} from "./productApi";
+} from "../api/productApi";
 
 export function ProductsProvider({ children }) {
   const [products, setProducts] = useState([]);

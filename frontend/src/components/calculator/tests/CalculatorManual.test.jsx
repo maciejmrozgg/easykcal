@@ -1,7 +1,7 @@
 /* global vi, test, expect */
 import { render, screen, fireEvent } from '@testing-library/react';
 import Calculator from '../Calculator';
-import * as useProductsModule from '../../../features/products/useProducts';
+import * as useProductsModule from '../../products/hooks/useProducts';
 import * as apiModule from '../api/calculatorApi'; 
 
 vi.spyOn(useProductsModule, 'useProducts').mockReturnValue({ products: [] });

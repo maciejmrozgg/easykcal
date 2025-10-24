@@ -6,9 +6,9 @@ import About from './components/About';
 import Contact from './components/Contact';
 
 import Calculator from './components/calculator/Calculator';
-import ProductManager from './features/products/ProductManager';
+import ProductManager from './components/products/ProductManager';
 import NutritionSummary from './features/nutrition/NutritionSummary';
-import { ProductsProvider } from './features/products/ProductsProvider';
+import { ProductsProvider } from './components/products/context/ProductsProvider';
 
 import './theme/theme.css';
 

@@ -1,0 +1,22 @@
+.app-container .scroll-buttons-container {
+  margin-top: 10px;
+  display: flex;
+  gap: 8px;
+}
+
+.app-container .scroll-buttons {
+  margin-right: 10px;
+  background-color: var(--scroll-button-bg);
+  color: var(--scroll-button-color);
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.app-container .scroll-buttons:hover {
+  background-color: var(--scroll-button-hover-bg);
+  color: var(--scroll-button-hover-color);
+}

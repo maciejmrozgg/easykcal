@@ -1,5 +1,5 @@
 import './styles/Calculator.css';
-import { useProducts } from '../../features/products/useProducts';
+import { useProducts } from '../products/hooks/useProducts';
 import CalorieForm from './components/CalorieForm';
 import ReverseCalorieForm from './components/ReverseCalorieForm';
 import CalculatorControls from './components/CalculatorControls';

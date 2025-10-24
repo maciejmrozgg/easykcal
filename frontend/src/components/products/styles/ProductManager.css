@@ -1,0 +1,20 @@
+.pm-button {
+  background-color: var(--button-bg);
+  color: var(--button-color);
+  border: 1px solid transparent;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.4s ease, color 0.4s ease, border 0.4s ease;
+  margin-right: 10px; 
+}
+
+.pm-button:last-child {
+  margin-right: 0; 
+}
+
+.pm-button:hover {
+  background-color: var(--button-hover-bg);
+  color: var(--button-hover-color);
+}
