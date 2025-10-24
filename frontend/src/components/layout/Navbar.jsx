@@ -7,7 +7,7 @@ const Navbar = ({ darkMode, setDarkMode }) => {
     <div className="navbar">
       <a href="#home" className="logo">
         <img src={logo} alt="Logo" width={32} height={32} />
-        Portfolio
+        Home
       </a>
 
       <div className="nav-actions">
