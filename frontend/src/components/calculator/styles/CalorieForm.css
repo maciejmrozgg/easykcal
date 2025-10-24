@@ -1,0 +1,26 @@
+.calculator {
+  background-color: var(--component-bg);
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.calculator h3 {
+  color: var(--text-color);
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.calorie-result {
+  background: var(--result-bg);
+  color: white;
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  border: 2px solid rgba(255,255,255,0.5);
+  margin-top: 1rem;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+  animation: pulse 2s infinite;
+}

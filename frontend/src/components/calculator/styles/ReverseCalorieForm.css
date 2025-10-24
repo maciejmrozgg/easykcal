@@ -1,0 +1,77 @@
+.reverse-calculator {
+  background-color: var(--reverse-calculator-bg);
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.reverse-calculator label {
+  display: block;
+  margin-bottom: 0.25rem;
+  color: var(--text-color);
+  font-weight: 500;
+}
+
+.reverse-calculator input {
+  background-color: var(--reverse-calculator-input-bg);
+  border: var(--reverse-calculator-input-border);
+  color: var(--reverse-calculator-input-text);
+}
+
+.reverse-calculator button {
+  background-color: var(--reverse-calculator-button);
+  color: var(--reverse-calculator-button-text);
+}
+
+.reverse-calculator button:hover {
+  background-color: var(--reverse-calculator-button-hover-bg);
+  color: var(--reverse-calculator-button-hover-color);
+}
+
+.reverse-result {
+  background: var(--reverse-calculator-result);
+  color: #fff;
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  padding: 1rem 1.5rem;
+  border-radius: 16px;
+  border: 2px solid rgba(255,255,255,0.6);
+  margin-top: 1rem;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+  animation: pulse 2s infinite;
+  position: relative;
+  overflow: hidden;
+}
+
+.reverse-result::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: rgba(255,255,255,0.1);
+  transform: rotate(45deg);
+  animation: shine 2s infinite linear;
+}
+
+@keyframes shine {
+  0% { transform: rotate(45deg) translateX(-200%); }
+  50% { transform: rotate(45deg) translateX(200%); }
+  100% { transform: rotate(45deg) translateX(-200%); }
+}
+
+@media (max-width: 600px) {
+  .reverse-result {
+    font-size: 1.6rem;
+    padding: 0.8rem 1rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .reverse-result {
+    font-size: 1.4rem;
+    padding: 0.6rem 0.8rem;
+  }
+}

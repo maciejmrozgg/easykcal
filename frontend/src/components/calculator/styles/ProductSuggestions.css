@@ -1,0 +1,26 @@
+.product-suggestions {
+  background-color: var(--component-bg);
+  color: var(--text-color);
+  border-radius: 8px;
+  margin-top: 0.2rem;
+  max-height: 150px;
+  overflow-y: auto;
+  font-weight: bold;
+  padding: 0;
+  list-style: none;
+  border: 1px solid #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.product-suggestions li {
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.product-suggestions li:hover {
+  background-color: var(--button-bg);
+  border: 1px solid var(--button-hover-bg);
+  border-radius: 5px;
+  color: var(--button-color);
+}
