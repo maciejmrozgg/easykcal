@@ -1,4 +1,4 @@
-import './NutritionSummary.css';
+import './styles/NutritionSummary.css';
 
 export default function NutritionSummary({ selectedProducts }) {
   const totalKcal = parseFloat(
@@ -15,7 +15,6 @@ export default function NutritionSummary({ selectedProducts }) {
               <div className="product-name">{product.name}</div>
               <div className="product-kcal">{product.weight} g - {product.result.toFixed(2)} kcal</div>
             </div>
-            {/* Dodajemy + tylko jeśli to nie ostatni produkt */}
             {index < selectedProducts.length - 1 && <span className="plus">+</span>}
           </div>
         ))}

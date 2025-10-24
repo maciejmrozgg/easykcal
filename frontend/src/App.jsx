@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -7,12 +7,12 @@ import Contact from './components/Contact';
 
 import Calculator from './components/calculator/Calculator';
 import ProductManager from './components/products/ProductManager';
-import NutritionSummary from './features/nutrition/NutritionSummary';
+import NutritionSummary from './components/nutrition/NutritionSummary';
 import { ProductsProvider } from './components/products/context/ProductsProvider';
 
 import './theme/theme.css';
 
-function App() { //Główny komponent aplikacji – łączy i wyświetla wszystkie podkomponenty
+function App() {
    const [darkMode, setDarkMode] = useState(false);
    const [selectedProducts, setSelectedProducts] = useState([]);
 
