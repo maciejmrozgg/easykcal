@@ -1,7 +1,6 @@
-import React from 'react';
-import '../styles/Navbar.css';
+import './styles/Navbar.css';
 import { FaMoon, FaSun } from 'react-icons/fa';
-import logo from '../assets/react.svg';
+import logo from '../../assets/react.svg';
 
 const Navbar = ({ darkMode, setDarkMode }) => {
   return (

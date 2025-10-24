@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
-import About from './components/About';
-import Contact from './components/Contact';
+import Navbar from './components/layout/Navbar';
+import Footer from './components/layout/Footer';
+import About from './components/layout/About';
+import Contact from './components/layout/Contact';
 
 import Calculator from './components/calculator/Calculator';
 import ProductManager from './components/products/ProductManager';
