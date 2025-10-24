@@ -34,7 +34,7 @@ function App() {
           <Calculator addProduct={addProduct} />
         </div>
 
-        <div className="component">
+        <div className="nutrition-component">
           <NutritionSummary selectedProducts={selectedProducts} />
         </div>
 

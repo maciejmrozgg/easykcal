@@ -17,6 +17,7 @@
   padding: 10px;
   width: 120px;
   text-align: center;
+  color: var(--button-color);
   background-color: var(--button-bg);
 }
 

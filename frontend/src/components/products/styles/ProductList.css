@@ -8,7 +8,7 @@
 
 .app-container .scrollable-list li {
   position: relative; 
-  padding: 8px 12px 8px 2rem;
+  padding: 8px 12px 8px 2.5rem;
   margin-bottom: 0.5rem;
   line-height: 1.4;
   border-radius: 10px;
@@ -53,6 +53,8 @@
 .app-container .li-content > span:last-child {
   display: flex;
   gap: 8px;
+  align-items: center;
+  flex-shrink: 0;
 }
 
 .app-container .li-content > span:first-child .kcal {
@@ -62,12 +64,12 @@
 
 .app-container li .editbtn,
 .app-container li .delbtn {
-  flex-shrink: 0;
-  min-width: 80px;
+  flex: 1 1 auto;
+  min-width: 60px;
   max-width: 120px;
   border: none;
   border-radius: 6px;
-  padding: 4px 8px;
+  padding: 4px 6px;
   font-size: 0.8rem;
   cursor: pointer;
   display: inline-flex;
@@ -107,4 +109,13 @@
 .app-container .scrollable-list::-webkit-scrollbar-track {
   background: var(--scrollbar-track);
   border-radius: 4px;
+}
+
+@media (max-width: 420px) {
+  .app-container li .editbtn,
+  .app-container li .delbtn {
+    min-width: 50px;
+    padding: 3px 5px;
+    font-size: 0.7rem;
+  }
 }

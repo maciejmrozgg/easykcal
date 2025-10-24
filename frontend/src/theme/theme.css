@@ -2,13 +2,13 @@
   --bg-color: #fefefe;            
   --text-color: #1a1a1a;              
   --component-bg: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%); 
-  --button-bg: #ffffff;                  
-  --button-color: #6c5ce7;              
-  --button-hover-bg: #5b4ebd;         
-  --button-hover-color: #ffffff;       
+  --button-bg: #ffa502;         
+  --button-color: #1e1e1e;       
+  --button-hover-bg: #ff7f50;    
+  --button-hover-color: #1e1e1e;  
   --input-bg: #f7f7f7;                 
   --input-color: #1a1a1a;            
-  --result-bg: linear-gradient(90deg, #6c5ce7, #a29bfe); 
+  --result-bg: linear-gradient(90deg, #a29bfe, #81ecec); 
   --navbar-bg: linear-gradient(90deg, #a29bfe 0%, #81ecec 100%);
   --navbar-color: #ffffff;
   --product-card-total: #121212;
@@ -35,16 +35,18 @@
   --scroll-button-color: #ffffff;    
   --scroll-button-hover-bg: #5b4ebd; 
   --scroll-button-hover-color: #ffffff;
+  --nutrition-bg: linear-gradient(135deg, #ffe5d9, #ffd6a5);
+  --nutrition-text: #6c5ce7;
 }
 
 .dark-theme {
   --bg-color: #121212;                  
   --text-color: #e0e0e0;                
   --component-bg: linear-gradient(135deg, #2d3436 0%, #636e72 100%); 
-  --button-bg: #1f1f1f;                 
-  --button-color: #00cec9;             
-  --button-hover-bg: #00cec9;          
-  --button-hover-color: #1f1f1f;        
+  --button-bg: #ffa502;         
+  --button-color: #1e1e1e;       
+  --button-hover-bg: #ff7f50;    
+  --button-hover-color: #1e1e1e;       
   --input-bg: #1e1e1e;                  
   --input-color: #e0e0e0;                
   --result-bg: linear-gradient(90deg, #00cec9, #0984e3); 
@@ -77,4 +79,6 @@
   --scroll-button-color: #121212;    
   --scroll-button-hover-bg: #00b2aa; 
   --scroll-button-hover-color: #121212;
+  --nutrition-bg: linear-gradient(135deg, #2c3e50, #4b6cb7);
+  --nutrition-text: #00cec9;
 }
