@@ -6,6 +6,7 @@ const productRoutes = require('./routes/productRoutes');
 const calculatorRoutes = require('./routes/calculatorRoutes');
 const errorHandler = require('./middleware/errorHandler');
 const corsOptions = require('./config/corsOptions');
+const authRoutes = require('./routes/authRoutes');
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.use(express.json());
 // ROUTES
 app.use('/products', productRoutes);
 app.use('/calculator', calculatorRoutes);
+app.use('/auth', authRoutes);
 app.use(errorHandler);
 
 module.exports = app;
