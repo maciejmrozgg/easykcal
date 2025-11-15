@@ -31,12 +31,8 @@ function App() {
       <div className="app-container">
         <Navbar
           onRegisterClick={() => setShowRegister(true)}
-          darkMode={darkMode} setDarkMode={setDarkMode} />
-        {showRegister && (
-          <div className="component">
-            <Register onClose={() => setShowRegister(false)} />
-          </div>
-        )}
+          darkMode={darkMode} setDarkMode={setDarkMode}
+        />
 
         <h1>EasyKcal</h1>
 
@@ -59,10 +55,16 @@ function App() {
         <div className="component">
           <Contact />
         </div>
-
+        
         <div className="component">
           <Footer />
         </div>
+
+        {showRegister && (
+          <div className="modal-overlay">
+            <Register onClose={() => setShowRegister(false)} />
+          </div>
+        )}
       </div>
     </ProductsProvider>
   );
