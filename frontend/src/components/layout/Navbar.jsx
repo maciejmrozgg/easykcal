@@ -2,7 +2,7 @@ import './styles/Navbar.css';
 import { FaMoon, FaSun } from 'react-icons/fa';
 import logo from '../../assets/react.svg';
 
-const Navbar = ({ darkMode, setDarkMode }) => {
+const Navbar = ({ darkMode, setDarkMode, onRegisterClick }) => {
   return (
     <div className="navbar">
       <a href="#home" className="logo">
@@ -13,7 +13,7 @@ const Navbar = ({ darkMode, setDarkMode }) => {
       <div className="nav-actions">
         <nav className="nav-links">
           <a href="#login" className="btn btn-login">Zaloguj się</a>
-          <a href="#register" className="btn btn-register">Zarejestruj się</a>
+          <a href="#register" className="btn btn-register" onClick={onRegisterClick}>Zarejestruj się</a>
         </nav>
 
         <button

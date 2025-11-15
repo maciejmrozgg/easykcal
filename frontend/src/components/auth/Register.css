@@ -1,0 +1,61 @@
+.auth-container {
+  max-width: 400px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: var(--component-bg);
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.auth-container h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.auth-container input {
+  display: block;
+  width: 100%;
+  padding: 12px 16px;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--text-color);
+  background-color: var(--input-bg);
+  color: var(--input-color);
+  font-size: 1rem;
+  outline: none;
+}
+
+.auth-container input:focus {
+  border-color: var(--text-color);
+  box-shadow: 0 0 6px rgba(255,255,255,0.6);
+}
+
+.auth-container .btn-register {
+  display: inline-block;
+  width: 48%;
+  padding: 12px 16px;
+  margin-right: 4%;
+  border-radius: 8px;
+  border: none;
+  background-color: var(--button-bg);
+  color: var(--button-color);
+  font-weight: bold;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.auth-container .btn-register:last-child {
+  margin-right: 0;
+}
+
+.auth-container .btn-register:hover {
+  background-color: var(--button-hover-bg);
+  color: var(--button-hover-color);
+}
+
+.auth-container p {
+  text-align: center;
+  margin-top: 1rem;
+  color: var(--text-color);
+}
