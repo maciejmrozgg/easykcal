@@ -9,6 +9,24 @@ async function register(req, res, next) {
       return res.status(400).json({ message: "Email i hasło są wymagane" });
     }
 
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({
+        message: "Niepoprawny format adresu email"
+      });
+    }
+
+    const strongPassword = password.length >= 8
+      && /[A-Z]/.test(password)
+      && /[0-9]/.test(password);
+
+    if (!strongPassword) {
+      return res.status(400).json({
+        message: "Hasło musi mieć minimum 8 znaków, cyfrę i wielką literę"
+      });
+    }
+
+
     const existingUser = await findUserByEmail(email);
     if (existingUser) {
       return res.status(409).json({ message: "Użytkownik już istnieje" });

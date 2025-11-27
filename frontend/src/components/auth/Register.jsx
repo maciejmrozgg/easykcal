@@ -6,10 +6,12 @@ export default function Register({ onClose }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   async function handleSubmit(e) {
     e.preventDefault();
     setMessage("");
+    setLoading(true);
 
     try {
       const _res = await registerUser(email, password);
@@ -18,6 +20,8 @@ export default function Register({ onClose }) {
       setPassword("");
     } catch (err) {
       setMessage(err.message);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -39,7 +43,9 @@ export default function Register({ onClose }) {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <button type="submit" className="btn-register">Zarejestruj</button>
+        <button type="submit" disabled={loading} className="btn-register">
+          {loading ? "Rejestracja..." : "Zarejestruj"}
+        </button>
         <button type="button" className="btn-register" onClick={onClose}>Anuluj</button>
       </form>
       {message && <p>{message}</p>}
