@@ -45,6 +45,46 @@ async function register(req, res, next) {
   }
 }
 
+async function login(req, res, next) {
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({
+        message: "Email i hasło są wymagane",
+      });
+    }
+
+    const user = await findUserByEmail(email);
+
+    if (!user) {
+      return res.status(401).json({
+        message: "Nieprawidłowy email lub hasło",
+      });
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordValid) {
+      return res.status(401).json({
+        message: "Nieprawidłowy email lub hasło",
+      });
+    }
+
+    return res.status(200).json({
+      message: "Zalogowano pomyślnie",
+      user: {
+        id: user.id,
+        email: user.email,
+        role: user.role,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
 module.exports = {
   register,
+  login,
 };
