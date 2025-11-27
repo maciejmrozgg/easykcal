@@ -1,84 +1,116 @@
 .light-theme {
-  --bg-color: #fefefe;            
-  --text-color: #1a1a1a;              
-  --component-bg: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%); 
-  --button-bg: #ffa502;         
-  --button-color: #1e1e1e;       
-  --button-hover-bg: #ff7f50;    
-  --button-hover-color: #1e1e1e;  
-  --input-bg: #f7f7f7;                 
-  --input-color: #1a1a1a;            
-  --result-bg: linear-gradient(90deg, #a29bfe, #81ecec); 
-  --navbar-bg: linear-gradient(90deg, #a29bfe 0%, #81ecec 100%);
+  --bg-color: #f6f7f9;            
+  --text-color: #1e1e1e;              
+
+  --component-bg: #ffffff; 
+
+  --button-bg: #2ecc71;
+  --button-color: #ffffff;
+  --button-hover-bg: #27ae60;
+  --button-hover-color: #ffffff;
+
+  --input-bg: #f0f2f5;                 
+  --input-color: #1e1e1e;            
+
+  --result-bg: linear-gradient(90deg, #2ecc71, #6dd5a7); 
+
+  --navbar-bg: linear-gradient(90deg, #2ecc71, #3498db);
   --navbar-color: #ffffff;
-  --product-card-total: #121212;
-  --reverse-calculator-bg: #ffe5d9;
-  --reverse-calculator-result: linear-gradient(135deg, #ff9a76 0%, #ffd6a5 100%);
-  --reverse-calculator-input-bg:#fff3e0;
-  --reverse-calculator-input-border: 1px solid #ffb07c;
-  --reverse-calculator-button: #ffe0b2; 
-  --reverse-calculator-button-text: #6c5ce7;
-  --reverse-calculator-button-hover-bg: #f9c784;
-  --reverse-calculator-button-hover-color: #fff;
-  --about-section-bg: linear-gradient(135deg, #e0f0ff, #ffffff); 
-  --about-section-text: #0b3d91;  
-  --contact-section-bg: #fff7e6;
-  --contact-section-text: #333333; 
+
+  --product-card-total: #1e1e1e;
+
+  --reverse-calculator-bg: #eef9f3;
+  --reverse-calculator-result: linear-gradient(135deg, #2ecc71, #6dd5a7);
+  --reverse-calculator-input-bg: #ffffff;
+  --reverse-calculator-input-border: 1px solid #cceee0;
+  --reverse-calculator-button: #3498db; 
+  --reverse-calculator-button-text: #ffffff;
+  --reverse-calculator-button-hover-bg: #2c80b4;
+  --reverse-calculator-button-hover-color: #ffffff;
+
+  --about-section-bg: #ffffff; 
+  --about-section-text: #1e1e1e;  
+
+  --contact-section-bg: #f0f2f5;
+  --contact-section-text: #1e1e1e; 
+
   --product-list-bg: #ffffff;
-  --product-list-hover-bg: #f0f0ff;
-  --product-list-text: #1a1a1a;
-  --accent-color: #6c5ce7;
-  --scrollbar-thumb: #a29bfe;
-  --scrollbar-track: #e0e0e0;
-  --product-list-marker: #fff7e6;
-  --scroll-button-bg: #6c5ce7;       
+  --product-list-hover-bg: #eef9f3;
+  --product-list-text: #1e1e1e;
+
+  --accent-color: #3498db;
+
+  --scrollbar-thumb: #2ecc71;
+  --scrollbar-track: #e4e7eb;
+
+  --product-list-marker: #2ecc71;
+
+  --scroll-button-bg: #3498db;       
   --scroll-button-color: #ffffff;    
-  --scroll-button-hover-bg: #5b4ebd; 
+  --scroll-button-hover-bg: #2c80b4; 
   --scroll-button-hover-color: #ffffff;
-  --nutrition-bg: linear-gradient(135deg, #ffe5d9, #ffd6a5);
-  --nutrition-text: #6c5ce7;
+
+  --nutrition-bg: linear-gradient(135deg, #2ecc71, #6dd5a7);
+  --nutrition-text: #ffffff;
 }
 
 .dark-theme {
-  --bg-color: #121212;                  
-  --text-color: #e0e0e0;                
-  --component-bg: linear-gradient(135deg, #2d3436 0%, #636e72 100%); 
-  --button-bg: #ffa502;         
-  --button-color: #1e1e1e;       
-  --button-hover-bg: #ff7f50;    
-  --button-hover-color: #1e1e1e;       
-  --input-bg: #1e1e1e;                  
-  --input-color: #e0e0e0;                
-  --result-bg: linear-gradient(90deg, #00cec9, #0984e3); 
-  --navbar-bg: linear-gradient(90deg, #636e72  0%, #3498db 100%);
-  --navbar-color: #1e1e1e;
-  --product-card-total: #121212;
-  --reverse-calculator-bg: #1e1e1e; 
-  --reverse-calculator-result: linear-gradient(135deg, #2c3e50 0%, #4b6cb7 100%);
-  --reverse-calculator-input-bg:#3b4b5b; 
-  --reverse-calculator-input-text: #e0e0e0; 
-  --reverse-calculator-input-border: 1px solid #5a7ec1;
-  --reverse-calculator-button: #0984e3;
-  --reverse-calculator-button-text: #fff;
-  --reverse-calculator-button-hover-bg: #4aa3f0;
-  --reverse-calculator-button-hover-color: #1e1e1e;
-  --about-section-bg: linear-gradient(135deg, #1e1e2f, #2a2a3f); 
-  --about-section-text: #c0d6ff; 
-  --contact-section-bg: #2b2b3b; 
-  --contact-section-text: #e0e0e0; 
-  --section-link-color: #66ccff;
-  --section-link-hover: #3399cc; 
-  --product-list-bg: #1e1e1e;
-  --product-list-hover-bg: #2a2a3f;
-  --product-list-text: #e0e0e0;
-  --accent-color: #00cec9;
-  --scrollbar-thumb: #00cec9;
-  --scrollbar-track: #121212;
-  --product-list-marker: #00cec9;
-  --scroll-button-bg: #00cec9;      
-  --scroll-button-color: #121212;    
-  --scroll-button-hover-bg: #00b2aa; 
-  --scroll-button-hover-color: #121212;
-  --nutrition-bg: linear-gradient(135deg, #2c3e50, #4b6cb7);
-  --nutrition-text: #00cec9;
+  --bg-color: #0f1720;                  
+  --text-color: #ecf0f1;                
+
+  --component-bg: #1c2530; 
+
+  --button-bg: #2ecc71;
+  --button-color: #0f1720;
+  --button-hover-bg: #27ae60;
+  --button-hover-color: #0f1720;
+
+  --input-bg: #253041;                  
+  --input-color: #ecf0f1;                
+
+  --result-bg: linear-gradient(90deg, #2ecc71, #3498db); 
+
+  --navbar-bg: linear-gradient(90deg, #2ecc71, #3498db);
+  --navbar-color: #0f1720;
+
+  --product-card-total: #020202;
+
+  --reverse-calculator-bg: #1c2530; 
+  --reverse-calculator-result: linear-gradient(135deg, #2ecc71, #3498db);
+  --reverse-calculator-input-bg: #253041; 
+  --reverse-calculator-input-text: #ecf0f1; 
+  --reverse-calculator-input-border: 1px solid #2ecc71;
+
+  --reverse-calculator-button: #3498db;
+  --reverse-calculator-button-text: #ffffff;
+  --reverse-calculator-button-hover-bg: #2c80b4;
+  --reverse-calculator-button-hover-color: #ffffff;
+
+  --about-section-bg: #1c2530; 
+  --about-section-text: #ecf0f1; 
+
+  --contact-section-bg: #253041; 
+  --contact-section-text: #ecf0f1; 
+
+  --section-link-color: #2ecc71;
+  --section-link-hover: #6dd5a7; 
+
+  --product-list-bg: #1c2530;
+  --product-list-hover-bg: #253041;
+  --product-list-text: #ecf0f1;
+
+  --accent-color: #2ecc71;
+
+  --scrollbar-thumb: #2ecc71;
+  --scrollbar-track: #0f1720;
+
+  --product-list-marker: #2ecc71;
+
+  --scroll-button-bg: #3498db;      
+  --scroll-button-color: #ffffff;    
+  --scroll-button-hover-bg: #2c80b4; 
+  --scroll-button-hover-color: #ffffff;
+
+  --nutrition-bg: linear-gradient(135deg, #2ecc71, #3498db);
+  --nutrition-text: #ffffff;
 }
