@@ -1,4 +1,5 @@
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const { findUserByEmail, createUser } = require("../models/userModel");
 
 async function register(req, res, next) {
@@ -71,6 +72,27 @@ async function login(req, res, next) {
       });
     }
 
+    //Create token
+    const token = jwt.sign(
+      {
+        id: user.id,
+        role: user.role,
+      },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: process.env.JWT_EXPIRES_IN,
+      }
+    );
+
+    //Save JWT to cookie
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: false, //on production true
+      sameSite: "strict",
+      maxAge: 7 * 24 * 60 * 60 * 1000
+    });
+
+    //Return only user data (without token)
     return res.status(200).json({
       message: "Zalogowano pomyślnie",
       user: {
