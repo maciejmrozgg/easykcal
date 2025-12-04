@@ -77,6 +77,7 @@ async function login(req, res, next) {
       {
         id: user.id,
         role: user.role,
+        email: user.email,
       },
       process.env.JWT_SECRET,
       {
@@ -129,6 +130,7 @@ async function me(req, res, next) {
       user: {
         id: decoded.id,
         role: decoded.role,
+        email: decoded.email,
       },
     });
   } catch (err) {

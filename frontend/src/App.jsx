@@ -4,7 +4,7 @@ import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import About from './components/layout/About';
 import Contact from './components/layout/Contact';
-import Register from "./components/auth/Register";
+import Register from "./components/auth/register/Register";
 import Login from './components/auth/login/Login';
 
 import Calculator from './components/calculator/Calculator';
@@ -26,38 +26,40 @@ function App() {
   };
 
   useEffect(() => {
-  document.body.className = darkMode ? 'dark-theme' : 'light-theme';
+    document.body.className = darkMode ? 'dark-theme' : 'light-theme';
+  }, [darkMode]);
 
-  async function checkUser() {
-    try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/me`, {
-        credentials: 'include',
-      });
-      if (res.ok) {
-        const data = await res.json();
-        setUser(data.user);
-      } else {
+  useEffect(() => {
+    async function checkUser() {
+      try {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/me`, {
+          credentials: 'include',
+        });
+        if (res.ok) {
+          const data = await res.json();
+          setUser(data.user);
+        } else {
+          setUser(null);
+        }
+      } catch {
         setUser(null);
       }
-    } catch {
-      setUser(null);
     }
-  }
 
-  checkUser();
-}, [darkMode]);
+    checkUser();
+  }, []);
 
   const handleLogout = async () => {
-  try {
-    await fetch(`${import.meta.env.VITE_API_URL}/auth/logout`, {
-      method: "POST",
-      credentials: "include",
-    });
-    setUser(null);
-  } catch (err) {
-    console.error("Błąd podczas wylogowania", err);
-  }
-};
+    try {
+      await fetch(`${import.meta.env.VITE_API_URL}/auth/logout`, {
+        method: "POST",
+        credentials: "include",
+      });
+      setUser(null);
+    } catch (err) {
+      console.error("Błąd podczas wylogowania", err);
+    }
+  };
 
   return (
     <ProductsProvider>

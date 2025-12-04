@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { registerUser } from "./authApi";
+import { registerUser } from "../api/authApi";
 import './Register.css';
 
 export default function Register({ onClose }) {
