@@ -106,7 +106,39 @@ async function login(req, res, next) {
   }
 }
 
+async function logout(req, res, next) {
+  try {
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: false, //on production true
+      sameSite: "strict",
+    });
+    return res.status(200).json({ message: "Wylogowano pomyślnie" });
+  } catch (error) {
+    next(error);
+  }
+}
+
+async function me(req, res, next) {
+  try {
+    const token = req.cookies.token;
+    if (!token) return res.status(401).json({ message: "Nie zalogowany" });
+
+    const decoded = require("jsonwebtoken").verify(token, process.env.JWT_SECRET);
+    return res.status(200).json({
+      user: {
+        id: decoded.id,
+        role: decoded.role,
+      },
+    });
+  } catch (err) {
+    return res.status(401).json({ message: "Nie zalogowany" });
+  }
+}
+
 module.exports = {
   register,
   login,
+  logout,
+  me,
 };

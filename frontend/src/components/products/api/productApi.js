@@ -33,6 +33,7 @@ export async function deleteProduct(id) {
   try {
     const res = await fetch(`${API_URL}/products/${id}`, {
       method: 'DELETE',
+      credentials: "include",
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || 'Błąd usuwania produktu');

@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { registerUser } from "./authApi";
-import './Register.css';
+import './Login.css';
 
-export default function Register({ onClose }) {
+export default function Login({ onLoginSuccess, onClose }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
@@ -14,10 +13,18 @@ export default function Register({ onClose }) {
     setLoading(true);
 
     try {
-      const _res = await registerUser(email, password);
-      setMessage("Konto zostało utworzone");
-      setEmail("");
-      setPassword("");
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message);
+
+      setMessage("Zalogowano pomyślnie");
+      onLoginSuccess(data.user);
     } catch (err) {
       setMessage(err.message);
     } finally {
@@ -27,7 +34,7 @@ export default function Register({ onClose }) {
 
   return (
     <div className="auth-container">
-      <h2>Rejestracja</h2>
+      <h2>Logowanie</h2>
       <form onSubmit={handleSubmit}>
         <input
           type="email"
@@ -43,10 +50,14 @@ export default function Register({ onClose }) {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <button type="submit" disabled={loading} className="btn-register">
-          {loading ? "Rejestracja..." : "Zarejestruj"}
-        </button>
-        <button type="button" className="btn-register-cancel" onClick={onClose}>Anuluj</button>
+        <div className="auth-buttons">
+          <button type="submit" className="btn-login-submit" disabled={loading}>
+            {loading ? "Logowanie..." : "Zaloguj"}
+          </button>
+          <button type="button" className="btn-login-cancel" onClick={onClose}>
+            Anuluj
+          </button>
+        </div>
       </form>
       {message && <p>{message}</p>}
     </div>

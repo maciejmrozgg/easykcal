@@ -38,6 +38,7 @@ body {
   height: 40px;
   min-width: 80px;
   padding: 0 12px;
+  margin-top: 14px;
   border-radius: 8px;
   text-decoration: none;
   border: 1px solid var(--button-color);
@@ -77,8 +78,18 @@ body {
 
 .nav-actions {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 10px;
+}
+
+.navbar .nav-links .btn-logout {
+  background-color: #e74c3c;
+  color: #fff;
+  border: 1px solid #c0392b;
+}
+
+.navbar .nav-links .btn-logout:hover {
+  background-color: #c0392b;
 }
 
 @media (max-width: 420px) {
