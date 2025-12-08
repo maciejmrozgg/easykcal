@@ -6,6 +6,7 @@ import About from './components/layout/About';
 import Contact from './components/layout/Contact';
 import Register from "./components/auth/register/Register";
 import Login from './components/auth/login/Login';
+import Sidebar from './components/layout/Sidebar';
 
 import Calculator from './components/calculator/Calculator';
 import ProductManager from './components/products/ProductManager';
@@ -20,6 +21,7 @@ function App() {
   const [showRegister, setShowRegister] = useState(false);
   const [user, setUser] = useState(null);
   const [showLogin, setShowLogin] = useState(false);
+  const [activeView, setActiveView] = useState("home");
 
   const addProduct = (product) => {
     setSelectedProducts(prev => [...prev, product]);
@@ -72,6 +74,8 @@ function App() {
           setDarkMode={setDarkMode}
           user={user}
         />
+
+        <Sidebar user={user} setActiveView={setActiveView} />
 
         <h1>EasyKcal</h1>
 
