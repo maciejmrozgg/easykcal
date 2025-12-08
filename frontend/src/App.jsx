@@ -7,6 +7,8 @@ import Contact from './components/layout/Contact';
 import Register from "./components/auth/register/Register";
 import Login from './components/auth/login/Login';
 import Sidebar from './components/layout/Sidebar';
+import Recipes from './components/layout/Recipes';
+import Schedule from './components/layout/Schedule';
 
 import Calculator from './components/calculator/Calculator';
 import ProductManager from './components/products/ProductManager';
@@ -73,35 +75,49 @@ function App() {
           darkMode={darkMode}
           setDarkMode={setDarkMode}
           user={user}
+          setActiveView={setActiveView}
         />
 
-        <Sidebar user={user} setActiveView={setActiveView} />
+        {/* -------------------- Main Layout -------------------- */}
+        <div className="main-layout">
+          <Sidebar user={user} setActiveView={setActiveView} />
 
-        <h1>EasyKcal</h1>
+          <div className="main-content">
+            {activeView === "home" && (
+              <>
+                <h1>EasyKcal</h1>
 
-        <div className="component">
-          <Calculator addProduct={addProduct} />
+                <div className="component">
+                  <Calculator addProduct={addProduct} />
+                </div>
+
+                <div className="nutrition-component">
+                  <NutritionSummary selectedProducts={selectedProducts} />
+                </div>
+
+                <div className="component">
+                  <ProductManager />
+                </div>
+
+                <div className="component">
+                  <About />
+                </div>
+
+                <div className="component">
+                  <Contact />
+                </div>
+
+                <div className="component">
+                  <Footer />
+                </div>
+              </>
+            )}
+
+            {activeView === "recipes" && <Recipes />}
+            {activeView === "schedule" && <Schedule />}
+          </div>
         </div>
-
-        <div className="nutrition-component">
-          <NutritionSummary selectedProducts={selectedProducts} />
-        </div>
-
-        <div className="component">
-          <ProductManager />
-        </div>
-
-        <div className="component">
-          <About />
-        </div>
-
-        <div className="component">
-          <Contact />
-        </div>
-
-        <div className="component">
-          <Footer />
-        </div>
+        {/* -------------------- End Main Layout -------------------- */}
 
         {showRegister && (
           <div className="modal-overlay">
@@ -111,15 +127,15 @@ function App() {
 
         {showLogin && (
           <div className="modal-overlay">
-            <Login onLoginSuccess={(userData) => {
-              setUser(userData);
-              setShowLogin(false);
-            }}
+            <Login 
+              onLoginSuccess={(userData) => {
+                setUser(userData);
+                setShowLogin(false);
+              }}
               onClose={() => setShowLogin(false)}
             />
           </div>
         )}
-
       </div>
     </ProductsProvider>
   );

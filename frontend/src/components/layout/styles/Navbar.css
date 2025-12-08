@@ -15,14 +15,19 @@ body {
   z-index: 1000;
 }
 
-.logo {
+.navbar .logo {
   display: flex;
   align-items: center;
+  justify-content: center; 
   gap: 8px;
   font-weight: bold;
   text-decoration: none;
   color: var(--navbar-color);
-  font-size: 1.2rem; 
+  font-size: 1.2rem;
+  height: 40px;             
+  padding: 0 12px;          
+  border-radius: 8px;      
+  margin-top: 14px;             
 }
 
 .nav-links {

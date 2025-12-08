@@ -104,6 +104,18 @@ input:focus {
   color: var(--button-hover-color);
 }
 
+.main-layout {
+  display: flex;
+  gap: 1rem; 
+}
+
+.main-content {
+  flex: 1; 
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
 /* ------------------Responsywność------------------ */
 
 /* Responsywność 600x*/

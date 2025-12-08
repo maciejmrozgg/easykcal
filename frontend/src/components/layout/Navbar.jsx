@@ -2,13 +2,13 @@ import './styles/Navbar.css';
 import { FaMoon, FaSun } from 'react-icons/fa';
 import logo from '../../assets/react.svg';
 
-const Navbar = ({ darkMode, setDarkMode, onRegisterClick, onLoginClick, onLogout, user }) => {
+const Navbar = ({ darkMode, setDarkMode, onRegisterClick, onLoginClick, onLogout, user, setActiveView }) => {
   return (
     <div className="navbar">
-      <a href="#home" className="logo">
+      <button className="logo" onClick={() => setActiveView("home")}>
         <img src={logo} alt="Logo" width={32} height={32} />
         Home
-      </a>
+      </button>
 
       <div className="nav-actions">
         <nav className="nav-links">
