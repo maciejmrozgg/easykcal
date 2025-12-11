@@ -20,7 +20,15 @@ exports.createScheduleItem = async (req, res) => {
         }
 
         const item = await ScheduleModel.create(userId, dayOfWeek, mealName, recipeId);
-        res.status(201).json(item);
+        
+        res.status(201).json({
+            id: item.id,
+            user_id: item.user_id,
+            dayOfWeek: item.dayOfWeek || item.day_of_week, 
+            mealName: item.mealName || item.meal_name,    
+            recipeId: item.recipeId || item.recipe_id,
+            created_at: item.created_at,
+        });
     } catch (error) {
         res.status(500).json({ error: "Failed to create schedule item" });
     }
