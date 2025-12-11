@@ -22,7 +22,8 @@ const RecipeModel = {
       `INSERT INTO recipes (user_id, title, description, ingredients, instructions, image_name)
        VALUES ($1, $2, $3, $4, $5, $6)
        RETURNING *`,
-      [userId, title, description, ingredients, instructions, imageName]
+      [userId, title, description, JSON.stringify(ingredients),
+      JSON.stringify(instructions), imageName]
     );
     return rows[0];
   },

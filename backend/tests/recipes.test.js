@@ -25,7 +25,12 @@ describe("Recipes API", () => {
     const res = await request(app)
       .post("/api/recipes")
       .set("Authorization", `Bearer ${token}`)
-      .send({ title: "Test Recipe", description: "Test Desc" });
+      .send({
+        title: "Test Recipe",
+        description: "Test Desc",
+        ingredients: ["egg", "milk"],
+        instructions: ["mix", "fry"]
+      });
 
     expect(res.statusCode).toBe(201);
     expect(res.body.title).toBe("Test Recipe");
