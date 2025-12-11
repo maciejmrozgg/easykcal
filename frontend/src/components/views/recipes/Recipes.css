@@ -1,0 +1,70 @@
+/* Karty przepisów */
+.recipe-card {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  border-radius: 12px;
+  background-color: var(--component-bg);
+  color: var(--text-color);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.recipe-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+
+.recipe-card h3 {
+  margin-bottom: 0.75rem;
+  color: var(--accent-color);
+  font-size: 1.4rem;
+}
+
+.recipe-card p {
+  margin-bottom: 1rem;
+  color: var(--text-color);
+  line-height: 1.6;
+}
+
+.recipe-card strong {
+  display: block;
+  margin: 0.8rem 0 0.4rem;
+  color: var(--accent-color);
+  font-weight: 600;
+}
+
+.recipe-card ul, .recipe-card ol {
+  margin-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.recipe-card li {
+  margin-bottom: 0.4rem;
+  line-height: 1.5;
+}
+
+/* Responsywność */
+@media (max-width: 600px) {
+  .recipe-card {
+    padding: 1rem;
+  }
+
+  .recipe-card h3 {
+    font-size: 1.2rem;
+  }
+
+  .recipe-card li {
+    font-size: 0.95rem;
+  }
+}
+
+/* Dark theme */
+.dark-theme .recipe-card {
+  background-color: var(--component-bg);
+  color: var(--text-color);
+}
+
+.dark-theme .recipe-card h3,
+.dark-theme .recipe-card strong {
+  color: var(--accent-color);
+}

@@ -17,12 +17,12 @@ const RecipeModel = {
     return rows[0];
   },
 
-  async create(userId, title, description) {
+  async create(userId, { title, description, ingredients, instructions, imageName }) {
     const { rows } = await pool.query(
-      `INSERT INTO recipes (user_id, title, description)
-       VALUES ($1, $2, $3)
+      `INSERT INTO recipes (user_id, title, description, ingredients, instructions, image_name)
+       VALUES ($1, $2, $3, $4, $5, $6)
        RETURNING *`,
-      [userId, title, description]
+      [userId, title, description, ingredients, instructions, imageName]
     );
     return rows[0];
   },

@@ -1,13 +1,31 @@
 const RecipeModel = require("../models/recipeModel");
+const pool = require("../config/db");
+
+const safeParseJSON = (str) => {
+  if (!str) return [];
+  try {
+    return JSON.parse(str);
+  } catch (e) {
+    // jeśli nie JSON, traktujemy całość jako jeden element tablicy
+    return [str];
+  }
+};
 
 exports.getAllRecipes = async (req, res) => {
-    try {
-        const userId = req.user.id;
-        const recipes = await RecipeModel.getAllByUser(userId);
-        res.json(recipes);
-    } catch (error) {
-        res.status(500).json({ error: "Failed to fetch recipes" });
-    }
+  try {
+    const { rows } = await pool.query("SELECT * FROM recipes ORDER BY id");
+
+    const recipes = rows.map(r => ({
+      ...r,
+      ingredients: safeParseJSON(r.ingredients),
+      instructions: safeParseJSON(r.instructions),
+    }));
+
+    res.json(recipes);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Błąd pobierania przepisów" });
+  }
 };
 
 exports.getRecipe = async (req, res) => {
@@ -27,19 +45,20 @@ exports.getRecipe = async (req, res) => {
 };
 
 exports.createRecipe = async (req, res) => {
-    try {
-        const userId = req.user.id;
-        const { title, description } = req.body;
+  try {
+    const userId = req.user.id;
+    const { title, description, ingredients, instructions, imageName } = req.body;
 
-        if (!title) {
-            return res.status(400).json({ error: "Title is required" });
-        }
-
-        const recipe = await RecipeModel.create(userId, title, description);
-        res.status(201).json(recipe);
-    } catch (error) {
-        res.status(500).json({ error: "Failed to create recipe" });
+    if (!title || !ingredients || !instructions) {
+      return res.status(400).json({ error: "Title, ingredients and instructions are required" });
     }
+
+    const recipe = await RecipeModel.create(userId, { title, description, ingredients, instructions, imageName });
+    res.status(201).json(recipe);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to create recipe" });
+  }
 };
 
 exports.deleteRecipe = async (req, res) => {
