@@ -7,8 +7,8 @@ import Contact from './components/layout/Contact';
 import Register from "./components/auth/register/Register";
 import Login from './components/auth/login/Login';
 import Sidebar from './components/layout/Sidebar';
-import Recipes from './components/layout/Recipes';
-import Schedule from './components/layout/Schedule';
+import Recipes from './components/views/recipes/Recipes';
+import Schedule from './components/views/schedule/Schedule';
 
 import Calculator from './components/calculator/Calculator';
 import ProductManager from './components/products/ProductManager';
