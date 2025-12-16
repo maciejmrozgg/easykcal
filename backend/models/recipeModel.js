@@ -1,20 +1,35 @@
 const pool = require("../config/db");
 
+const parseJSON = (value) => {
+  if (!value) return [];
+  if (typeof value === "object") return value;
+  try {
+    return JSON.parse(value);
+  } catch {
+    return [];
+  }
+};
+
+const mapRecipe = (row) => ({
+  ...row,
+  ingredients: parseJSON(row.ingredients),
+  instructions: parseJSON(row.instructions),
+});
+
 const RecipeModel = {
-  async getAllByUser(userId) {
+  async getAll() {
     const { rows } = await pool.query(
-      `SELECT * FROM recipes WHERE user_id = $1 ORDER BY created_at DESC`,
-      [userId]
+      `SELECT * FROM recipes ORDER BY created_at`
     );
-    return rows;
+    return rows.map(mapRecipe);
   },
 
-  async getById(id, userId) {
+  async getById(id) {
     const { rows } = await pool.query(
-      `SELECT * FROM recipes WHERE id = $1 AND user_id = $2`,
-      [id, userId]
+      `SELECT * FROM recipes WHERE id = $1`,
+      [id]
     );
-    return rows[0];
+    return rows[0] ? mapRecipe(rows[0]) : null;
   },
 
   async create(userId, { title, description, ingredients, instructions, imageName }) {
@@ -22,19 +37,48 @@ const RecipeModel = {
       `INSERT INTO recipes (user_id, title, description, ingredients, instructions, image_name)
        VALUES ($1, $2, $3, $4, $5, $6)
        RETURNING *`,
-      [userId, title, description, JSON.stringify(ingredients),
-      JSON.stringify(instructions), imageName]
+      [
+        userId,
+        title,
+        description,
+        JSON.stringify(ingredients),
+        JSON.stringify(instructions),
+        imageName || null,
+      ]
     );
-    return rows[0];
+    return mapRecipe(rows[0]);
   },
 
-  async delete(id, userId) {
-    await pool.query(
-      `DELETE FROM recipes WHERE id = $1 AND user_id = $2`,
-      [id, userId]
+  async update(id, { title, description, ingredients, instructions, imageName }) {
+  const { rows } = await pool.query(
+    `UPDATE recipes
+     SET title = $1,
+         description = $2,
+         ingredients = $3,
+         instructions = $4,
+         image_name = $5
+     WHERE id = $6
+     RETURNING *`,
+    [
+      title,
+      description,
+      JSON.stringify(ingredients),
+      JSON.stringify(instructions),
+      imageName || null,
+      id,
+    ]
+  );
+
+  return rows[0] ? mapRecipe(rows[0]) : null;
+},
+
+  async delete(id) {
+    const result = await pool.query(
+      `DELETE FROM recipes WHERE id = $1`,
+      [id]
     );
-    return { success: true };
-  }
+    return result.rowCount > 0;
+  },
 };
 
 module.exports = RecipeModel;
