@@ -113,7 +113,7 @@ function App() {
               </>
             )}
 
-            {activeView === "recipes" && <Recipes />}
+            {activeView === "recipes" && <Recipes user={user} />}
             {activeView === "schedule" && <Schedule />}
           </div>
         </div>

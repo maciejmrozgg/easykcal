@@ -61,8 +61,8 @@ exports.updateRecipe = async (req, res) => {
       return res.status(404).json({ error: "Recipe not found" });
     }
 
-    //only owner
-    if (recipe.user_id !== userId) {
+    //Owner or admin can update
+    if (recipe.user_id !== userId && req.user.role !== "admin") {
       return res.status(403).json({ error: "Forbidden" });
     }
 

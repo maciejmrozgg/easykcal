@@ -18,3 +18,23 @@ export const createRecipe = async (recipe) => {
   if (!res.ok) throw new Error("Failed to create recipe");
   return res.json();
 };
+
+export const updateRecipe = async (id, recipe) => {
+  const res = await fetch(`${API_URL}/api/recipes/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify(recipe),
+  });
+  if (!res.ok) throw new Error("Failed to update recipe");
+  return res.json();
+};
+
+export const deleteRecipe = async (id) => {
+  const res = await fetch(`${API_URL}/api/recipes/${id}`, {
+    method: "DELETE",
+    credentials: "include",
+  });
+  if (!res.ok) throw new Error("Failed to delete recipe");
+  return res.json();
+};
