@@ -11,7 +11,7 @@ const RecipeForm = ({ initialData = {}, onSubmit, onCancel }) => {
 
     // Scroll to form if editing
     useEffect(() => {
-        formRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+        formRef.current?.scrollIntoView?.({ behavior: "smooth", block: "center" });
     }, []);
 
     const handleIngredientChange = (index, value) => {
@@ -96,7 +96,7 @@ const RecipeForm = ({ initialData = {}, onSubmit, onCancel }) => {
                 </div>
 
                 <div className="form-actions">
-                    <button type="submit" className="submit-btn">{initialData?.id ? "Zapisz zmiany" : "Dodaj przepis"}</button>
+                    <button type="submit" className="submit-btn" data-testid="submit-recipe">{initialData?.id ? "Zapisz zmiany" : "Dodaj przepis"}</button>
                     <button type="button" className="cancel-btn" onClick={onCancel}>Anuluj</button>
                 </div>
             </form>
