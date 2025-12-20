@@ -1,18 +1,21 @@
 .light-theme {
-  --bg-color: #f6f7f9;            
-  --text-color: #1e1e1e;              
+  --bg-color: #f6f7f9;
+  --text-color: #1e1e1e;
+  --cancel-text-color: #ecf0f1;
+  --recipe-edit-button-hover: #3498db;
+  --recipe-add-button-hover: #3498db;
 
-  --component-bg: #ffffff; 
+  --component-bg: #ffffff;
 
   --button-bg: #2ecc71;
   --button-color: #ffffff;
   --button-hover-bg: #27ae60;
   --button-hover-color: #ffffff;
 
-  --input-bg: #f0f2f5;                 
-  --input-color: #1e1e1e;            
+  --input-bg: #f0f2f5;
+  --input-color: #1e1e1e;
 
-  --result-bg: linear-gradient(90deg, #2ecc71, #6dd5a7); 
+  --result-bg: linear-gradient(90deg, #2ecc71, #6dd5a7);
 
   --navbar-bg: linear-gradient(90deg, #2ecc71, #3498db);
   --navbar-color: #ffffff;
@@ -23,16 +26,16 @@
   --reverse-calculator-result: linear-gradient(135deg, #2ecc71, #6dd5a7);
   --reverse-calculator-input-bg: #ffffff;
   --reverse-calculator-input-border: 1px solid #cceee0;
-  --reverse-calculator-button: #3498db; 
+  --reverse-calculator-button: #3498db;
   --reverse-calculator-button-text: #ffffff;
   --reverse-calculator-button-hover-bg: #2c80b4;
   --reverse-calculator-button-hover-color: #ffffff;
 
-  --about-section-bg: #ffffff; 
-  --about-section-text: #1e1e1e;  
+  --about-section-bg: #ffffff;
+  --about-section-text: #1e1e1e;
 
   --contact-section-bg: #f0f2f5;
-  --contact-section-text: #1e1e1e; 
+  --contact-section-text: #1e1e1e;
 
   --product-list-bg: #ffffff;
   --product-list-hover-bg: #eef9f3;
@@ -45,9 +48,9 @@
 
   --product-list-marker: #2ecc71;
 
-  --scroll-button-bg: #3498db;       
-  --scroll-button-color: #ffffff;    
-  --scroll-button-hover-bg: #2c80b4; 
+  --scroll-button-bg: #3498db;
+  --scroll-button-color: #ffffff;
+  --scroll-button-hover-bg: #2c80b4;
   --scroll-button-hover-color: #ffffff;
 
   --nutrition-bg: linear-gradient(135deg, #2ecc71, #6dd5a7);
@@ -55,30 +58,33 @@
 }
 
 .dark-theme {
-  --bg-color: #0f1720;                  
-  --text-color: #ecf0f1;                
+  --bg-color: #0f1720;
+  --text-color: #ecf0f1;
+  --cancel-text-color: #1e1e1e;
+  --recipe-edit-button-hover: #2ecc71;
+  --recipe-add-button-hover: #2ecc71;
 
-  --component-bg: #1c2530; 
+  --component-bg: #1c2530;
 
   --button-bg: #2ecc71;
   --button-color: #0f1720;
   --button-hover-bg: #27ae60;
   --button-hover-color: #0f1720;
 
-  --input-bg: #253041;                  
-  --input-color: #ecf0f1;                
+  --input-bg: #253041;
+  --input-color: #ecf0f1;
 
-  --result-bg: linear-gradient(90deg, #2ecc71, #3498db); 
+  --result-bg: linear-gradient(90deg, #2ecc71, #3498db);
 
   --navbar-bg: linear-gradient(90deg, #2ecc71, #3498db);
   --navbar-color: #0f1720;
 
   --product-card-total: #020202;
 
-  --reverse-calculator-bg: #1c2530; 
+  --reverse-calculator-bg: #1c2530;
   --reverse-calculator-result: linear-gradient(135deg, #2ecc71, #3498db);
-  --reverse-calculator-input-bg: #253041; 
-  --reverse-calculator-input-text: #ecf0f1; 
+  --reverse-calculator-input-bg: #253041;
+  --reverse-calculator-input-text: #ecf0f1;
   --reverse-calculator-input-border: 1px solid #2ecc71;
 
   --reverse-calculator-button: #3498db;
@@ -86,14 +92,14 @@
   --reverse-calculator-button-hover-bg: #2c80b4;
   --reverse-calculator-button-hover-color: #ffffff;
 
-  --about-section-bg: #1c2530; 
-  --about-section-text: #ecf0f1; 
+  --about-section-bg: #1c2530;
+  --about-section-text: #ecf0f1;
 
-  --contact-section-bg: #253041; 
-  --contact-section-text: #ecf0f1; 
+  --contact-section-bg: #253041;
+  --contact-section-text: #ecf0f1;
 
   --section-link-color: #2ecc71;
-  --section-link-hover: #6dd5a7; 
+  --section-link-hover: #6dd5a7;
 
   --product-list-bg: #1c2530;
   --product-list-hover-bg: #253041;
@@ -106,9 +112,9 @@
 
   --product-list-marker: #2ecc71;
 
-  --scroll-button-bg: #3498db;      
-  --scroll-button-color: #ffffff;    
-  --scroll-button-hover-bg: #2c80b4; 
+  --scroll-button-bg: #3498db;
+  --scroll-button-color: #ffffff;
+  --scroll-button-hover-bg: #2c80b4;
   --scroll-button-hover-color: #ffffff;
 
   --nutrition-bg: linear-gradient(135deg, #2ecc71, #3498db);

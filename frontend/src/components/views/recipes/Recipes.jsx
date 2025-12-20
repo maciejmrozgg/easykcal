@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import { getRecipes, createRecipe, updateRecipe, deleteRecipe } from "./api/recipesRoutes";
 import RecipeForm from "./RecipeForm";
-import './Recipes.css';
+import "./Recipes.css";
 
 const Recipes = ({ user }) => {
   const [recipes, setRecipes] = useState([]);
   const [editingRecipeId, setEditingRecipeId] = useState(null);
+  const [expandedRecipeId, setExpandedRecipeId] = useState(null);
   const [showAddForm, setShowAddForm] = useState(false);
+  const [filter, setFilter] = useState("");
 
   useEffect(() => {
     const fetchRecipes = async () => {
@@ -19,6 +21,11 @@ const Recipes = ({ user }) => {
     };
     fetchRecipes();
   }, []);
+
+  const toggleRecipe = (id) => {
+    setExpandedRecipeId(prev => (prev === id ? null : id));
+    setEditingRecipeId(null);
+  };
 
   const handleFormSubmit = async (recipeData) => {
     if (editingRecipeId) {
@@ -39,16 +46,27 @@ const Recipes = ({ user }) => {
     }
   };
 
+  const filteredRecipes = recipes.filter(r =>
+    r.title.toLowerCase().includes(filter.toLowerCase())
+  );
+
   return (
     <div className="component">
       <h2>Przepisy</h2>
 
-      {/* Przycisk Dodaj przepis */}
+      {/* Filtrowanie */}
+      <input
+        className="recipe-filter"
+        type="text"
+        placeholder="Szukaj przepisu po nazwie..."
+        value={filter}
+        onChange={(e) => setFilter(e.target.value)}
+      />
+
       {!showAddForm && (
         <button onClick={() => setShowAddForm(true)}>Dodaj przepis</button>
       )}
 
-      {/* Formularz dodawania przepisu */}
       {showAddForm && (
         <RecipeForm
           onSubmit={handleFormSubmit}
@@ -56,62 +74,74 @@ const Recipes = ({ user }) => {
         />
       )}
 
-      {recipes.length === 0 && <p>Brak przepisów do wyświetlenia.</p>}
+      {filteredRecipes.length === 0 && <p>Brak przepisów.</p>}
 
-      {recipes.map((r) => (
-        <div key={r.id} className="recipe-card">
-          <h3>{r.title}</h3>
-          {r.description && <p>{r.description}</p>}
+      {filteredRecipes.map((r) => {
+        const isExpanded = expandedRecipeId === r.id;
 
-          {r.ingredients.length > 0 && (
-            <>
-              <strong>Składniki:</strong>
-              <ul>
-                {r.ingredients.map((ing, i) => (
-                  <li key={i}>{ing}</li>
-                ))}
-              </ul>
-            </>
-          )}
-
-          {r.instructions.length > 0 && (
-            <>
-              <strong>Instrukcje:</strong>
-              <ol>
-                {r.instructions.map((inst, i) => (
-                  <li key={i}>{inst}</li>
-                ))}
-              </ol>
-            </>
-          )}
-
-          {user && (user.id === r.user_id || user.role === "admin") && (
-            <button
-              className="editbtn"
-              onClick={() => setEditingRecipeId(r.id)}
+        return (
+          <div key={r.id} className="recipe-card">
+            <h3
+              className="recipe-title"
+              onClick={() => toggleRecipe(r.id)}
             >
-              ✏️ Edytuj
-            </button>
-          )}
-          {user?.role === 'admin' && (
-            <button
-              className="delbtn"
-              onClick={() => handleDelete(r.id)}
-            >
-              🗑️ Usuń
-            </button>
-          )}
+              {r.title} <span>{isExpanded ? "▲" : "▼"}</span>
+            </h3>
 
-          {/* Formularz edycji pod przepisem */}
-          {editingRecipeId === r.id && (
-            <RecipeForm
-              initialData={r}
-              onSubmit={handleFormSubmit}
-              onCancel={() => setEditingRecipeId(null)}
-            />
-          )}
-        </div>
-      ))}
+            <div className={`recipe-details ${isExpanded ? "open" : ""}`}>
+              {r.description && <p>{r.description}</p>}
+
+              {r.ingredients.length > 0 && (
+                <>
+                  <strong>Składniki:</strong>
+                  <ul>
+                    {r.ingredients.map((ing, i) => (
+                      <li key={i}>{ing}</li>
+                    ))}
+                  </ul>
+                </>
+              )}
+
+              {r.instructions.length > 0 && (
+                <>
+                  <strong>Instrukcje:</strong>
+                  <ol>
+                    {r.instructions.map((inst, i) => (
+                      <li key={i}>{inst}</li>
+                    ))}
+                  </ol>
+                </>
+              )}
+
+              {user && (user.id === r.user_id || user.role === "admin") && (
+                <button
+                  className="editbtn"
+                  onClick={() => setEditingRecipeId(r.id)}
+                >
+                  ✏️ Edytuj
+                </button>
+              )}
+
+              {user?.role === "admin" && (
+                <button
+                  className="delbtn"
+                  onClick={() => handleDelete(r.id)}
+                >
+                  🗑️ Usuń
+                </button>
+              )}
+
+              {editingRecipeId === r.id && (
+                <RecipeForm
+                  initialData={r}
+                  onSubmit={handleFormSubmit}
+                  onCancel={() => setEditingRecipeId(null)}
+                />
+              )}
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 };
