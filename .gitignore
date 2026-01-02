@@ -1,12 +1,28 @@
-# Node.js
-node_modules
+# =========================
+# Node.js / environment
+# =========================
+node_modules/
 .env
 
-# Certyfikaty lokalne mkcert
+# =========================
+# Local SSL certificates (mkcert)
+# =========================
 *.pem
 
+# =========================
+# Local helper / debug files
+# =========================
 struktura.txt
 tree.js
 
-seedRecipes.js
-recipes.json
+# =========================
+# Local data & seed files
+# =========================
+backend/data/seedRecipes.js
+backend/data/recipes.json
+
+# =========================
+# Local recipe backups (generated automatically)
+# =========================
+backend/data/recipes.backup*.json
+backend/data/exportRecipes.js
