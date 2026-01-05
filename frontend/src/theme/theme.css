@@ -55,6 +55,10 @@
 
   --nutrition-bg: linear-gradient(135deg, #2ecc71, #6dd5a7);
   --nutrition-text: #ffffff;
+
+  --month-bg: #3498db;       
+  --month-color: #fff;        
+  --month-hover: #5dade2; 
 }
 
 .dark-theme {
@@ -119,4 +123,8 @@
 
   --nutrition-bg: linear-gradient(135deg, #2ecc71, #3498db);
   --nutrition-text: #ffffff;
+
+  --month-bg: #2ecc71;  
+  --month-color: #0f1720;     
+  --month-hover: #27ae60; 
 }
