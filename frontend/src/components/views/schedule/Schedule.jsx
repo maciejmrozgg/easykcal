@@ -1,4 +1,4 @@
-import { useState } from "react"; 
+import { useState } from "react";
 import "./Schedule.css";
 
 const MONTHS = [
@@ -12,46 +12,100 @@ const Schedule = () => {
   const [year, setYear] = useState(currentYear);
   const [selectedMonth, setSelectedMonth] = useState(null);
 
+  const handleBackToMonths = () => {
+    setSelectedMonth(null);
+  }
+
+  const getDaysInMonth = (year, monthIndex) => {
+    const days = [];
+    const date = new Date(year, monthIndex, 1);
+
+    while (date.getMonth() === monthIndex) {
+      days.push(new Date(date));
+      date.setDate(date.getDate() + 1);
+    }
+
+    return days;
+  };
+
   return (
     <section className="component schedule">
 
-      {/* Nawigacja roku */}
-      <div className="year-navigation">
-        <button
-          type="button"
-          className="year-btn"
-          aria-label="Poprzedni rok"
-          onClick={() => setYear(y => y - 1)}
-        >
-          ◀
-        </button>
+      {selectedMonth === null ? (
+        <>
+          {/* ================== WIDOK WYBORU MIESIĄCA ================== */}
+          <div className="year-navigation">
+            <button
+              type="button"
+              className="year-btn"
+              onClick={() => setYear(y => y - 1)}
+            >
+              ◀
+            </button>
 
-        <span className="year" aria-live="polite">{year}</span>
+            <span className="year">{year}</span>
 
-        <button
-          type="button"
-          className="year-btn"
-          aria-label="Następny rok"
-          onClick={() => setYear(y => y + 1)}
-        >
-          ▶
-        </button>
-      </div>
+            <button
+              type="button"
+              className="year-btn"
+              onClick={() => setYear(y => y + 1)}
+            >
+              ▶
+            </button>
+          </div>
 
-      {/* Siatka miesięcy */}
-      <div className="months-grid">
-        {MONTHS.map((month, index) => (
-          <button
-            key={month}
-            type="button"
-            className={`month-tile ${selectedMonth === index ? "active" : ""}`}
-            onClick={() => setSelectedMonth(index)}
-            aria-pressed={selectedMonth === index}
-          >
-            {month}
-          </button>
-        ))}
-      </div>
+          <div className="months-grid">
+            {MONTHS.map((month, index) => (
+              <button
+                key={month}
+                type="button"
+                className="month-tile"
+                onClick={() => setSelectedMonth(index)}
+              >
+                {month}
+              </button>
+            ))}
+          </div>
+        </>
+      ) : (
+        <>
+          {/* ================== WIDOK MIESIĄCA ================== */}
+          <div className="month-view">
+
+            <button
+              type="button"
+              className="back-btn"
+              onClick={handleBackToMonths}
+            >
+              ← Wróć do miesięcy
+            </button>
+
+            <h3>
+              {MONTHS[selectedMonth]} {year}
+            </h3>
+
+            <div className="month-layout">
+              {/* Lewy panel */}
+              <aside className="days-list">
+                {getDaysInMonth(year, selectedMonth).map((day) => (
+                  <div key={day.toISOString()} className="day-item">
+                    {day.toLocaleDateString("pl-PL")}
+                  </div>
+                ))}
+              </aside>
+
+              {/* Prawy panel */}
+              <main className="month-content">
+                <div className="placeholder">
+                  Tu będzie tabela posiłków
+                </div>
+              </main>
+            </div>
+
+          </div>
+        </>
+      )}
+
     </section>
   );
 };
