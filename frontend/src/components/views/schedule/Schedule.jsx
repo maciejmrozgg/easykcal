@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./Schedule.css";
-import MonthView from "./MonthView";
+import MonthView from "./components/MonthView/MonthView";
 
 const MONTHS = [
   "Styczeń", "Luty", "Marzec", "Kwiecień",
