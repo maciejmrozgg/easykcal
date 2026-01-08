@@ -1,23 +1,27 @@
+import { useState } from "react";
 import "./MealsTable.css";
+import IngredientModal from "../modals/IngredientModal";
 
 const MealsTable = ({
   meals,
   days,
   onAddMeal,
   onRenameMeal,
-  onAddIngredient,
+  onUpdateIngredient, // funkcja CRUD dla składników
   maxMeals
 }) => {
-  // Data | posiłki | Razem | +
   const columnsTemplate = `140px repeat(${meals.length}, minmax(180px, 1fr)) 180px 140px`;
 
+  /* ===== STATE MODALA ===== */
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalData, setModalData] = useState(null);
+  const [modalDayIndex, setModalDayIndex] = useState(null);
+  const [modalMealId, setModalMealId] = useState(null);
+  const [modalIngredientIndex, setModalIngredientIndex] = useState(null);
+
   /* ===== HELPERS ===== */
-
   const getMealTotals = (ingredients) => {
-    if (!Array.isArray(ingredients)) {
-      return { kcal: 0, weight: 0 };
-    }
-
+    if (!Array.isArray(ingredients)) return { kcal: 0, weight: 0 };
     return ingredients.reduce(
       (acc, i) => ({
         kcal: acc.kcal + (i.kcal || 0),
@@ -28,43 +32,32 @@ const MealsTable = ({
   };
 
   const getDayTotals = (day) => {
-    if (!day?.meals) {
-      return { kcal: 0, weight: 0 };
-    }
-
-    return Object.values(day.meals).reduce(
-      (acc, meal) => {
-        if (!Array.isArray(meal)) return acc;
-
-        meal.forEach(i => {
-          acc.kcal += i.kcal || 0;
-          acc.weight += i.weight || 0;
-        });
-
-        return acc;
-      },
-      { kcal: 0, weight: 0 }
-    );
+    if (!day?.meals) return { kcal: 0, weight: 0 };
+    return Object.values(day.meals).reduce((acc, meal) => {
+      if (!Array.isArray(meal)) return acc;
+      meal.forEach(i => {
+        acc.kcal += i.kcal || 0;
+        acc.weight += i.weight || 0;
+      });
+      return acc;
+    }, { kcal: 0, weight: 0 });
   };
 
-  const handleAddIngredient = (dayIndex, mealId) => {
-    const name = prompt("Nazwa składnika:");
-    if (!name) return;
-
-    const weight = Number(prompt("Waga (g):")) || 0;
-    const kcal = Number(prompt("Kalorie:")) || 0;
-
-    onAddIngredient(dayIndex, mealId, { name, weight, kcal });
+  /* ===== MODAL HANDLER ===== */
+  const openIngredientModal = (dayIndex, mealId, ingredient = null, ingredientIndex = null) => {
+    setModalDayIndex(dayIndex);
+    setModalMealId(mealId);
+    setModalData(ingredient);
+    setModalIngredientIndex(ingredientIndex);
+    setModalOpen(true);
   };
 
   /* ===== RENDER ===== */
-
   return (
     <div className="meals-table">
-      {/* ===== HEADER ===== */}
+      {/* HEADER */}
       <div className="table-header" style={{ gridTemplateColumns: columnsTemplate }}>
         <div className="date-column">Data</div>
-
         {meals.map(meal => (
           <div key={meal.id} className="meal-column">
             <input
@@ -74,9 +67,7 @@ const MealsTable = ({
             />
           </div>
         ))}
-
         <div className="meal-column">Razem</div>
-
         <button
           className="add-meal"
           onClick={onAddMeal}
@@ -86,54 +77,58 @@ const MealsTable = ({
         </button>
       </div>
 
-      {/* ===== BODY ===== */}
+      {/* BODY */}
       <div className="table-body">
         {days.map((day, dayIndex) => {
           const dayTotals = getDayTotals(day);
 
           return (
-            <div
-              key={day.date}
-              className="table-row"
-              style={{ gridTemplateColumns: columnsTemplate }}
-            >
+            <div key={day.date} className="table-row" style={{ gridTemplateColumns: columnsTemplate }}>
               <div className="date-cell">{day.date}</div>
 
               {meals.map(meal => {
                 const ingredients = Array.isArray(day.meals?.[meal.id])
                   ? day.meals[meal.id]
                   : [];
-
                 const totals = getMealTotals(ingredients);
 
                 return (
-                  <div
-                    key={meal.id}
-                    className="meal-cell"
-                    onClick={() => handleAddIngredient(dayIndex, meal.id)}
-                    title="Kliknij, aby dodać składnik"
-                    style={{ cursor: "pointer" }}
-                  >
-                    {ingredients.map((i, idx) => (
-                      <div key={idx}>
-                        {i.name} ({i.weight}g / {i.kcal} kcal)
-                      </div>
-                    ))}
+                  <div key={meal.id} className="meal-cell">
+                    {/* Lista składników */}
+                    <ul style={{ paddingLeft: "1rem", margin: "0.2rem 0" }}>
+                      {ingredients.map((i, idx) => (
+                        <li
+                          key={idx}
+                          onClick={() => openIngredientModal(dayIndex, meal.id, i, idx)}
+                          style={{ cursor: "pointer" }}
+                          title="Kliknij, aby edytować składnik"
+                        >
+                          {i.name} ({i.weight}g / {i.kcal} kcal)
+                        </li>
+                      ))}
+                    </ul>
 
+                    {/* Sumy posiłku */}
                     {ingredients.length > 0 && (
                       <div style={{ fontWeight: "bold", marginTop: "4px" }}>
                         {totals.weight}g / {totals.kcal} kcal
                       </div>
                     )}
+
+                    {/* Dodaj nowy składnik */}
+                    <div
+                      onClick={() => openIngredientModal(dayIndex, meal.id)}
+                      style={{ cursor: "pointer", color: "#999", marginTop: "4px" }}
+                    >
+                      + Dodaj składnik
+                    </div>
                   </div>
                 );
               })}
 
-              {/* ===== RAZEM ===== */}
+              {/* Sumy dnia */}
               <div className="meal-cell total">
-                <strong>
-                  {dayTotals.weight}g / {dayTotals.kcal} kcal
-                </strong>
+                <strong>{dayTotals.weight}g / {dayTotals.kcal} kcal</strong>
               </div>
 
               <div /> {/* kolumna pod przycisk + */}
@@ -141,6 +136,21 @@ const MealsTable = ({
           );
         })}
       </div>
+
+      {/* MODAL */}
+      <IngredientModal
+        open={modalOpen}
+        initialData={modalData}
+        onClose={() => setModalOpen(false)}
+        onSave={(ingredient) => {
+          onUpdateIngredient(modalDayIndex, modalMealId, modalIngredientIndex, ingredient);
+          setModalOpen(false);
+        }}
+        onDelete={() => {
+          onUpdateIngredient(modalDayIndex, modalMealId, modalIngredientIndex, null);
+          setModalOpen(false);
+        }}
+      />
     </div>
   );
 };

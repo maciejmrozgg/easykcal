@@ -76,6 +76,28 @@ const MonthView = ({ year, month, onBack }) => {
     );
   };
 
+  const handleUpdateIngredient = (dayIndex, mealId, ingredientIndex, ingredient) => {
+    const newDays = [...days];
+    const mealIngredients = newDays[dayIndex].meals[mealId] || [];
+
+    if (ingredient) {
+      // edycja lub dodanie
+      if (ingredientIndex !== null) {
+        mealIngredients[ingredientIndex] = ingredient; 
+      } else {
+        mealIngredients.push(ingredient);
+      }
+    } else {
+      // usuwanie
+      if (ingredientIndex !== null) {
+        mealIngredients.splice(ingredientIndex, 1);
+      }
+    }
+
+    newDays[dayIndex].meals[mealId] = mealIngredients;
+    setDays(newDays);
+  };
+
   /* ===== RENDER ===== */
 
   return (
@@ -90,6 +112,7 @@ const MonthView = ({ year, month, onBack }) => {
         onAddMeal={addMealColumn}
         onRenameMeal={renameMeal}
         onAddIngredient={handleAddIngredient}
+        onUpdateIngredient={handleUpdateIngredient}
         maxMeals={MAX_MEALS}
       />
     </div>
