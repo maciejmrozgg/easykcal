@@ -1,48 +1,95 @@
-import { useState, useMemo } from "react";
+import { useState, useEffect } from "react";
 import MealsTable from "../MealsTable/MealsTable";
 import "./MonthView.css";
 
 const DEFAULT_MEALS = [
-  { id: "breakfast", name: "Śniadanie" },
-  { id: "lunch", name: "Obiad" },
-  { id: "dinner", name: "Kolacja" }
+  { id: "1", name: "Posilek 1" },
+  { id: "2", name: "Posilek 2" },
+  { id: "3", name: "Posilek 3" },
+  { id: "4", name: "Posilek 4" }
 ];
 
 const MAX_MEALS = 6;
 
 const MonthView = ({ year, month, onBack }) => {
   const [meals, setMeals] = useState(DEFAULT_MEALS);
+  const [days, setDays] = useState([]);
 
-  // dni miesiąca
-  const days = useMemo(() => {
+  /* ===== INIT DAYS ===== */
+  useEffect(() => {
     const daysInMonth = new Date(year, month + 1, 0).getDate();
-    return Array.from({ length: daysInMonth }, (_, i) => ({
-      date: `${year}-${String(month + 1).padStart(2, "0")}-${String(i + 1).padStart(2, "0")}`,
-      meals: Object.fromEntries(DEFAULT_MEALS.map(meal => [meal.id, null]))
+
+    const initialDays = Array.from({ length: daysInMonth }, (_, i) => ({
+      date: `${year}-${String(month + 1).padStart(2, "0")}-${String(
+        i + 1
+      ).padStart(2, "0")}`,
+      meals: Object.fromEntries(
+        DEFAULT_MEALS.map(meal => [meal.id, []])
+      )
     }));
+
+    setDays(initialDays);
   }, [year, month]);
 
-  // dodanie nowego posiłku z limitem
+  /* ===== MEALS ===== */
+
   const addMealColumn = () => {
     if (meals.length >= MAX_MEALS) return;
+
     const id = crypto.randomUUID();
     const name = "Nowy posiłek";
+
     setMeals(prev => [...prev, { id, name }]);
+
+    setDays(prev =>
+      prev.map(day => ({
+        ...day,
+        meals: {
+          ...day.meals,
+          [id]: []
+        }
+      }))
+    );
   };
 
-  // edycja nazwy posiłku
   const renameMeal = (id, newName) => {
-    setMeals(prev => prev.map(m => m.id === id ? { ...m, name: newName } : m));
+    setMeals(prev =>
+      prev.map(m => (m.id === id ? { ...m, name: newName } : m))
+    );
   };
+
+  /* ===== INGREDIENTS ===== */
+
+  const handleAddIngredient = (dayIndex, mealId, ingredient) => {
+    setDays(prev =>
+      prev.map((day, i) => {
+        if (i !== dayIndex) return day;
+
+        return {
+          ...day,
+          meals: {
+            ...day.meals,
+            [mealId]: [...(day.meals[mealId] || []), ingredient]
+          }
+        };
+      })
+    );
+  };
+
+  /* ===== RENDER ===== */
 
   return (
     <div className="month-view">
-      <button className="back-btn" onClick={onBack}>← Wybierz miesiąc</button>
+      <button className="back-btn" onClick={onBack}>
+        ← Wybierz miesiąc
+      </button>
+
       <MealsTable
         meals={meals}
         days={days}
         onAddMeal={addMealColumn}
         onRenameMeal={renameMeal}
+        onAddIngredient={handleAddIngredient}
         maxMeals={MAX_MEALS}
       />
     </div>

@@ -1,6 +1,10 @@
 .meals-table {
   width: 100%;
   overflow-x: auto;
+  overflow-y: auto; 
+  max-height: 80vh; 
+  display: grid;
+  grid-template-rows: auto 1fr; 
 }
 
 /* GRID */
@@ -11,9 +15,13 @@
 }
 
 .table-header {
-  font-weight: bold;
+  display: grid;
+  position: sticky;  
+  top: 0;            
+  background-color: var(--component-bg); 
+  z-index: 10;
+  padding-bottom: 0.5rem;
   border-bottom: 2px solid var(--border-color, #444);
-  margin-bottom: 0.5rem;
 }
 
 .table-row {
