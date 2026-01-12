@@ -14,6 +14,10 @@ const MAX_MEALS = 6;
 const MonthView = ({ year, month, onBack }) => {
   const [meals, setMeals] = useState(DEFAULT_MEALS);
   const [days, setDays] = useState([]);
+  const [monthlyLimits, setMonthlyLimits] = useState({});
+
+  const monthKey = `${year}-${String(month + 1).padStart(2, "0")}`;
+  const currentLimit = monthlyLimits[monthKey] ?? 1500;
 
   /* ===== INIT DAYS ===== */
   useEffect(() => {
@@ -60,22 +64,6 @@ const MonthView = ({ year, month, onBack }) => {
 
   /* ===== INGREDIENTS ===== */
 
-  const handleAddIngredient = (dayIndex, mealId, ingredient) => {
-    setDays(prev =>
-      prev.map((day, i) => {
-        if (i !== dayIndex) return day;
-
-        return {
-          ...day,
-          meals: {
-            ...day.meals,
-            [mealId]: [...(day.meals[mealId] || []), ingredient]
-          }
-        };
-      })
-    );
-  };
-
   const handleUpdateIngredient = (dayIndex, mealId, ingredientIndex, ingredient) => {
     const newDays = [...days];
     const mealIngredients = newDays[dayIndex].meals[mealId] || [];
@@ -83,7 +71,7 @@ const MonthView = ({ year, month, onBack }) => {
     if (ingredient) {
       // edycja lub dodanie
       if (ingredientIndex !== null) {
-        mealIngredients[ingredientIndex] = ingredient; 
+        mealIngredients[ingredientIndex] = ingredient;
       } else {
         mealIngredients.push(ingredient);
       }
@@ -102,16 +90,33 @@ const MonthView = ({ year, month, onBack }) => {
 
   return (
     <div className="month-view">
-      <button className="back-btn" onClick={onBack}>
-        ← Wybierz miesiąc
-      </button>
+      <div className="month-header">
+        <button className="back-btn" onClick={onBack}>
+          ← Wybierz miesiąc
+        </button>
+
+        <div className="kcal-limit">
+          Limit kcal:
+          <input
+            type="number"
+            value={currentLimit}
+            onChange={(e) =>
+              setMonthlyLimits(prev => ({
+                ...prev,
+                [monthKey]: Number(e.target.value)
+              }))
+            }
+            min={0}
+          />
+        </div>
+      </div>
 
       <MealsTable
         meals={meals}
         days={days}
+        kcalLimit={currentLimit}
         onAddMeal={addMealColumn}
         onRenameMeal={renameMeal}
-        onAddIngredient={handleAddIngredient}
         onUpdateIngredient={handleUpdateIngredient}
         maxMeals={MAX_MEALS}
       />

@@ -26,3 +26,19 @@
   opacity: 0.6;
   font-style: italic;
 }
+
+.month-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.kcal-limit {
+  align-items: center;
+  font-weight: bold;
+}
+
+.kcal-limit input {
+  width: 90px;
+  padding: 0.2rem 0.4rem;
+}

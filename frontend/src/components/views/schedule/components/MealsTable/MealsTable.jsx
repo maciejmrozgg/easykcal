@@ -5,6 +5,7 @@ import IngredientModal from "../modals/IngredientModal";
 const MealsTable = ({
   meals,
   days,
+  kcalLimit,
   onAddMeal,
   onRenameMeal,
   onUpdateIngredient, // funkcja CRUD dla składników
@@ -41,6 +42,13 @@ const MealsTable = ({
       });
       return acc;
     }, { kcal: 0, weight: 0 });
+  };
+
+  const getLimitClass = (kcal, limit) => {
+    if (!limit) return "normal";
+    if (kcal > limit) return "danger";
+    if (kcal > limit - 150) return "warning";
+    return "normal";
   };
 
   /* ===== MODAL HANDLER ===== */
@@ -127,7 +135,7 @@ const MealsTable = ({
               })}
 
               {/* Sumy dnia */}
-              <div className="meal-cell total">
+              <div className={`meal-cell total ${getLimitClass(dayTotals.kcal, kcalLimit)}`}>
                 <strong>{dayTotals.weight}g / {dayTotals.kcal} kcal</strong>
               </div>
 
