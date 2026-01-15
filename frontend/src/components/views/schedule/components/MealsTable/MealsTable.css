@@ -67,11 +67,11 @@
 
 /* LIMIT KALORII */
 .meal-cell.total.warning {
-  background: #fff3cd;
+  background: yellow;
   color: black;
 }
 
 .meal-cell.total.danger {
-  background: #f8d7da;
+  background: red;
   color: black;
 }
