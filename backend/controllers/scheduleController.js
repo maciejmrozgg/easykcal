@@ -1,51 +1,172 @@
 const ScheduleModel = require("../models/scheduleModel");
 
-exports.getSchedule = async (req, res) => {
+// GET full month
+exports.getMonthlySchedule = async (req, res) => {
     try {
         const userId = req.user.id;
-        const schedule = await ScheduleModel.getAllByUser(userId);
+        const { year, month } = req.params;
+
+        const schedule = await ScheduleModel.getByMonth(userId, Number(year), Number(month));
         res.json(schedule);
-    } catch (error) {
-        res.status(500).json({ error: "Failed to fetch schedule" });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Failed to fetch monthly schedule" });
     }
 };
 
-exports.createScheduleItem = async (req, res) => {
+// PATCH monthly kcal limit
+exports.updateMonthlyLimits = async (req, res) => {
     try {
         const userId = req.user.id;
-        const { dayOfWeek, mealName, recipeId } = req.body;
+        const { year, month } = req.params;
+        const { deficitLimit, zeroLimit } = req.body;
 
-        if (!dayOfWeek || !mealName) {
-            return res.status(400).json({ error: "Missing fields" });
+        if (
+            deficitLimit == null ||
+            zeroLimit == null ||
+            deficitLimit < 0 ||
+            zeroLimit < deficitLimit
+        ) {
+            return res.status(400).json({ error: "Invalid limits" });
         }
 
-        const item = await ScheduleModel.create(userId, dayOfWeek, mealName, recipeId);
-        
-        res.status(201).json({
-            id: item.id,
-            user_id: item.user_id,
-            dayOfWeek: item.dayOfWeek || item.day_of_week, 
-            mealName: item.mealName || item.meal_name,    
-            recipeId: item.recipeId || item.recipe_id,
-            created_at: item.created_at,
-        });
-    } catch (error) {
-        res.status(500).json({ error: "Failed to create schedule item" });
+        const schedule = await ScheduleModel.updateLimits(
+            userId,
+            Number(year),
+            Number(month),
+            deficitLimit,
+            zeroLimit
+        );
+
+        res.json(schedule);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Failed to update limits" });
     }
 };
 
-exports.deleteScheduleItem = async (req, res) => {
+// Meals CRUD
+exports.addMeal = async (req, res) => {
     try {
         const userId = req.user.id;
-        const id = req.params.id;
+        const { year, month } = req.params;
+        const { name } = req.body;
 
-        const deleted = await ScheduleModel.delete(id, userId);
-        if (!deleted) {
-            return res.status(404).json({ error: "Schedule item not found" });
-        }
+        if (!name) return res.status(400).json({ error: "Meal name required" });
 
-        res.json({ message: "Schedule item deleted" });
-    } catch (error) {
-        res.status(500).json({ error: "Failed to delete schedule item" });
+        const schedule = await ScheduleModel.addMeal(userId, Number(year), Number(month), name);
+        res.json(schedule);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Failed to add meal" });
+    }
+};
+
+exports.updateMealName = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const { year, month, mealId } = req.params;
+        const { name } = req.body;
+
+        if (!name) return res.status(400).json({ error: "Meal name required" });
+
+        const schedule = await ScheduleModel.updateMealName(userId, Number(year), Number(month), mealId, name);
+        res.json(schedule);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Failed to update meal name" });
+    }
+};
+
+exports.deleteMeal = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const { year, month, mealId } = req.params;
+
+        const schedule = await ScheduleModel.deleteMeal(
+            userId,
+            Number(year),
+            Number(month),
+            mealId
+        );
+
+        res.json(schedule);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Failed to delete meal" });
+    }
+};
+
+// Ingredients CRUD
+exports.addIngredient = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const { year, month, date } = req.params; // <-- data z URL
+        const { mealId, name, weight, kcal } = req.body;
+
+        if (!name || weight == null || kcal == null)
+            return res.status(400).json({ error: "Invalid ingredient" });
+
+        const schedule = await ScheduleModel.addIngredient(
+            userId,
+            Number(year),
+            Number(month),
+            date,
+            { mealId, name, weight, kcal }
+        );
+
+        res.json(schedule);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Failed to add ingredient" });
+    }
+};
+
+exports.updateIngredient = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const { year, month, date, ingredientIndex } = req.params;
+        const ingredient = req.body;
+
+        if (!ingredient?.name || ingredient.weight == null || ingredient.kcal == null)
+            return res.status(400).json({ error: "Invalid ingredient" });
+
+        const schedule = await ScheduleModel.updateIngredient(
+            userId,
+            Number(year),
+            Number(month),
+            date,              // <-- używamy daty
+            ingredient.mealId, // mealId w body
+            Number(ingredientIndex),
+            ingredient
+        );
+
+        res.json(schedule);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Failed to update ingredient" });
+    }
+};
+
+exports.deleteIngredient = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const { year, month, date, ingredientIndex } = req.params;
+
+        const { mealId } = req.body;
+        const schedule = await ScheduleModel.deleteIngredient(
+            userId,
+            Number(year),
+            Number(month),
+            date,
+            mealId,
+            Number(ingredientIndex)
+        );
+
+
+        res.json(schedule);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Failed to delete ingredient" });
     }
 };
