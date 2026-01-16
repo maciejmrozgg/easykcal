@@ -2,6 +2,34 @@ import { useState } from "react";
 import "./MealsTable.css";
 import IngredientModal from "../modals/IngredientModal";
 
+/* ===== HEADER POSIŁKU (rename na blur) ===== */
+const MealHeader = ({ meal, onRenameMeal, onDeleteMeal }) => {
+  const [value, setValue] = useState(meal.name);
+
+  return (
+    <div className="meal-column">
+      <input
+        className="meal-name-input"
+        value={value}
+        onChange={e => setValue(e.target.value)}
+        onBlur={() => {
+          if (value !== meal.name) {
+            onRenameMeal(meal.id, value);
+          }
+        }}
+      />
+      <button
+        className="delete-meal"
+        onClick={() => onDeleteMeal(meal.id)}
+        title="Usuń posiłek"
+      >
+        ❌
+      </button>
+    </div>
+  );
+};
+
+/* ===== GŁÓWNA TABELA ===== */
 const MealsTable = ({
   meals,
   days,
@@ -15,7 +43,7 @@ const MealsTable = ({
 }) => {
   const columnsTemplate = `140px repeat(${meals.length}, minmax(180px, 1fr)) 180px 140px`;
 
-  /* ===== STATE MODALA ===== */
+  /* ===== MODAL STATE ===== */
   const [modalOpen, setModalOpen] = useState(false);
   const [modalData, setModalData] = useState(null);
   const [modalDayIndex, setModalDayIndex] = useState(null);
@@ -36,23 +64,26 @@ const MealsTable = ({
 
   const getDayTotals = (day) => {
     if (!day?.meals) return { kcal: 0, weight: 0 };
-    return Object.values(day.meals).reduce((acc, meal) => {
-      if (!Array.isArray(meal)) return acc;
-      meal.forEach(i => {
-        acc.kcal += i.kcal || 0;
-        acc.weight += i.weight || 0;
-      });
-      return acc;
-    }, { kcal: 0, weight: 0 });
+    return Object.values(day.meals).reduce(
+      (acc, meal) => {
+        if (!Array.isArray(meal)) return acc;
+        meal.forEach(i => {
+          acc.kcal += i.kcal || 0;
+          acc.weight += i.weight || 0;
+        });
+        return acc;
+      },
+      { kcal: 0, weight: 0 }
+    );
   };
 
-  const getLimitClass = (kcal, deficit, zero) => {
-    if (kcal > zero ) return "danger";
-    if (kcal > deficit) return "warning";
+  const getLimitClass = (kcal) => {
+    if (kcal > zeroLimit) return "danger";
+    if (kcal > deficitLimit) return "warning";
     return "normal";
   };
 
-  /* ===== MODAL HANDLER ===== */
+  /* ===== MODAL HANDLERS ===== */
   const openIngredientModal = (dayIndex, mealId, ingredient = null, ingredientIndex = null) => {
     setModalDayIndex(dayIndex);
     setModalMealId(mealId);
@@ -68,20 +99,12 @@ const MealsTable = ({
       <div className="table-header" style={{ gridTemplateColumns: columnsTemplate }}>
         <div className="date-column">Data</div>
         {meals.map(meal => (
-          <div key={meal.id} className="meal-column">
-            <input
-              className="meal-name-input"
-              value={meal.name}
-              onChange={e => onRenameMeal(meal.id, e.target.value)}
-            />
-            <button
-              className="delete-meal"
-              onClick={() => onDeleteMeal(meal.id)}
-              title="Usuń posiłek"
-            >
-              ❌
-            </button>
-          </div>
+          <MealHeader
+            key={meal.id}
+            meal={meal}
+            onRenameMeal={onRenameMeal}
+            onDeleteMeal={onDeleteMeal}
+          />
         ))}
         <div className="meal-column">Razem</div>
         <button
@@ -99,7 +122,11 @@ const MealsTable = ({
           const dayTotals = getDayTotals(day);
 
           return (
-            <div key={day.date} className="table-row" style={{ gridTemplateColumns: columnsTemplate }}>
+            <div
+              key={day.date}
+              className="table-row"
+              style={{ gridTemplateColumns: columnsTemplate }}
+            >
               <div className="date-cell">{day.date}</div>
 
               {meals.map(meal => {
@@ -110,7 +137,6 @@ const MealsTable = ({
 
                 return (
                   <div key={meal.id} className="meal-cell">
-                    {/* Lista składników */}
                     <ul style={{ paddingLeft: "1rem", margin: "0.2rem 0" }}>
                       {ingredients.map((i, idx) => (
                         <li
@@ -124,14 +150,12 @@ const MealsTable = ({
                       ))}
                     </ul>
 
-                    {/* Sumy posiłku */}
                     {ingredients.length > 0 && (
                       <div style={{ fontWeight: "bold", marginTop: "4px" }}>
                         {totals.weight}g / {totals.kcal} kcal
                       </div>
                     )}
 
-                    {/* Dodaj nowy składnik */}
                     <div
                       onClick={() => openIngredientModal(dayIndex, meal.id)}
                       style={{ cursor: "pointer", color: "#999", marginTop: "4px" }}
@@ -142,12 +166,11 @@ const MealsTable = ({
                 );
               })}
 
-              {/* Sumy dnia */}
-              <div className={`meal-cell total ${getLimitClass(dayTotals.kcal, deficitLimit, zeroLimit)}`}>
+              <div className={`meal-cell total ${getLimitClass(dayTotals.kcal)}`}>
                 <strong>{dayTotals.weight}g / {dayTotals.kcal} kcal</strong>
               </div>
 
-              <div /> {/* kolumna pod przycisk + */}
+              <div />
             </div>
           );
         })}
@@ -159,11 +182,21 @@ const MealsTable = ({
         initialData={modalData}
         onClose={() => setModalOpen(false)}
         onSave={(ingredient) => {
-          onUpdateIngredient(modalDayIndex, modalMealId, modalIngredientIndex, ingredient);
+          onUpdateIngredient(
+            modalDayIndex,
+            modalMealId,
+            modalIngredientIndex,
+            ingredient
+          );
           setModalOpen(false);
         }}
         onDelete={() => {
-          onUpdateIngredient(modalDayIndex, modalMealId, modalIngredientIndex, null);
+          onUpdateIngredient(
+            modalDayIndex,
+            modalMealId,
+            modalIngredientIndex,
+            null
+          );
           setModalOpen(false);
         }}
       />

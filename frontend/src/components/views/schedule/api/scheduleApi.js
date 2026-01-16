@@ -1,89 +1,69 @@
-const API_BASE = import.meta.env.VITE_API_URL + '/api/schedule';
+const API_BASE = import.meta.env.VITE_API_URL + "/api/schedule";
+
+const handleResponse = async (res, errorMsg) => {
+  if (!res.ok) throw new Error(errorMsg);
+  return res.json();
+};
 
 const scheduleApi = {
-  getMonth: async (year, month) => {
-    const res = await fetch(`${API_BASE}/${year}/${month}`, {
+  getMonth: (year, month) =>
+    fetch(`${API_BASE}/${year}/${month}`, {
       credentials: "include",
-    });
-    if (!res.ok) throw new Error("Failed to fetch schedule");
-    return res.json();
-  },
+    }).then(res => handleResponse(res, "Failed to fetch schedule")),
 
-  updateLimits: async (year, month, deficitLimit, zeroLimit) => {
-  const res = await fetch(`${API_BASE}/${year}/${month}/limits`, {
-    method: "PATCH",
-    headers: { "Content-Type": "application/json" },
-    credentials: "include",
-    body: JSON.stringify({ deficitLimit, zeroLimit }),
-  });
-  if (!res.ok) throw new Error("Failed to update limits");
-  return res.json();
-},
+  updateLimits: (year, month, deficitLimit, zeroLimit) =>
+    fetch(`${API_BASE}/${year}/${month}/limits`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({ deficitLimit, zeroLimit }),
+    }).then(res => handleResponse(res, "Failed to update limits")),
 
-  addMeal: async (year, month, name) => {
-    const res = await fetch(`${API_BASE}/${year}/${month}/meal`, {
+  addMeal: (year, month, name) =>
+    fetch(`${API_BASE}/${year}/${month}/meal`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
       body: JSON.stringify({ name }),
-    });
-    if (!res.ok) throw new Error("Failed to add meal");
-    return res.json();
-  },
+    }).then(res => handleResponse(res, "Failed to add meal")),
 
-  updateMealName: async (year, month, mealId, name) => {
-    const res = await fetch(`${API_BASE}/${year}/${month}/meal/${mealId}`, {
+  updateMealName: (year, month, mealId, name) =>
+    fetch(`${API_BASE}/${year}/${month}/meal/${mealId}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
       body: JSON.stringify({ name }),
-    });
-    if (!res.ok) throw new Error("Failed to rename meal");
-    return res.json();
-  },
+    }).then(res => handleResponse(res, "Failed to rename meal")),
 
-  deleteMeal: async (year, month, mealId) => {
-    const res = await fetch(`${API_BASE}/${year}/${month}/meal/${mealId}`, {
+  deleteMeal: (year, month, mealId) =>
+    fetch(`${API_BASE}/${year}/${month}/meal/${mealId}`, {
       method: "DELETE",
       credentials: "include",
-    });
-    if (!res.ok) throw new Error("Failed to delete meal");
-    return res.json();
-  },
+    }).then(res => handleResponse(res, "Failed to delete meal")),
 
-  addIngredient: async (year, month, date, ingredient) => {
-  const res = await fetch(`${API_BASE}/${year}/${month}/day/${date}/ingredient`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    credentials: "include",
-    body: JSON.stringify(ingredient),
-  });
-  if (!res.ok) throw new Error("Failed to add ingredient");
-  return res.json();
-},
+  addIngredient: (year, month, date, ingredient) =>
+    fetch(`${API_BASE}/${year}/${month}/day/${date}/ingredient`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify(ingredient),
+    }).then(res => handleResponse(res, "Failed to add ingredient")),
 
-
-  updateIngredient: async (year, month, date, ingredientIndex, ingredient) => {
-    const res = await fetch(`${API_BASE}/${year}/${month}/day/${date}/ingredient/${ingredientIndex}`, {
+  updateIngredient: (year, month, date, ingredientIndex, ingredient) =>
+    fetch(`${API_BASE}/${year}/${month}/day/${date}/ingredient/${ingredientIndex}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
       body: JSON.stringify(ingredient),
-    });
-    if (!res.ok) throw new Error("Failed to update ingredient");
-    return res.json();
-  },
+    }).then(res => handleResponse(res, "Failed to update ingredient")),
 
-  deleteIngredient: async (year, month, date, ingredientIndex, mealId) => {
-    const res = await fetch(`${API_BASE}/${year}/${month}/day/${date}/ingredient/${ingredientIndex}`, {
+  deleteIngredient: (year, month, date, ingredientIndex, mealId) =>
+    fetch(`${API_BASE}/${year}/${month}/day/${date}/ingredient/${ingredientIndex}`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
-      body: JSON.stringify({ mealId })
-    });
-    if (!res.ok) throw new Error("Failed to delete ingredient");
-    return res.json();
-  },
+      body: JSON.stringify({ mealId }),
+    }).then(res => handleResponse(res, "Failed to delete ingredient")),
 };
 
 export default scheduleApi;
