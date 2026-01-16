@@ -1,4 +1,5 @@
 const pool = require("../config/db");
+const crypto = require("crypto");
 
 const DEFAULT_MEALS = [
   { id: "1", name: "Posiłek 1" },

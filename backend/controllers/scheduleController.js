@@ -6,7 +6,7 @@ exports.getMonthlySchedule = async (req, res) => {
         const userId = req.user.id;
         const { year, month } = req.params;
 
-        const schedule = await ScheduleModel.getByMonth(userId, Number(year), Number(month));
+        const schedule = await ScheduleModel.ensureSchedule(userId, Number(year), Number(month));
         res.json(schedule);
     } catch (err) {
         console.error(err);
