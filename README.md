@@ -8,8 +8,11 @@ EasyKcal to prosta aplikacja webowa do obliczania kalorii spożywanych produktó
 ### ✨ Funkcje
 - Kalkulator kalorii (kcal/100g * waga)  
 - Odwrócony kalkulator (kalorie -> waga)  
+- Nutrition Summary – podsumowanie kalorii i wartości odżywczych wybranych w kalkulatorze produktów lub wpisanych ręcznie
 - CRUD produktów (dodawanie, edycja, usuwanie)  
 - Wyszukiwanie produktów  
+- Harmonogram posiłków – planowanie posiłków na miesiąc, zarządzanie składnikami
+- Recipes – zarządzanie przepisami kulinarnymi
 - Responsywny i prosty interfejs  
 - Przygotowany do wdrożenia online  
 
@@ -21,12 +24,41 @@ EasyKcal to prosta aplikacja webowa do obliczania kalorii spożywanych produktó
 - JavaScript (ES6+)  
 - react-icons  
 
+**Główne moduły frontendowe:**
+
+| Moduł                  | Pliki                                                                               |  Funkcjonalność                                                         |
+|------------------------|-------------------------------------------------------------------------------------|-------------------------------------------------------------------------|
+| Harmonogram (schedule) | `MonthView.jsx`, `MealsTable.jsx`, `Schedule.jsx`, `scheduleApi.js`   | Planowanie posiłków, dodawanie/usuwanie składników, obsługa miesięcznego harmonogramu |
+| Recipes                | `Recipes.jsx`, `RecipeForm.jsx`, `recipesApi.js`                                    | CRUD przepisów kulinarnych                                              |
+| Products               | `ProductManager.jsx`, `ProductList.jsx`, `ProductForm.jsx`, `productApi.js`         | CRUD produktów, wyszukiwanie, zarządzanie listą produktów               |
+| Calculator             | `Calculator.jsx`, `CalorieForm.jsx`, `CalculatorControls.jsx`, `calculatorApi.js`   | Obliczanie kalorii i wag produktów                                      |
+| Nutrition Summary      | `NutritionSummary.jsx`                                                              | Podsumowanie wartości odżywczych                                        |
+| Layout                 | `Navbar.jsx`, `Sidebar.jsx`, `Footer.jsx`                                           | Nawigacja i struktura interfejsu                                        |
+
+---
+
 #### 🔹 Backend (Node.js + Express)
 - Node.js + Express  
 - PostgreSQL  
 - Dotenv  
 - Middleware błędów i CORS  
 - HTTPS (lokalne certyfikaty)  
+
+**Endpointy backendowe:**
+
+| Endpoint                     | Metody         | Funkcjonalność                                |
+|------------------------------|----------------|-----------------------------------------------|
+| `/products`                  | GET, POST, PUT, DELETE | CRUD produktów                        |
+| `/calculator/calculate`      | POST           | Oblicza kalorie na podstawie wagi             |
+| `/calculator/calculate-reverse` | POST        | Oblicza wagę na podstawie kalorii             |
+| `/api/recipes`               | GET, POST, PUT, DELETE | CRUD przepisów kulinarnych            |
+| `/api/schedule/:year/:month` | GET, PATCH, POST, DELETE | Pobieranie i zarządzanie harmonogramem miesięcznym |
+| `/auth/register`             | POST           | Rejestracja użytkownika                       |
+| `/auth/login`                | POST           | Logowanie użytkownika                         |
+| `/auth/logout`               | POST           | Wylogowanie użytkownika                       |
+| `/auth/me`                   | GET            | Pobranie danych zalogowanego użytkownika      |
+
+---
 
 #### 🔹 Baza danych
 - PostgreSQL lokalnie lub zdalnie (Supabase / Railway / pgAdmin)  
@@ -63,11 +95,6 @@ npm start
 
 Serwer wystartuje pod adresem:
 https://HOST:PORT
-
-📌 Endpointy
-- /products – CRUD produktów (GET, POST, PUT, DELETE)
-- /calculator/calculate – oblicza kalorie na podstawie wagi
-- /calculator/calculate-reverse – oblicza wagę na podstawie kalorii
 
 #### ---Frontend---
 1.Przejdź do katalogu frontend:
@@ -107,8 +134,11 @@ EasyKcal is a simple web application for calculating calories of consumed produc
 ## ✨ Features
 - Calorie calculator (kcal/100g * weight)
 - Reverse calculator (calories -> weight)
+- Nutrition Summary – shows a summary of calories and nutrients based on products selected in the calculator or entered manually
 - Product CRUD (add, edit, delete)
 - Product search
+- Meal Schedule – monthly meal planning, ingredient management  
+- Recipes – managing cooking recipes  
 - Responsive and simple UI
 - Ready for online deployment
 
@@ -119,12 +149,39 @@ EasyKcal is a simple web application for calculating calories of consumed produc
 - JavaScript (ES6+)
 - react-icons
 
+**Main frontend modules:**
+
+| Module                  | Files                                                                               | Functionality                                                           |
+|-------------------------|-------------------------------------------------------------------------------------|-------------------------------------------------------------------------|
+| Meal Schedule (schedule)| `MonthView.jsx`, `MealsTable.jsx`, `Schedule.jsx`, `scheduleApi.js`                 | Monthly meal planning, adding/removing ingredients, schedule management |
+| Recipes                 | `Recipes.jsx`, `RecipeForm.jsx`, `recipesApi.js`                                    | CRUD for cooking recipes                                                |
+| Products                | `ProductManager.jsx`, `ProductList.jsx`, `ProductForm.jsx`, `productApi.js`         | CRUD for products, search, product list management                      |
+| Calculator              | `Calculator.jsx`, `CalorieForm.jsx`, `CalculatorControls.jsx`, `calculatorApi.js`   | Calculating calories and weights                                        |
+| Nutrition Summary       | `NutritionSummary.jsx`                                                              | Overview of nutritional values                                          |
+| Layout                  | `Navbar.jsx`, `Sidebar.jsx`, `Footer.jsx`                                           | Navigation and UI structure                                             |
+
+---
+
 #### 🔹 Backend (Node.js + Express)
 - Node.js + Express
 - PostgreSQL
 - Dotenv
 - Error handling middleware and CORS
 - HTTPS (local certificates)
+
+| Endpoint                     | Methods         | Functionality                                |
+|------------------------------|-----------------|----------------------------------------------|
+| `/products`                  | GET, POST, PUT, DELETE | CRUD for products                     |
+| `/calculator/calculate`      | POST           | Calculates calories based on weight           |
+| `/calculator/calculate-reverse` | POST        | Calculates weight based on calories           |
+| `/api/recipes`               | GET, POST, PUT, DELETE | CRUD for cooking recipes              |
+| `/api/schedule/:year/:month` | GET, PATCH, POST, DELETE | Retrieve and manage monthly meal schedule |
+| `/auth/register`             | POST           | User registration                             |
+| `/auth/login`                | POST           | User login                                    |
+| `/auth/logout`               | POST           | User logout                                   |
+| `/auth/me`                   | GET            | Get logged-in user information                |
+
+---
 
 #### 🔹 Database
 - PostgreSQL locally or remotely (Supabase / Railway / pgAdmin)
@@ -161,11 +218,6 @@ npm start
 
 Backend will run at:
 https://HOST:PORT
-
-📌 Endpoints
-- /products – CRUD products (GET, POST, PUT, DELETE)
-- /calculator/calculate – calculate calories based on weight
-- /calculator/calculate-reverse – calculate weight based on calories
 
 #### ---Frontend---
 1.Go to frontend folder:
