@@ -7,6 +7,8 @@ import Contact from './components/layout/Contact';
 import Register from "./components/auth/register/Register";
 import Login from './components/auth/login/Login';
 import Sidebar from './components/layout/Sidebar';
+import GuestBanner from "./components/layout/GuestBanner";
+
 import Recipes from './components/views/recipes/Recipes';
 import Schedule from './components/views/schedule/Schedule';
 
@@ -60,6 +62,7 @@ function App() {
         credentials: "include",
       });
       setUser(null);
+      setActiveView("home");
     } catch (err) {
       console.error("Błąd podczas wylogowania", err);
     }
@@ -85,6 +88,13 @@ function App() {
           <div className="main-content">
             {activeView === "home" && (
               <>
+                {!user && (
+                  <GuestBanner
+                    onLoginClick={() => setShowLogin(true)}
+                    onRegisterClick={() => setShowRegister(true)}
+                  />
+                )}
+
                 <h1>EasyKcal</h1>
 
                 <div className="component">
@@ -113,8 +123,27 @@ function App() {
               </>
             )}
 
-            {activeView === "recipes" && <Recipes user={user} />}
-            {activeView === "schedule" && <Schedule />}
+            {activeView === "recipes" && (
+              user ? (
+                <Recipes user={user} />
+              ) : (
+                <GuestBanner
+                  onLoginClick={() => setShowLogin(true)}
+                  onRegisterClick={() => setShowRegister(true)}
+                />
+              )
+            )}
+
+            {activeView === "schedule" && (
+              user ? (
+                <Schedule />
+              ) : (
+                <GuestBanner
+                  onLoginClick={() => setShowLogin(true)}
+                  onRegisterClick={() => setShowRegister(true)}
+                />
+              )
+            )}
           </div>
         </div>
         {/* -------------------- End Main Layout -------------------- */}
@@ -127,7 +156,7 @@ function App() {
 
         {showLogin && (
           <div className="modal-overlay">
-            <Login 
+            <Login
               onLoginSuccess={(userData) => {
                 setUser(userData);
                 setShowLogin(false);
