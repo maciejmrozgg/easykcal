@@ -1,4 +1,4 @@
-.app-container .scrollable-list {
+.page-container .scrollable-list {
   max-height: 500px;
   overflow-y: auto;
   padding-left: 0;
@@ -6,7 +6,7 @@
   counter-reset: item;
 }
 
-.app-container .scrollable-list li {
+.page-container .scrollable-list li {
   position: relative; 
   padding: 8px 12px 8px 2.5rem;
   margin-bottom: 0.5rem;
@@ -20,7 +20,7 @@
   justify-content: space-between;
 }
 
-.app-container .scrollable-list li::before {
+.page-container .scrollable-list li::before {
   content: counter(item) ".";
   counter-increment: item;
   position: absolute;
@@ -29,41 +29,40 @@
   font-weight: bold;
 }
 
-.app-container .scrollable-list li:hover {
+.page-container .scrollable-list li:hover {
   background: var(--product-list-hover-bg);
   transform: translateY(-2px);
   box-shadow: 0 3px 8px rgba(0,0,0,0.2);
 }
 
-.app-container .li-content {
+.page-container .li-content {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   width: 100%;
   gap: 12px;
 }
 
-.app-container .li-content > span:first-child {
+.page-container .li-content > span:first-child {
   flex: 1;
   overflow-wrap: break-word;
   display: flex;
   gap: 6px;
 }
 
-.app-container .li-content > span:last-child {
+.page-container .li-content > span:last-child {
   display: flex;
   gap: 8px;
   align-items: center;
   flex-shrink: 0;
 }
 
-.app-container .li-content > span:first-child .kcal {
+.page-container .li-content > span:first-child .kcal {
   font-weight: bold;
   color: var(--accent-color);
 }
 
-.app-container li .editbtn,
-.app-container li .delbtn {
+.page-container li .editbtn,
+.page-container li .delbtn {
   flex: 1 1 auto;
   min-width: 60px;
   max-width: 120px;
@@ -79,43 +78,53 @@
   transition: all 0.3s ease;
 }
 
-.app-container li .editbtn {
+.page-container li .editbtn {
   background: linear-gradient(90deg, #3498db, #6c5ce7);
   color: #ffffff;
 }
 
-.app-container li .editbtn:hover {
+.page-container li .editbtn:hover {
   background: linear-gradient(90deg, #2980b9, #5b4ebd);
 }
 
-.app-container li .delbtn {
+.page-container li .delbtn {
   background: linear-gradient(90deg, #e74c3c, #ff7675);
   color: #ffffff;
 }
 
-.app-container li .delbtn:hover {
+.page-container li .delbtn:hover {
   background: linear-gradient(90deg, #c0392b, #e55039);
 }
 
-.app-container .scrollable-list::-webkit-scrollbar {
+.page-container .scrollable-list::-webkit-scrollbar {
   width: 8px;
 }
 
-.app-container .scrollable-list::-webkit-scrollbar-thumb {
+.page-container .scrollable-list::-webkit-scrollbar-thumb {
   background: var(--scrollbar-thumb);
   border-radius: 4px;
 }
 
-.app-container .scrollable-list::-webkit-scrollbar-track {
+.page-container .scrollable-list::-webkit-scrollbar-track {
   background: var(--scrollbar-track);
   border-radius: 4px;
 }
 
 @media (max-width: 420px) {
-  .app-container li .editbtn,
-  .app-container li .delbtn {
+  .page-container li .editbtn,
+  .page-container li .delbtn {
     min-width: 50px;
     padding: 3px 5px;
     font-size: 0.7rem;
+  }
+
+  .page-container .li-content {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .page-container .li-content > span:last-child {
+    justify-content: space-between;
+    width: 100%;
   }
 }

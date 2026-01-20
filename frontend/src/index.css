@@ -1,4 +1,6 @@
-/* Reset i bazowe style */
+/* ======================================================
+   RESET + BAZA
+   ====================================================== */
 * {
   margin: 0;
   padding: 0;
@@ -9,12 +11,42 @@
 body {
   background-color: var(--bg-color);
   color: var(--text-color);
+  min-height: 100vh;
 }
 
-/* Kontener główny */
-.app-container {
-  max-width: 960px;
-  margin: 2rem auto;
+/* ======================================================
+   APP SHELL – globalny wrapper aplikacji
+   ====================================================== */
+.app-shell {
+  min-height: 100vh;
+  background: var(--bg-color);
+  padding-top: 60px; /* wysokość navbar */
+}
+
+/* ======================================================
+   MAIN LAYOUT (sidebar + content)
+   ====================================================== */
+.main-layout {
+  display: flex;
+  width: 100%;
+}
+
+/* ======================================================
+   CONTENT AREA
+   ====================================================== */
+.main-content {
+  flex: 1;
+  padding: 2rem;
+  margin-left: 17.5%;
+  transition: margin-left 0.3s ease, padding 0.3s ease;
+}
+
+/* ======================================================
+   PAGE CONTAINER – główna karta widoku
+   ====================================================== */
+.page-container {
+  max-width: 1100px;
+  margin: 0 auto;
   padding: 2rem;
   background: var(--component-bg);
   border-radius: 16px;
@@ -22,27 +54,41 @@ body {
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
+/* Warianty szerokości (opcjonalne) */
+.page-container.wide {
+  max-width: 1400px;
+}
 
-/* Nagłówek */
-.app-container h1 {
+.page-container.narrow {
+  max-width: 800px;
+}
+
+/* ======================================================
+   TYPOGRAFIA
+   ====================================================== */
+.page-container h1 {
   text-align: center;
   font-size: 3rem;
   margin-bottom: 2rem;
   text-shadow: 1px 1px 4px rgba(0,0,0,0.3);
 }
 
-/* Separator */
+/* ======================================================
+   SEPARATOR
+   ====================================================== */
 hr {
   border: none;
-  border-top: 1px solid rgba(255,255,255,0.5);
+  border-top: 1px solid rgba(255,255,255,0.4);
   margin: 2rem 0;
 }
 
-/* Karty komponentów */
+/* ======================================================
+   KOMPONENTY (karty)
+   ====================================================== */
 .component {
   padding: 2rem;
   margin-bottom: 2rem;
-  background-color: var(--component-bg);
+  background: var(--component-bg);
   border-radius: 16px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -53,6 +99,9 @@ hr {
   box-shadow: 0 8px 24px rgba(0,0,0,0.3);
 }
 
+/* ======================================================
+   KOMPONENT – Nutrition Summary (specjalny)
+   ====================================================== */
 .nutrition-component {
   padding: 2rem;
   margin-bottom: 2rem;
@@ -68,7 +117,9 @@ hr {
   box-shadow: 0 8px 24px rgba(0,0,0,0.3);
 }
 
-/* Inputy */
+/* ======================================================
+   FORMULARZE
+   ====================================================== */
 input {
   padding: 12px 16px;
   border-radius: 8px;
@@ -82,12 +133,14 @@ input {
 }
 
 input:focus {
-  border-color: var(--text-color);
-  box-shadow: 0 0 6px rgba(255,255,255,0.6);
+  border-color: var(--accent-color);
+  box-shadow: 0 0 6px rgba(255,255,255,0.4);
 }
 
-/* Przyciski */
-.app-container button {
+/* ======================================================
+   BUTTONY (globalne)
+   ====================================================== */
+.page-container button {
   background-color: var(--button-bg);
   color: var(--button-color);
   border: 1px solid transparent;
@@ -96,76 +149,63 @@ input:focus {
   cursor: pointer;
   margin-bottom: 1rem;
   font-weight: bold;
-  transition: background-color 0.4s ease, color 0.4s ease, border 0.4s ease;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.app-container button:hover {
+.page-container button:hover {
   background-color: var(--button-hover-bg);
   color: var(--button-hover-color);
 }
 
-.main-layout {
-  display: flex;
-  gap: 1rem; 
+/* ======================================================
+   LISTY
+   ====================================================== */
+ol {
+  padding-left: 1.5rem;
 }
 
-.main-content {
-  flex: 1; 
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
+ol li {
+  margin-bottom: 0.4rem;
 }
 
-/* ------------------Responsywność------------------ */
-
-/* Responsywność 600x*/
-@media (max-width: 600px) {
-  .app-container {
+/* ======================================================
+   RESPONSYWNOŚĆ
+   ====================================================== */
+@media (max-width: 768px) {
+  .main-content {
+    margin-left: 0;
     padding: 1rem;
   }
 
-  .app-container h1 {
-    font-size: 2rem;
-  }
-
-  .component {
+  .page-container {
     padding: 1rem;
+    border-radius: 12px;
   }
 
-  .calorie-result {
-    font-size: 1.6rem;
-    padding: 0.8rem 1rem;
+  .page-container h1 {
+    font-size: 2.2rem;
   }
 
   input {
-    font-size: 0.9rem;
-  }
-
-  button {
-    width: 100%;
-  }
-
-   ol {
-    padding-left: 1.2rem; 
-  }
-
-  ol li {
     font-size: 0.95rem;
   }
+
+  .page-container button {
+    width: 100%;
+  }
 }
-/* Responsywność 400x*/
-@media (max-width: 400px) {
-  .themeSwitcher {
-    width: 40px;
-    height: 40px;
+
+@media (max-width: 420px) {
+  .page-container {
+    padding: 0.75rem;
+    border-radius: 10px;
   }
 
-  .themeSwitcher svg {
-    width: 20px;
-    height: 20px;
+  .page-container h1 {
+    font-size: 1.9rem;
   }
 
-   ol {
+  ol {
     padding-left: 1rem;
   }
 

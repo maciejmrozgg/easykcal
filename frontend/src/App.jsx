@@ -70,7 +70,7 @@ function App() {
 
   return (
     <ProductsProvider>
-      <div className="app-container">
+      <div className="app-shell">
         <Navbar
           onRegisterClick={() => setShowRegister(true)}
           onLoginClick={() => setShowLogin(true)}
@@ -86,64 +86,66 @@ function App() {
           <Sidebar user={user} setActiveView={setActiveView} />
 
           <div className="main-content">
-            {activeView === "home" && (
-              <>
-                {!user && (
+            <div className="page-container">
+              {activeView === "home" && (
+                <>
+                  {!user && (
+                    <GuestBanner
+                      onLoginClick={() => setShowLogin(true)}
+                      onRegisterClick={() => setShowRegister(true)}
+                    />
+                  )}
+
+                  <h1>EasyKcal</h1>
+
+                  <div className="component">
+                    <Calculator addProduct={addProduct} />
+                  </div>
+
+                  <div className="nutrition-component">
+                    <NutritionSummary selectedProducts={selectedProducts} />
+                  </div>
+
+                  <div className="component">
+                    <ProductManager />
+                  </div>
+
+                  <div className="component">
+                    <About />
+                  </div>
+
+                  <div className="component">
+                    <Contact />
+                  </div>
+
+                  <div className="component">
+                    <Footer />
+                  </div>
+                </>
+              )}
+
+              {activeView === "recipes" && (
+                user ? (
+                  <Recipes user={user} />
+                ) : (
                   <GuestBanner
                     onLoginClick={() => setShowLogin(true)}
                     onRegisterClick={() => setShowRegister(true)}
                   />
-                )}
+                )
+              )}
 
-                <h1>EasyKcal</h1>
-
-                <div className="component">
-                  <Calculator addProduct={addProduct} />
-                </div>
-
-                <div className="nutrition-component">
-                  <NutritionSummary selectedProducts={selectedProducts} />
-                </div>
-
-                <div className="component">
-                  <ProductManager />
-                </div>
-
-                <div className="component">
-                  <About />
-                </div>
-
-                <div className="component">
-                  <Contact />
-                </div>
-
-                <div className="component">
-                  <Footer />
-                </div>
-              </>
-            )}
-
-            {activeView === "recipes" && (
-              user ? (
-                <Recipes user={user} />
-              ) : (
-                <GuestBanner
-                  onLoginClick={() => setShowLogin(true)}
-                  onRegisterClick={() => setShowRegister(true)}
-                />
-              )
-            )}
-
-            {activeView === "schedule" && (
-              user ? (
-                <Schedule />
-              ) : (
-                <GuestBanner
-                  onLoginClick={() => setShowLogin(true)}
-                  onRegisterClick={() => setShowRegister(true)}
-                />
-              )
-            )}
+              {activeView === "schedule" && (
+                user ? (
+                  <Schedule />
+                ) : (
+                  <GuestBanner
+                    onLoginClick={() => setShowLogin(true)}
+                    onRegisterClick={() => setShowRegister(true)}
+                  />
+                )
+              )}
+            </div>
           </div>
         </div>
         {/* -------------------- End Main Layout -------------------- */}

@@ -9,7 +9,7 @@
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  padding: 12px 12px 64px;
+  padding: 12px 12px 80px;
   transition: width 0.3s ease;
   z-index: 10;
 }
@@ -45,7 +45,9 @@
   margin-top: auto;        
   background: transparent;
   border: none;
-  color: var(--accent-color);
+  background: var(--button-bg);
+  color: var(--text-color);
+  border-radius: 8px;
   font-size: 18px;
   cursor: pointer;
 }
