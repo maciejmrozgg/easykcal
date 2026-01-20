@@ -1,13 +1,11 @@
 import './styles/Navbar.css';
 import { FaMoon, FaSun } from 'react-icons/fa';
-import logo from '../../assets/react.svg';
 
 const Navbar = ({ darkMode, setDarkMode, onRegisterClick, onLoginClick, onLogout, user, setActiveView }) => {
   return (
     <div className="navbar">
-      <button className="logo" onClick={() => setActiveView("home")}>
-        <img src={logo} alt="Logo" width={32} height={32} />
-        Home
+      <button className="home" onClick={() => setActiveView("home")}>
+        <span className="home-text">🏠 Home</span>
       </button>
 
       <div className="nav-actions">
@@ -25,6 +23,7 @@ const Navbar = ({ darkMode, setDarkMode, onRegisterClick, onLoginClick, onLogout
           )}
         </nav>
 
+        {/* Theme switcher */}
         <button
           className="themeSwitcher"
           onClick={() => setDarkMode(!darkMode)}

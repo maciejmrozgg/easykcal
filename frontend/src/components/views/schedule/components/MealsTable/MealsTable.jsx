@@ -80,7 +80,7 @@ const MealsTable = ({
   const getLimitClass = (kcal) => {
     if (kcal > zeroLimit) return "danger";
     if (kcal > deficitLimit) return "warning";
-    return "normal";
+    if (kcal > 0) return "normal";
   };
 
   /* ===== MODAL HANDLERS ===== */

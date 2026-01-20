@@ -66,6 +66,11 @@
 }
 
 /* LIMIT KALORII */
+.meal-cell.total.normal {
+  background: rgb(0, 255, 0);
+  color: black;
+}
+
 .meal-cell.total.warning {
   background: yellow;
   color: black;
