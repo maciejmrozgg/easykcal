@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import MealsTable from "../MealsTable/MealsTable";
+import MealsTable from "../MealsTable/desktop/MealsTableDesktop";
 import scheduleApi from "../../api/scheduleApi";
 import "./MonthView.css";
 

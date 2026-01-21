@@ -1,6 +1,6 @@
 import { useState } from "react";
-import "./MealsTable.css";
-import IngredientModal from "../modals/IngredientModal";
+import "./MealsTableDesktop.css";
+import IngredientModal from "../../modals/IngredientModal";
 
 /* ===== HEADER POSIŁKU (rename na blur) ===== */
 const MealHeader = ({ meal, onRenameMeal, onDeleteMeal }) => {
