@@ -1,0 +1,46 @@
+.meals-mobile {
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.day-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.meal-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.meal-header {
+  padding: 0.6rem;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+  background: var(--component-bg);
+}
+
+.meal-content {
+  padding: 0.6rem;
+}
+
+.meal-content ul {
+  padding-left: 1rem;
+}
+
+.add-ingredient {
+  margin-top: 0.5rem;
+  width: 100%;
+}
+
+.day-summary {
+  text-align: center;
+  font-size: 1.1rem;
+  padding-top: 0.5rem;
+}

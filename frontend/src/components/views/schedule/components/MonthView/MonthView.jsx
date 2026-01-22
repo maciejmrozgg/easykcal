@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import MealsTable from "../MealsTable/desktop/MealsTableDesktop";
+import MealsTable from "../MealsTable";
 import scheduleApi from "../../api/scheduleApi";
 import "./MonthView.css";
 
@@ -7,11 +7,9 @@ const MAX_MEALS = 6;
 
 const buildDaysFromSchedule = (schedule, year, month) => {
   const daysInMonth = new Date(year, month + 1, 0).getDate();
-
   return Array.from({ length: daysInMonth }, (_, i) => {
     const dateStr = `${year}-${String(month + 1).padStart(2, "0")}-${String(i + 1).padStart(2, "0")}`;
     const backendDay = schedule.days?.find(d => d.date === dateStr);
-
     return {
       date: dateStr,
       meals: backendDay
@@ -33,7 +31,6 @@ const MonthView = ({ year, month, onBack }) => {
   /* ===== FETCH ===== */
   useEffect(() => {
     setLoading(true);
-
     scheduleApi.getMonth(year, month)
       .then(schedule => {
         setMeals(schedule.meals);
@@ -99,26 +96,31 @@ const MonthView = ({ year, month, onBack }) => {
 
   return (
     <div className="month-view">
-      <div className="month-header">
+      {/* HEADER */}
+      <header className="month-header">
         <button className="back-btn" onClick={onBack}>← Wybierz miesiąc</button>
         <div className="kcal-limit">
-          Deficyt kaloryczny:
-          <input
-            type="number"
-            value={deficitDraft}
-            onChange={e => setDeficitDraft(+e.target.value)}
-            onBlur={updateLimits}
-          />
+          <label>
+            Deficyt kaloryczny:
+            <input
+              type="number"
+              value={deficitDraft}
+              onChange={e => setDeficitDraft(+e.target.value)}
+              onBlur={updateLimits}
+            />
+          </label>
 
-          Zero kaloryczne:
-          <input
-            type="number"
-            value={zeroDraft}
-            onChange={e => setZeroDraft(+e.target.value)}
-            onBlur={updateLimits}
-          />
+          <label>
+            Zero kaloryczne:
+            <input
+              type="number"
+              value={zeroDraft}
+              onChange={e => setZeroDraft(+e.target.value)}
+              onBlur={updateLimits}
+            />
+          </label>
         </div>
-      </div>
+      </header>
 
       <MealsTable
         meals={meals}

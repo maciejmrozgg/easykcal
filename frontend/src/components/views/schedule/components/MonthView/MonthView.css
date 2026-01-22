@@ -27,6 +27,7 @@
   font-style: italic;
 }
 
+/* ===== HEADER ===== */
 .month-header {
   display: flex;
   justify-content: space-between;
@@ -34,11 +35,54 @@
 }
 
 .kcal-limit {
+  display: flex;
   align-items: center;
+  gap: 0.75rem;
   font-weight: bold;
 }
 
 .kcal-limit input {
   width: 90px;
   padding: 0.2rem 0.4rem;
+  font-size: 1rem;
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 768px) {
+  .month-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+  }
+
+  .back-btn {
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  .kcal-limit {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .kcal-limit label {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  .kcal-limit input {
+    width: 70px;
+    padding: 0.25rem 0.4rem;
+    font-size: 0.85rem;
+  }
+
+  .month-content {
+    margin-top: 0.5rem;
+  }
 }
