@@ -66,17 +66,34 @@
 }
 
 /* LIMIT KALORII */
+.meal-cell.total {
+  border-radius: 5px;
+  border: 2px solid var(--accent-color); 
+}
+
 .meal-cell.total.normal {
   background: rgb(0, 255, 0);
   color: black;
+  border-radius: 5px;
 }
 
 .meal-cell.total.warning {
   background: yellow;
   color: black;
+  border-radius: 5px;
 }
 
 .meal-cell.total.danger {
   background: red;
   color: black;
+  border-radius: 5px;
+}
+
+@media (max-width: 768px) {
+  .meal-cell.total {
+    position: sticky;
+    bottom: 0;
+    z-index: 9;
+    margin: 0 0.5rem;  
+  }
 }

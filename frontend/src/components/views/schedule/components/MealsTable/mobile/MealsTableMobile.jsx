@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import IngredientModal from "../../modals/IngredientModal";
 import "./MealsTableMobile.css";
 
-const MealsTableMobile = ({ days, meals, onUpdateIngredient }) => {
+const MealsTableMobile = ({ days, meals, onUpdateIngredient, zeroLimit, deficitLimit, onAddMeal, maxMeals, onDeleteMeal }) => {
   const [dayIndex, setDayIndex] = useState(0);
 
   const [openMeals, setOpenMeals] = useState(() =>
@@ -13,6 +13,7 @@ const MealsTableMobile = ({ days, meals, onUpdateIngredient }) => {
   const [modalData, setModalData] = useState(null);
   const [modalMealId, setModalMealId] = useState(null);
   const [modalIngredientIndex, setModalIngredientIndex] = useState(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     setOpenMeals(prev => {
@@ -55,8 +56,24 @@ const MealsTableMobile = ({ days, meals, onUpdateIngredient }) => {
 
   const totals = getDayTotals();
 
+  const getLimitClass = (kcal) => {
+    if (kcal > zeroLimit) return "danger";
+    if (kcal > deficitLimit) return "warning";
+    if (kcal > 0) return "normal";
+  };
+
   return (
-    <div className="meals-mobile">
+    <div className="meals-mobile" style={{ pointerEvents: isDeleting ? "none" : "auto", opacity: isDeleting ? 0.6 : 1 }}>
+      <div className="meals-header">
+        <button
+          className="add-meal"
+          onClick={onAddMeal}
+          disabled={meals.length >= maxMeals}
+        >
+          + Dodaj posiłek
+        </button>
+      </div>
+
 
       {/* NAVIGATION */}
       <div className="day-nav">
@@ -67,7 +84,16 @@ const MealsTableMobile = ({ days, meals, onUpdateIngredient }) => {
           ◀
         </button>
 
-        <strong>{day?.date}</strong>
+        <select
+          value={dayIndex}
+          onChange={e => setDayIndex(Number(e.target.value))}
+        >
+          {days.map((d, idx) => (
+            <option key={d.date} value={idx}>
+              {d.date}
+            </option>
+          ))}
+        </select>
 
         <button
           onClick={() => setDayIndex(i => Math.min(days.length - 1, i + 1))}
@@ -84,12 +110,31 @@ const MealsTableMobile = ({ days, meals, onUpdateIngredient }) => {
 
         return (
           <div key={meal.id} className="meal-card">
-            <div
-              className="meal-header"
-              onClick={() => toggleMeal(meal.id)}
-            >
+            <div className="meal-header">
               <span>{meal.name}</span>
-              <span>{isOpen ? "▲" : "▼"}</span>
+
+              <div className="meal-header-actions">
+                <button
+                  className="delete-meal"
+                  onClick={async () => {
+                    if (isDeleting) return; 
+                    const confirmed = window.confirm("Czy na pewno chcesz usunąć ten posiłek?");
+                    if (!confirmed) return;
+
+                    setIsDeleting(true);          
+                    await onDeleteMeal(meal.id);  
+                    setTimeout(() => setIsDeleting(false), 2000); 
+                  }}
+                  title="Usuń posiłek"
+                  disabled={isDeleting}
+                >
+                  ❌
+                </button>
+
+                <span onClick={() => toggleMeal(meal.id)}>
+                  {isOpen ? "▲" : "▼"}
+                </span>
+              </div>
             </div>
 
             {isOpen && (
@@ -118,7 +163,7 @@ const MealsTableMobile = ({ days, meals, onUpdateIngredient }) => {
       })}
 
       {/* SUMMARY */}
-      <div className="day-summary">
+      <div className={`meal-cell total ${getLimitClass(totals.kcal)}`}>
         <strong>
           Suma dnia: {totals.weight}g / {totals.kcal} kcal
         </strong>

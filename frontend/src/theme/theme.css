@@ -15,6 +15,9 @@
   --input-bg: #f0f2f5;
   --input-color: #1e1e1e;
 
+  --select-bg: #f0f2f5;
+  --select-color: #1e1e1e;
+
   --result-bg: linear-gradient(90deg, #2ecc71, #6dd5a7);
 
   --navbar-bg: linear-gradient(90deg, #2ecc71, #3498db);
@@ -77,6 +80,9 @@
 
   --input-bg: #253041;
   --input-color: #ecf0f1;
+
+  --select-bg: #253041;
+  --select-color: #ecf0f1;
 
   --result-bg: linear-gradient(90deg, #2ecc71, #3498db);
 

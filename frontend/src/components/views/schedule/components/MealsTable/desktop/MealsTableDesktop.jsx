@@ -5,6 +5,7 @@ import IngredientModal from "../../modals/IngredientModal";
 /* ===== HEADER POSIŁKU (rename na blur) ===== */
 const MealHeader = ({ meal, onRenameMeal, onDeleteMeal }) => {
   const [value, setValue] = useState(meal.name);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   return (
     <div className="meal-column">
@@ -20,8 +21,17 @@ const MealHeader = ({ meal, onRenameMeal, onDeleteMeal }) => {
       />
       <button
         className="delete-meal"
-        onClick={() => onDeleteMeal(meal.id)}
+        onClick={async () => {
+          if (isDeleting) return;
+          const confirmed = window.confirm("Czy na pewno chcesz usunąć ten posiłek?");
+          if (!confirmed) return;
+
+          setIsDeleting(true);
+          await onDeleteMeal(meal.id);
+          setTimeout(() => setIsDeleting(false), 2000);
+        }}
         title="Usuń posiłek"
+        disabled={isDeleting}
       >
         ❌
       </button>
