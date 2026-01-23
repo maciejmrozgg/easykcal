@@ -15,21 +15,18 @@ import Schedule from './components/views/schedule/Schedule';
 import Calculator from './components/calculator/Calculator';
 import ProductManager from './components/products/ProductManager';
 import NutritionSummary from './components/nutrition/NutritionSummary';
+import { useNutritionSummary } from './components/nutrition/hooks/useNutritionSummary';
 import { ProductsProvider } from './components/products/context/ProductsProvider';
 
 import './theme/theme.css';
 
 function App() {
   const [darkMode, setDarkMode] = useState(true);
-  const [selectedProducts, setSelectedProducts] = useState([]);
   const [showRegister, setShowRegister] = useState(false);
   const [user, setUser] = useState(null);
   const [showLogin, setShowLogin] = useState(false);
   const [activeView, setActiveView] = useState("home");
-
-  const addProduct = (product) => {
-    setSelectedProducts(prev => [...prev, product]);
-  };
+  const [clearCalcSignal, setClearCalcSignal] = useState(0);
 
   useEffect(() => {
     document.body.className = darkMode ? 'dark-theme' : 'light-theme';
@@ -68,6 +65,25 @@ function App() {
     }
   };
 
+  const {
+    selectedProducts,
+    addProduct,
+    removeProduct,
+    resetProducts,
+    undoItem,
+    undoRemove
+  } = useNutritionSummary();
+
+  const wrappedRemove = (id) => {
+    removeProduct(id);
+    setClearCalcSignal(s => s + 1);
+  };
+
+  const wrappedReset = () => {
+    resetProducts();
+    setClearCalcSignal(s => s + 1);
+  };
+
   return (
     <ProductsProvider>
       <div className="app-shell">
@@ -99,11 +115,20 @@ function App() {
                   <h1>EasyKcal</h1>
 
                   <div className="component">
-                    <Calculator addProduct={addProduct} />
+                    <Calculator
+                      addProduct={addProduct}
+                      clearResultSignal={clearCalcSignal}
+                    />
                   </div>
 
                   <div className="nutrition-component">
-                    <NutritionSummary selectedProducts={selectedProducts} />
+                    <NutritionSummary
+                      selectedProducts={selectedProducts}
+                      onRemove={wrappedRemove}
+                      onReset={wrappedReset}
+                      undoItem={undoItem}
+                      onUndo={undoRemove}
+                    />
                   </div>
 
                   <div className="component">

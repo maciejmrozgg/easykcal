@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import './styles/Calculator.css';
 import { useProducts } from '../products/hooks/useProducts';
 import CalorieForm from './components/CalorieForm';
@@ -5,9 +6,14 @@ import ReverseCalorieForm from './components/ReverseCalorieForm';
 import CalculatorControls from './components/CalculatorControls';
 import { useCalculator } from './hooks/useCalculator';
 
-export default function Calculator({ addProduct }) {
+export default function Calculator({ addProduct, clearResultSignal }) {
   const { products } = useProducts();
   const calc = useCalculator(addProduct);
+
+  useEffect(() => {
+    calc.setResult(null);
+    calc.setError('');
+  }, [clearResultSignal]);
 
   return (
     <div>
