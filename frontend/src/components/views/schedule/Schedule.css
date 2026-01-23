@@ -53,24 +53,15 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
-  flex: 1;
+  flex: 0.2;
 }
 
 .schedule .months-grid .month-tile {
-  padding: 2.5rem 1rem;
-  height: 140px;
-  border-radius: 12px;
-  border: 2px solid transparent;
-  background: var(--month-bg);
-  color: var(--month-color);
-  font-weight: 700;
-  font-size: 1.3rem;
-  cursor: pointer;
-  transition: all 0.25s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  height: 72px;
+  font-size: 0.95rem;
+  border-radius: 8px;
 }
+
 
 .schedule .months-grid .month-tile:hover {
   border-color: var(--month-bg);

@@ -2,7 +2,18 @@ import { useState } from "react";
 import "./styles/Sidebar.css";
 
 const Sidebar = ({ user, setActiveView }) => {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(() => {
+    const saved = localStorage.getItem("sidebar-collapsed");
+    return saved === "true";
+  });
+
+  const toggleSidebar = () => {
+    setCollapsed(prev => {
+      localStorage.setItem("sidebar-collapsed", !prev);
+      return !prev;
+    });
+  };
+
 
   if (!user) return null;
 
@@ -29,7 +40,7 @@ const Sidebar = ({ user, setActiveView }) => {
         {/* Desktop collapse */}
         <button
           className="collapse-btn desktop"
-          onClick={() => setCollapsed(!collapsed)}
+          onClick={toggleSidebar}
         >
           {collapsed ? ">" : "<"}
         </button>

@@ -37,7 +37,6 @@ body {
 .main-content {
   flex: 1;
   padding: 2rem;
-  margin-left: 17.5%;
   transition: margin-left 0.3s ease, padding 0.3s ease;
 }
 
@@ -45,7 +44,7 @@ body {
    PAGE CONTAINER – główna karta widoku
    ====================================================== */
 .page-container {
-  max-width: 1100px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
   background: var(--component-bg);
