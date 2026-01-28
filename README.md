@@ -64,9 +64,22 @@ EasyKcal to prosta aplikacja webowa do obliczania kalorii spożywanych produktó
 - PostgreSQL lokalnie lub zdalnie (Supabase / Railway / pgAdmin)  
 
 ## Migracja bazy danych
-
 Wszystkie zmiany schematu bazy danych są przechowywane w folderze `backend/migrations`.
 Możesz je uruchomić ręcznie lub za pomocą preferowanego narzędzia do migracji.
+
+## Schemat bazy danych
+Pełny schemat bazy danych znajduje się w pliku `backend/db/schema.sql`.
+Aby odtworzyć strukturę bazy od zera, uruchom:
+
+# Linux / macOS
+psql <database_name> < backend/db/schema.sql
+
+# Windows (PowerShell)
+Get-Content backend\db\schema.sql | psql -U <db_user> <database_name>
+
+Gdzie:
+- <db_user> – nazwa użytkownika PostgreSQL (np. postgres)
+- <database_name> – nazwa bazy danych (np. easykcal)
 
 ### 🚀 Uruchomienie lokalne
 
@@ -192,9 +205,22 @@ EasyKcal is a simple web application for calculating calories of consumed produc
 - PostgreSQL locally or remotely (Supabase / Railway / pgAdmin)
 
 ## Database migrations
-
 All database schema changes are stored in `backend/migrations`.
 Run them manually or using your preferred migration tool.
+
+## Database schema
+A full database schema is available in `backend/db/schema.sql`.
+You can recreate the entire database structure by running:
+
+# Linux / macOS
+psql <database_name> < backend/db/schema.sql
+
+# Windows (PowerShell)
+Get-Content backend\db\schema.sql | psql -U <db_user> <database_name>
+
+Where:
+- <db_user> – your PostgreSQL user (e.g. postgres)
+- <database_name> – your database name (e.g. easykcal)
 
  ### 🚀 Local setup
 
