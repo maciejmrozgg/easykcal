@@ -1,19 +1,36 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./styles/Sidebar.css";
+import useMediaQuery from "../../hooks/useMediaQuery";
 
 const Sidebar = ({ user, setActiveView }) => {
-  const [collapsed, setCollapsed] = useState(() => {
-    const saved = localStorage.getItem("sidebar-collapsed");
-    return saved === "true";
-  });
 
+  const isMobile = useMediaQuery("(max-width: 768px)");
+  const [collapsed, setCollapsed] = useState(true);
+
+  // State initialization
+  useEffect(() => {
+    if (isMobile) {
+      // mobile always starts collapsed
+      setCollapsed(true);
+    } else {
+      // desktop read saved state
+      const saved = localStorage.getItem("sidebar-collapsed");
+      if (saved !== null) {
+        setCollapsed(saved === "true");
+      }
+    }
+  }, [isMobile]);
+
+  // Toggle
   const toggleSidebar = () => {
     setCollapsed(prev => {
-      localStorage.setItem("sidebar-collapsed", !prev);
+      if (!isMobile) {
+        // save only for desktop
+        localStorage.setItem("sidebar-collapsed", String(!prev));
+      }
       return !prev;
     });
   };
-
 
   if (!user) return null;
 
@@ -38,21 +55,25 @@ const Sidebar = ({ user, setActiveView }) => {
         </div>
 
         {/* Desktop collapse */}
-        <button
-          className="collapse-btn desktop"
-          onClick={toggleSidebar}
-        >
-          {collapsed ? ">" : "<"}
-        </button>
+        {!isMobile && (
+          <button
+            className="collapse-btn desktop"
+            onClick={toggleSidebar}
+          >
+            {collapsed ? ">" : "<"}
+          </button>
+        )}
       </div>
 
       {/* Mobile hamburger */}
-      <button
-        className="collapse-btn mobile"
-        onClick={() => setCollapsed(!collapsed)}
-      >
-        ☰
-      </button>
+      {isMobile && (
+        <button
+          className="collapse-btn mobile"
+          onClick={toggleSidebar}
+        >
+          ☰
+        </button>
+      )}
     </>
   );
 };
