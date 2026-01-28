@@ -66,6 +66,9 @@
   --return-btn: #1e1e1e;
   --return-btn-bg: #2c80b4;
   --return-btn-hover-bg: #3498db;
+
+  --ingredients-bg: #eef6ff;
+  --ingredients-border: #cfe3ff;
 }
 
 .dark-theme {
@@ -141,4 +144,7 @@
   --return-btn: #ecf0f1;
   --return-btn-bg: #2ecc71;
   --return-btn-hover-bg: #27ae60;
+
+  --ingredients-bg: #1a2a3a;
+  --ingredients-border: #2ecc71;
 }

@@ -104,6 +104,7 @@ const MonthView = ({ year, month, onBack }) => {
             Deficyt kaloryczny:
             <input
               type="number"
+              title="Zmiana limitu deficytu kalorycznego"
               value={deficitDraft}
               onChange={e => setDeficitDraft(+e.target.value)}
               onBlur={updateLimits}
@@ -114,6 +115,7 @@ const MonthView = ({ year, month, onBack }) => {
             Zero kaloryczne:
             <input
               type="number"
+              title="Zmiana limitu zera kalorycznego"
               value={zeroDraft}
               onChange={e => setZeroDraft(+e.target.value)}
               onBlur={updateLimits}

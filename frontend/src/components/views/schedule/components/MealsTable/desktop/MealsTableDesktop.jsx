@@ -169,6 +169,7 @@ const MealsTable = ({
                     <div
                       onClick={() => openIngredientModal(dayIndex, meal.id)}
                       style={{ cursor: "pointer", color: "#999", marginTop: "4px" }}
+                      title="Dodaj składnik"
                     >
                       + Dodaj składnik
                     </div>

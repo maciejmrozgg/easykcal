@@ -45,7 +45,14 @@
 }
 
 .meal-content {
-  padding: 0.6rem;
+  padding: 0.7rem;
+  background: var(--ingredients-bg);
+  border-top: 2px solid var(--ingredients-border);
+  border-radius: 0 0 10px 10px;
+}
+
+.dark-theme .meal-content {
+  border-top: 2px solid rgba(255, 255, 255, 0.08);
 }
 
 .meal-content ul {
