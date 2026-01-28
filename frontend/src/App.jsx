@@ -112,7 +112,10 @@ function App() {
                     />
                   )}
 
-                  <h1>EasyKcal</h1>
+                  <h1 className="app-title">
+                    <img src="/logo.svg" alt="" className="app-logo" />
+                    <span>EasyKcal</span>
+                  </h1>
 
                   <div className="component">
                     <Calculator
