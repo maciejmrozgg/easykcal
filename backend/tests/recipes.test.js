@@ -1,24 +1,24 @@
 const request = require("supertest");
 const app = require("../app");
+const pool = require("../config/db");
+const { loginOrRegister } = require("./helpers/auth");
 
 let userToken;
 let adminToken;
 let recipeId;
 
 beforeAll(async () => {
-  // USER
-  const userRes = await request(app)
-    .post("/auth/login")
-    .send({ email: "test@example.com", password: "Test123!" });
+  userToken = await loginOrRegister({
+    email: "testowy@mail.com",
+    password: "Testowe123!",
+    role: "user",
+  });
 
-  userToken = userRes.body.token;
-
-  // ADMIN
-  const adminRes = await request(app)
-    .post("/auth/login")
-    .send({ email: "admin@admin.com", password: "Haslo123" });
-
-  adminToken = adminRes.body.token;
+  adminToken = await loginOrRegister({
+    email: "testowyadmin@mail.com",
+    password: "Testowe123!",
+    role: "admin",
+  });
 });
 
 describe("Recipes API – CRUD (JWT)", () => {
@@ -73,11 +73,11 @@ describe("Recipes API – CRUD (JWT)", () => {
   });
 
   it("PUT /api/recipes/:id - other user forbidden", async () => {
-    const otherLogin = await request(app)
-      .post("/auth/login")
-      .send({ email: "other@example.com", password: "Other123!" });
-
-    const otherToken = otherLogin.body.token;
+    const otherToken = await loginOrRegister({
+      email: "othertestowy@mail.com",
+      password: "Other123!",
+      role: "user",
+    });
 
     const res = await request(app)
       .put(`/api/recipes/${recipeId}`)
@@ -103,4 +103,8 @@ describe("Recipes API – CRUD (JWT)", () => {
     expect(res.statusCode).toBe(200);
     expect(res.body.message).toBe("Recipe deleted");
   });
+});
+
+afterAll(async () => {
+  await pool.end();
 });
