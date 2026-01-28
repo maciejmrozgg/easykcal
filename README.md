@@ -63,6 +63,11 @@ EasyKcal to prosta aplikacja webowa do obliczania kalorii spożywanych produktó
 #### 🔹 Baza danych
 - PostgreSQL lokalnie lub zdalnie (Supabase / Railway / pgAdmin)  
 
+## Migracja bazy danych
+
+Wszystkie zmiany schematu bazy danych są przechowywane w folderze `backend/migrations`.
+Możesz je uruchomić ręcznie lub za pomocą preferowanego narzędzia do migracji.
+
 ### 🚀 Uruchomienie lokalne
 
 #### ---Backend---
@@ -185,6 +190,11 @@ EasyKcal is a simple web application for calculating calories of consumed produc
 
 #### 🔹 Database
 - PostgreSQL locally or remotely (Supabase / Railway / pgAdmin)
+
+## Database migrations
+
+All database schema changes are stored in `backend/migrations`.
+Run them manually or using your preferred migration tool.
 
  ### 🚀 Local setup
 
