@@ -1,0 +1,168 @@
+/* Odstęp między przyciskami Edytuj i Usuń na karcie */
+.recipe-card .edit-recipe-btn {
+  margin-right: 0.5rem; 
+}
+
+/* Karty przepisów */
+.recipe-card {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  border-radius: 12px;
+  background-color: var(--component-bg);
+  color: var(--text-color);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.recipe-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+
+.recipe-card h3 {
+  margin-bottom: 0.75rem;
+  color: var(--accent-color);
+  font-size: 1.4rem;
+}
+
+.recipe-card p {
+  margin-bottom: 1rem;
+  color: var(--text-color);
+  line-height: 1.6;
+}
+
+.recipe-card strong {
+  display: block;
+  margin: 0.8rem 0 0.4rem;
+  color: var(--accent-color);
+  font-weight: 600;
+}
+
+.recipe-card ul, .recipe-card ol {
+  margin-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.recipe-card li {
+  margin-bottom: 0.4rem;
+  line-height: 1.5;
+}
+
+/* Styl przycisków Dodaj,Edytuj i Usuń w przepisach */
+.recipe-card .edit-recipe-btn,
+.recipe-card .del-recipe-btn {
+  flex: 1 1 auto;
+  min-width: 60px;
+  max-width: 120px;
+  border: 2px solid var(--accent-color);
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  transition: all 0.3s ease;
+  margin-top: 0.5rem;
+}
+
+/* Dodaj */
+.page-container .add-recipe-btn {
+  background: var(--component-bg);
+  color: var(--text-color);
+  border: 2px solid var(--accent-color);
+}
+
+.page-container .add-recipe-btn:hover {
+  background: var(--recipe-add-button-hover);
+}
+
+/* Edytuj */
+.recipe-card .edit-recipe-btn {
+  background: transparent;
+  color: var(--accent-color);
+}
+
+.recipe-card .edit-recipe-btn:hover {
+  background: var(--recipe-edit-button-hover);
+  color: var(--button-hover-color);
+}
+
+/* Usuń */
+.recipe-card .del-recipe-btn {
+  background: transparent;
+  color: var(--text-color);
+  border: 2px solid red;
+}
+
+.recipe-card .del-recipe-btn:hover {
+  background: linear-gradient(90deg, #c0392b, #e55039);
+}
+
+/* Klikany tytuł */
+.recipe-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.recipe-title:hover {
+  opacity: 0.85;
+}
+
+.recipe-title .chevron {
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+
+/* Filtrowanie */
+.recipe-filter {
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 1rem;
+  margin-right: 15px;
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-color, #ccc);
+}
+
+/* Animowane szczegóły */
+.recipe-details {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: all 0.35s ease;
+}
+
+.recipe-details.open {
+  max-height: 2000px;
+  opacity: 1;
+  margin-top: 0.75rem;
+}
+
+/* Responsywność */
+@media (max-width: 600px) {
+  .recipe-card {
+    padding: 1rem;
+  }
+
+  .recipe-card h3 {
+    font-size: 1.2rem;
+  }
+
+  .recipe-card li {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .recipe-card .edit-recipe-btn,
+  .recipe-card .del-recipe-btn {
+    min-width: 50px;
+    padding: 4px 6px;
+    font-size: 0.75rem;
+  }
+}

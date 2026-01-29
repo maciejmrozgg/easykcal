@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import './Recipes.css';
+import './styles/RecipeForm.css';
 
 const RecipeForm = ({ initialData = {}, onSubmit, onCancel }) => {
     const [title, setTitle] = useState(initialData?.title || "");

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { getRecipes, createRecipe, updateRecipe, deleteRecipe } from "./api/recipesApi";
 import RecipeForm from "./RecipeForm";
-import "./Recipes.css";
+import "./styles/Recipes.css";
 
 const Recipes = ({ user }) => {
   const [recipes, setRecipes] = useState([]);
@@ -58,13 +58,15 @@ const Recipes = ({ user }) => {
       <input
         className="recipe-filter"
         type="text"
-        placeholder="Szukaj przepisu po nazwie..."
+        placeholder="Wyszukaj przepis po nazwie..."
         value={filter}
         onChange={(e) => setFilter(e.target.value)}
       />
 
       {!showAddForm && (
-        <button onClick={() => setShowAddForm(true)}>Dodaj przepis</button>
+        <button
+          className="add-recipe-btn"
+          onClick={() => setShowAddForm(true)}>Dodaj przepis</button>
       )}
 
       {showAddForm && (
@@ -115,7 +117,7 @@ const Recipes = ({ user }) => {
 
               {user && (user.id === r.user_id || user.role === "admin") && (
                 <button
-                  className="editbtn"
+                  className="edit-recipe-btn"
                   onClick={() => setEditingRecipeId(r.id)}
                 >
                   ✏️ Edytuj
@@ -124,7 +126,7 @@ const Recipes = ({ user }) => {
 
               {user?.role === "admin" && (
                 <button
-                  className="delbtn"
+                  className="del-recipe-btn"
                   onClick={() => handleDelete(r.id)}
                 >
                   🗑️ Usuń
