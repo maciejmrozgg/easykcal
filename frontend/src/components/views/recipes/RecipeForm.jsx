@@ -74,7 +74,7 @@ const RecipeForm = ({ initialData = {}, onSubmit, onCancel }) => {
                                 value={ing}
                                 onChange={(e) => handleIngredientChange(i, e.target.value)}
                             />
-                            <button type="button" className="remove-btn" onClick={() => removeIngredient(i)}>Usuń</button>
+                            <button type="button" className="remove-ingredient-btn" onClick={() => removeIngredient(i)}>Usuń</button>
                         </div>
                     ))}
                     <button type="button" className="add-btn" onClick={addIngredient}>Dodaj składnik</button>
@@ -89,7 +89,7 @@ const RecipeForm = ({ initialData = {}, onSubmit, onCancel }) => {
                                 value={inst}
                                 onChange={(e) => handleInstructionChange(i, e.target.value)}
                             />
-                            <button type="button" className="remove-btn" onClick={() => removeInstruction(i)}>Usuń</button>
+                            <button type="button" className="remove-instruction-btn" onClick={() => removeInstruction(i)}>Usuń</button>
                         </div>
                     ))}
                     <button type="button" className="add-btn" onClick={addInstruction}>Dodaj instrukcję</button>

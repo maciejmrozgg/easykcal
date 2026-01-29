@@ -165,8 +165,9 @@
   color: var(--button-hover-color);
 }
 
-/* Przycisk usuń w formularzu */
-.recipe-form .remove-btn {
+/* Przycisk usuń składnik i instrukcje w formularzu */
+.recipe-form .remove-ingredient-btn,
+.recipe-form .remove-instruction-btn {
   padding: 2px 6px;
   border-radius: 6px;
   border: none;
@@ -176,7 +177,8 @@
   transition: all 0.3s ease;
 }
 
-.recipe-form .remove-btn:hover {
+.recipe-form .remove-ingredient-btn:hover,
+.recipe-form .remove-instruction-btn:hover {
   background: linear-gradient(90deg, #c0392b, #e55039);
 }
 
