@@ -81,24 +81,6 @@ ALTER TABLE public.recipes ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
     CACHE 1
 );
 
-CREATE TABLE public.schedule (
-    id integer NOT NULL,
-    user_id integer NOT NULL,
-    day_of_week character varying(20) NOT NULL,
-    meal_name character varying(50) NOT NULL,
-    recipe_id integer,
-    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP
-);
-
-ALTER TABLE public.schedule ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
-    SEQUENCE NAME public.schedule_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1
-);
-
 CREATE TABLE public.users (
     id integer NOT NULL,
     email character varying(255) NOT NULL,
@@ -181,14 +163,6 @@ ALTER TABLE ONLY public.recipes
 
 
 --
--- TOC entry 4683 (class 2606 OID 17141)
--- Name: schedule schedule_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.schedule
-    ADD CONSTRAINT schedule_pkey PRIMARY KEY (id);
-
---
 -- TOC entry 4677 (class 2606 OID 17110)
 -- Name: users users_email_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
@@ -213,24 +187,6 @@ ALTER TABLE ONLY public.users
 
 ALTER TABLE ONLY public.recipes
     ADD CONSTRAINT fk_recipes_user FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
-
-
---
--- TOC entry 4689 (class 2606 OID 17147)
--- Name: schedule fk_schedule_recipe; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.schedule
-    ADD CONSTRAINT fk_schedule_recipe FOREIGN KEY (recipe_id) REFERENCES public.recipes(id) ON DELETE SET NULL;
-
-
---
--- TOC entry 4690 (class 2606 OID 17142)
--- Name: schedule fk_schedule_user; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.schedule
-    ADD CONSTRAINT fk_schedule_user FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
 
 
 --
