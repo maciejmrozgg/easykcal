@@ -16,7 +16,7 @@ const mockRecipes = [
   },
 ];
 
-vi.mock("../api/recipesRoutes", () => ({
+vi.mock("../api/recipesApi", () => ({
   getRecipes: vi.fn(),
   createRecipe: vi.fn(),
   updateRecipe: vi.fn(),
@@ -28,7 +28,7 @@ import {
   createRecipe,
   updateRecipe,
   deleteRecipe,
-} from "../api/recipesRoutes";
+} from "../api/recipesApi";
 
 // ==================
 // SETUP
@@ -64,7 +64,7 @@ describe("Recipes view – full flow", () => {
   it("filters recipes by title", async () => {
     render(<Recipes user={adminUser} />);
 
-    const input = screen.getByPlaceholderText("Szukaj przepisu po nazwie...");
+    const input = screen.getByPlaceholderText("Wyszukaj przepis po nazwie...");
     fireEvent.change(input, { target: { value: "xyz" } });
 
     await waitFor(() => {

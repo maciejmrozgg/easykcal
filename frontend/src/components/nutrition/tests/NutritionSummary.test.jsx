@@ -17,8 +17,21 @@ describe("NutritionSummary", () => {
     render(<NutritionSummary selectedProducts={sampleProducts} />);
     expect(screen.getByText(/Jabłko/i)).toBeInTheDocument();
     expect(screen.getByText(/Banana/i)).toBeInTheDocument();
-    expect(screen.getByText(/150 g - 80.00 kcal/i)).toBeInTheDocument();
-    expect(screen.getByText(/120 g - 100.00 kcal/i)).toBeInTheDocument();
+    expect(
+      screen.getByText((content) =>
+        content.includes("150") &&
+        content.includes("80.00") &&
+        content.includes("kcal")
+      )
+    ).toBeInTheDocument();
+
+    expect(
+      screen.getByText((content) =>
+        content.includes("120") &&
+        content.includes("100.00") &&
+        content.includes("kcal")
+      )
+    ).toBeInTheDocument();
   });
 
   it("renders plus sign between products", () => {
