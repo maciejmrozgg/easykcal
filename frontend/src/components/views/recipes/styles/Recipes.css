@@ -1,9 +1,9 @@
-/* Odstęp między przyciskami Edytuj i Usuń na karcie */
+/* Spacing between edit and delete buttons */
 .recipe-card .edit-recipe-btn {
   margin-right: 0.5rem; 
 }
 
-/* Karty przepisów */
+/* Recipe cards */
 .recipe-card {
   margin-bottom: 2rem;
   padding: 1.5rem;
@@ -48,7 +48,7 @@
   line-height: 1.5;
 }
 
-/* Styl przycisków Dodaj,Edytuj i Usuń w przepisach */
+/* Recipe action buttons (add / edit / delete) */
 .recipe-card .edit-recipe-btn,
 .recipe-card .del-recipe-btn {
   flex: 1 1 auto;
@@ -67,7 +67,7 @@
   margin-top: 0.5rem;
 }
 
-/* Dodaj */
+/* Add recipe button */
 .page-container .add-recipe-btn {
   background: var(--component-bg);
   color: var(--text-color);
@@ -78,7 +78,7 @@
   background: var(--recipe-add-button-hover);
 }
 
-/* Edytuj */
+/* Edit recipe button */
 .recipe-card .edit-recipe-btn {
   background: transparent;
   color: var(--accent-color);
@@ -89,7 +89,7 @@
   color: var(--button-hover-color);
 }
 
-/* Usuń */
+/* Delete recipe button */
 .recipe-card .del-recipe-btn {
   background: transparent;
   color: var(--text-color);
@@ -100,7 +100,7 @@
   background: linear-gradient(90deg, #c0392b, #e55039);
 }
 
-/* Klikany tytuł */
+/* Clickable recipe title */
 .recipe-title {
   display: flex;
   justify-content: space-between;
@@ -118,7 +118,7 @@
   opacity: 0.7;
 }
 
-/* Filtrowanie */
+/* Recipe search input */
 .recipe-filter {
   width: 100%;
   max-width: 400px;
@@ -129,7 +129,7 @@
   border: 1px solid var(--border-color, #ccc);
 }
 
-/* Animowane szczegóły */
+/* Recipe details expand / collapse animation */
 .recipe-details {
   max-height: 0;
   overflow: hidden;
@@ -143,7 +143,13 @@
   margin-top: 0.75rem;
 }
 
-/* Responsywność */
+/* Scrollable recipes list (controlled via scroll buttons) */
+.recipes-scroll-container {
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+/* Responsive adjustments */
 @media (max-width: 600px) {
   .recipe-card {
     padding: 1rem;
