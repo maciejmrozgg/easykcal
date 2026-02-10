@@ -10,9 +10,11 @@ const Recipes = ({ user }) => {
   const [expandedRecipeId, setExpandedRecipeId] = useState(null);
   const [showAddForm, setShowAddForm] = useState(false);
   const [filter, setFilter] = useState("");
+  const [showSuggestions, setShowSuggestions] = useState(false);
 
   const listRef = useRef(null);
 
+// Fetch recipes on component mount
   useEffect(() => {
     const fetchRecipes = async () => {
       try {
@@ -60,8 +62,8 @@ const Recipes = ({ user }) => {
     }
   };
 
-  const filteredRecipes = recipes.filter(r =>
-    r.title.toLowerCase().includes(filter.toLowerCase())
+  const filteredRecipes = recipes.filter(recipe =>
+    recipe.title.toLowerCase().includes(filter.toLowerCase())
   );
 
   return (
@@ -69,27 +71,63 @@ const Recipes = ({ user }) => {
       <h2>Przepisy</h2>
 
       {/* Recipe search filter */}
-      <input
-        className="recipe-filter"
-        type="text"
-        placeholder="Wyszukaj przepis po nazwie..."
-        value={filter}
-        onChange={(e) => setFilter(e.target.value)}
-      />
+      <div className="recipes-toolbar">
+        <div className="recipe-search">
+          <input
+            className="recipe-filter"
+            type="text"
+            placeholder="Wyszukaj przepis po nazwie..."
+            value={filter}
+            onChange={(e) => {
+              setFilter(e.target.value);
+              setShowSuggestions(true);
+            }}
+          />
 
-      {!showAddForm && (
-        <button
-          className="add-recipe-btn"
-          onClick={() => setShowAddForm(true)}
-        >
-          Dodaj przepis
-        </button>
-      )}
+          {showSuggestions && filter && filteredRecipes.length > 0 && (
+            <ul className="recipe-suggestions">
+              {filteredRecipes.slice(0, 5).map((r) => (
+                <li
+                  key={r.id}
+                  onClick={() => {
+                    setFilter(r.title);
+                    setShowSuggestions(false);
+                  }}
+                >
+                  {r.title}
+                </li>
+              ))}
+            </ul>
+          )}
 
-      <ScrollButtons
-        scrollToTop={scrollToTop}
-        scrollToBottom={scrollToBottom}
-      />
+
+          {filter && (
+            <button
+              className="clear-search-btn"
+              onClick={() => {
+                setFilter("");
+                setShowSuggestions(false);
+              }}
+            >
+              ✕ Wyczyść
+            </button>
+          )}
+        </div>
+
+        {!showAddForm && (
+          <button
+            className="add-recipe-btn"
+            onClick={() => setShowAddForm(true)}
+          >
+            Dodaj przepis
+          </button>
+        )}
+
+        <ScrollButtons
+          scrollToTop={scrollToTop}
+          scrollToBottom={scrollToBottom}
+        />
+      </div>
 
       {showAddForm && (
         <RecipeForm
@@ -98,7 +136,15 @@ const Recipes = ({ user }) => {
         />
       )}
 
-      {filteredRecipes.length === 0 && <p>Brak przepisów.</p>}
+      {filteredRecipes.length === 0 && filter && (
+        <p className="no-results">
+          No recipes found matching "<strong>{filter}</strong>"
+        </p>
+      )}
+
+      {filteredRecipes.length === 0 && !filter && (
+        <p>Brak przepisów.</p>
+      )}
 
       <div ref={listRef} className="recipes-scroll-container">
         {filteredRecipes.map((r) => {
