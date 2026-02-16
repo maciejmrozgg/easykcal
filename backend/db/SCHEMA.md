@@ -1,6 +1,6 @@
 # Database Schema – EasyKcal
 
-Snapshot of the database schema as of **2026-01-28**.
+Snapshot of the database schema as of **2026-02-16**.
 
 This document describes the current structure of the PostgreSQL database.
 Schema changes over time are tracked separately using SQL migration files
@@ -41,36 +41,43 @@ located in `backend/migrations`.
 
 ---
 
-### recipes
+### categories
 
-| Column        | Type      | Notes                  |
-|---------------|-----------|------------------------|
-| id            | integer   | Primary key            |
-| user_id       | integer   | FK → users.id          |
-| title         | varchar   |                        |
-| description   | text      | Optional               |
-| ingredients   | jsonb     | Array                  |
-| instructions  | jsonb     | Array                  |
-| image_name    | text      | Optional               |
-| created_at    | timestamp | Default: now()         |
-| updated_at    | timestamp | Added via migration    |
+| Column       | Type      | Notes                                   |
+|--------------|-----------|-----------------------------------------|
+| id           | integer   | Primary key                             |
+| user_id      | integer   | FK → users.id (NULL = global category) |
+| name         | varchar   | Category name                           |
+| created_at   | timestamp | Default: now()                          |
+| updated_at   | timestamp |                                         |
+
+**Constraints**
+- UNIQUE(user_id, name)
 
 **Relations**
-- recipes.user_id → users.id
-- recipes.id → schedule.recipe_id
+- categories.user_id → users.id
+- categories.id → recipes.category_id
 
 ---
 
-### schedule
+### recipes
 
-| Column        | Type      | Notes                 |
-|---------------|-----------|-----------------------|
-| id            | integer   | Primary key           |
-| user_id       | integer   | FK → users.id         |
-| recipe_id     | integer   | FK → recipes.id       |
-| day_of_week   | varchar   |                       |
-| meal_name     | varchar   |                       |
-| created_at    | timestamp | Default: now()        |
+| Column        | Type      | Notes                          |
+|---------------|-----------|--------------------------------|
+| id            | integer   | Primary key                    |
+| user_id       | integer   | FK → users.id                  |
+| category_id   | integer   | FK → categories.id (nullable)  |
+| title         | varchar   |                                |
+| description   | text      | Optional                       |
+| ingredients   | jsonb     | Array                          |
+| instructions  | jsonb     | Array                          |
+| image_name    | text      | Optional                       |
+| created_at    | timestamp | Default: now()                 |
+| updated_at    | timestamp | Added via migration            |
+
+**Relations**
+- recipes.user_id → users.id
+- recipes.category_id → categories.id
 
 ---
 
@@ -93,6 +100,15 @@ located in `backend/migrations`.
 - monthly_schedules.user_id → users.id
 
 ---
+
+## Triggers
+
+All tables containing an `updated_at` column use a database trigger
+that automatically sets `updated_at = NOW()` before every UPDATE.
+
+Implemented via:
+- Function: update_updated_at_column()
+- Triggers on: users, recipes, categories, monthly_schedules
 
 ## Notes
 
