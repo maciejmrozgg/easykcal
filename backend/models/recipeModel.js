@@ -46,7 +46,7 @@ const RecipeModel = {
     const { rows } = await pool.query(
       `INSERT INTO recipes (user_id, title, description, ingredients, instructions, image_name, category_id)
        VALUES ($1, $2, $3, $4, $5, $6, $7)
-       RETURNING *`,
+       RETURNING id`,
       [
         userId,
         title,
@@ -54,10 +54,10 @@ const RecipeModel = {
         JSON.stringify(ingredients),
         JSON.stringify(instructions),
         imageName || null,
-        category_id || null
+        category_id ?? null
       ]
     );
-    return mapRecipe(rows[0]);
+    return this.getById(rows[0].id);
   },
 
   async update(id, { title, description, ingredients, instructions, imageName, category_id }) {
@@ -70,19 +70,19 @@ const RecipeModel = {
          image_name = $5,
          category_id = $6
      WHERE id = $7
-     RETURNING *`,
+     RETURNING id`,
     [
       title,
       description,
       JSON.stringify(ingredients),
       JSON.stringify(instructions),
       imageName || null,
-      category_id || null,
+      category_id ?? null,
       id,
     ]
   );
 
-  return rows[0] ? mapRecipe(rows[0]) : null;
+  return this.getById(id);
 },
 
   async delete(id) {

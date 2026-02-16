@@ -12,9 +12,13 @@ const Recipes = ({ user }) => {
   const [filter, setFilter] = useState("");
   const [showSuggestions, setShowSuggestions] = useState(false);
 
-  const listRef = useRef(null);
+  const [viewMode, setViewMode] = useState("categories"); // "categories" | "category" | "all"
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
-// Fetch recipes on component mount
+  const listRef = useRef(null);
+  const searchRef = useRef(null);
+
+  // Fetch recipes on component mount
   useEffect(() => {
     const fetchRecipes = async () => {
       try {
@@ -25,6 +29,23 @@ const Recipes = ({ user }) => {
       }
     };
     fetchRecipes();
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        searchRef.current &&
+        !searchRef.current.contains(event.target)
+      ) {
+        setShowSuggestions(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, []);
 
   const scrollToTop = () => {
@@ -45,8 +66,9 @@ const Recipes = ({ user }) => {
 
   const handleFormSubmit = async (recipeData) => {
     if (editingRecipeId) {
-      const updated = await updateRecipe(editingRecipeId, recipeData);
-      setRecipes(recipes.map(r => r.id === editingRecipeId ? updated : r));
+      await updateRecipe(editingRecipeId, recipeData);
+      const refreshed = await getRecipes();
+      setRecipes(refreshed);
       setEditingRecipeId(null);
     } else {
       const newRecipe = await createRecipe(recipeData);
@@ -66,13 +88,96 @@ const Recipes = ({ user }) => {
     recipe.title.toLowerCase().includes(filter.toLowerCase())
   );
 
+  const groupedRecipes = filteredRecipes.reduce((acc, recipe) => {
+    const category = recipe.category_name || "Bez kategorii";
+    if (!acc[category]) acc[category] = [];
+    acc[category].push(recipe);
+    return acc;
+  }, {});
+
+  const categoryList = Object.keys(groupedRecipes);
+
+  const getRecipeWord = (count) => {
+    if (count === 1) return "przepis";
+    if (count >= 2 && count <= 4) return "przepisy";
+    return "przepisów";
+  };
+
+  const renderRecipeCard = (r) => {
+    const isExpanded = expandedRecipeId === r.id;
+
+    return (
+      <div key={r.id} className="recipe-card">
+        <h3
+          className="recipe-title"
+          onClick={() => toggleRecipe(r.id)}
+        >
+          {r.title} <span>{isExpanded ? "▲" : "▼"}</span>
+        </h3>
+
+        <div className={`recipe-details ${isExpanded ? "open" : ""}`}>
+          {r.description && <p>{r.description}</p>}
+
+          {r.ingredients?.length > 0 && (
+            <>
+              <strong>Składniki:</strong>
+              <ul>
+                {r.ingredients.map((ing, i) => (
+                  <li key={i}>{ing}</li>
+                ))}
+              </ul>
+            </>
+          )}
+
+          {r.instructions?.length > 0 && (
+            <>
+              <strong>Instrukcje:</strong>
+              <ol>
+                {r.instructions.map((inst, i) => (
+                  <li key={i}>{inst}</li>
+                ))}
+              </ol>
+            </>
+          )}
+
+          {user &&
+            (user.id === r.user_id || user.role === "admin") && (
+              <button
+                className="edit-recipe-btn"
+                onClick={() => setEditingRecipeId(r.id)}
+              >
+                ✏️ Edytuj
+              </button>
+            )}
+
+          {user?.role === "admin" && (
+            <button
+              className="del-recipe-btn"
+              onClick={() => handleDelete(r.id)}
+            >
+              🗑️ Usuń
+            </button>
+          )}
+
+          {editingRecipeId === r.id && (
+            <RecipeForm
+              initialData={r}
+              onSubmit={handleFormSubmit}
+              onCancel={() => setEditingRecipeId(null)}
+            />
+          )}
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="component">
       <h2>Przepisy</h2>
 
-      {/* Recipe search filter */}
+      {/* TOOLBAR */}
       <div className="recipes-toolbar">
-        <div className="recipe-search">
+        <div className="recipe-search" ref={searchRef}>
           <input
             className="recipe-filter"
             type="text"
@@ -84,6 +189,7 @@ const Recipes = ({ user }) => {
             }}
           />
 
+          {/* SUGESTIONS */}
           {showSuggestions && filter && filteredRecipes.length > 0 && (
             <ul className="recipe-suggestions">
               {filteredRecipes.slice(0, 5).map((r) => (
@@ -92,6 +198,7 @@ const Recipes = ({ user }) => {
                   onClick={() => {
                     setFilter(r.title);
                     setShowSuggestions(false);
+                    setViewMode("all");
                   }}
                 >
                   {r.title}
@@ -99,7 +206,6 @@ const Recipes = ({ user }) => {
               ))}
             </ul>
           )}
-
 
           {filter && (
             <button
@@ -123,10 +229,12 @@ const Recipes = ({ user }) => {
           </button>
         )}
 
-        <ScrollButtons
-          scrollToTop={scrollToTop}
-          scrollToBottom={scrollToBottom}
-        />
+        {viewMode !== "categories" && (
+          <ScrollButtons
+            scrollToTop={scrollToTop}
+            scrollToBottom={scrollToBottom}
+          />
+        )}
       </div>
 
       {showAddForm && (
@@ -136,84 +244,78 @@ const Recipes = ({ user }) => {
         />
       )}
 
-      {filteredRecipes.length === 0 && filter && (
-        <p className="no-results">
-          No recipes found matching "<strong>{filter}</strong>"
-        </p>
+      {/* CATEGORY GRID */}
+      {viewMode === "categories" && (
+        <>
+          <div className="categories-grid fade-in">
+            {categoryList.map((category) => {
+              const count = groupedRecipes[category].length;
+              return (
+                <div
+                  key={category}
+                  className="category-tile"
+                  onClick={() => {
+                    setSelectedCategory(category);
+                    setViewMode("category");
+                  }}
+                >
+                  <h3>{category}</h3>
+                  <span>{count} {getRecipeWord(count)}</span>
+                </div>
+              );
+            })}
+          </div>
+
+          <div style={{ marginTop: "2rem", textAlign: "center" }}>
+            <button
+              className="back-to-categories-btn"
+              onClick={() => setViewMode("all")}
+            >
+              Pokaż wszystkie przepisy
+            </button>
+          </div>
+        </>
       )}
 
-      {filteredRecipes.length === 0 && !filter && (
-        <p>Brak przepisów.</p>
+      {/* SINGLE CATEGORY */}
+      {viewMode === "category" && (
+        <div className="fade-in">
+          <button
+            className="back-to-categories-btn"
+            onClick={() => {
+              setViewMode("categories");
+              setSelectedCategory(null);
+            }}
+          >
+            ← Wszystkie kategorie
+          </button>
+
+          <div ref={listRef} className="recipes-scroll-container">
+            {groupedRecipes[selectedCategory]?.map(renderRecipeCard)}
+          </div>
+        </div>
       )}
 
-      <div ref={listRef} className="recipes-scroll-container">
-        {filteredRecipes.map((r) => {
-          const isExpanded = expandedRecipeId === r.id;
+      {/* ALL RECIPES */}
+      {viewMode === "all" && (
+        <div className="fade-in">
+          <button
+            className="back-to-categories-btn"
+            onClick={() => setViewMode("categories")}
+          >
+            ← Wszystkie kategorie
+          </button>
 
-          return (
-            <div key={r.id} className="recipe-card">
-              <h3
-                className="recipe-title"
-                onClick={() => toggleRecipe(r.id)}
-              >
-                {r.title} <span>{isExpanded ? "▲" : "▼"}</span>
-              </h3>
-
-              <div className={`recipe-details ${isExpanded ? "open" : ""}`}>
-                {r.description && <p>{r.description}</p>}
-
-                {r.ingredients.length > 0 && (
-                  <>
-                    <strong>Składniki:</strong>
-                    <ul>
-                      {r.ingredients.map((ing, i) => (
-                        <li key={i}>{ing}</li>
-                      ))}
-                    </ul>
-                  </>
-                )}
-
-                {r.instructions.length > 0 && (
-                  <>
-                    <strong>Instrukcje:</strong>
-                    <ol>
-                      {r.instructions.map((inst, i) => (
-                        <li key={i}>{inst}</li>
-                      ))}
-                    </ol>
-                  </>
-                )}
-
-                {user && (user.id === r.user_id || user.role === "admin") && (
-                  <button
-                    className="edit-recipe-btn"
-                    onClick={() => setEditingRecipeId(r.id)}
-                  >
-                    ✏️ Edytuj
-                  </button>
-                )}
-
-                {user?.role === "admin" && (
-                  <button
-                    className="del-recipe-btn"
-                    onClick={() => handleDelete(r.id)}
-                  >
-                    🗑️ Usuń
-                  </button>
-                )}
-
-                {editingRecipeId === r.id && (
-                  <RecipeForm
-                    initialData={r}
-                    onSubmit={handleFormSubmit}
-                    onCancel={() => setEditingRecipeId(null)}
-                  />
-                )}
+          <div ref={listRef} className="recipes-scroll-container">
+            {Object.entries(groupedRecipes).map(([category, recipesInCategory]) => (
+              <div key={category} className="recipe-category-section">
+                <h2 className="category-header">{category}</h2>
+                {recipesInCategory.map(renderRecipeCard)}
               </div>
-            </div>
-          );
-        })}
-      </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { getCategories } from "./api/categoriesApi";
 import './styles/RecipeForm.css';
 
 const RecipeForm = ({ initialData = {}, onSubmit, onCancel }) => {
@@ -6,12 +7,28 @@ const RecipeForm = ({ initialData = {}, onSubmit, onCancel }) => {
     const [description, setDescription] = useState(initialData?.description || "");
     const [ingredients, setIngredients] = useState(initialData?.ingredients?.length ? initialData.ingredients : [""]);
     const [instructions, setInstructions] = useState(initialData?.instructions?.length ? initialData.instructions : [""]);
+    const [categories, setCategories] = useState([]);
+    const [categoryId, setCategoryId] = useState(initialData?.category_id || "");
 
     const formRef = useRef();
 
     // Scroll to form if editing
     useEffect(() => {
         formRef.current?.scrollIntoView?.({ behavior: "smooth", block: "center" });
+    }, []);
+
+    // Fetch category
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const data = await getCategories();
+                setCategories(data);
+            } catch (err) {
+                console.error("Failed to fetch categories:", err);
+            }
+        };
+
+        fetchCategories();
     }, []);
 
     const handleIngredientChange = (index, value) => {
@@ -43,7 +60,8 @@ const RecipeForm = ({ initialData = {}, onSubmit, onCancel }) => {
             title,
             description,
             ingredients: ingredients.filter(i => i.trim()),
-            instructions: instructions.filter(i => i.trim())
+            instructions: instructions.filter(i => i.trim()),
+            category_id: categoryId || null
         };
 
         onSubmit(recipeData);
@@ -64,6 +82,19 @@ const RecipeForm = ({ initialData = {}, onSubmit, onCancel }) => {
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                 />
+                <select
+                    className="category-select"
+                    value={categoryId}
+                    onChange={(e) =>
+                        setCategoryId(e.target.value ? Number(e.target.value) : "")}
+                >
+                    <option value="">-- Wybierz kategorię --</option>
+                    {categories.map(cat => (
+                        <option key={cat.id} value={cat.id}>
+                            {cat.name}
+                        </option>
+                    ))}
+                </select>
 
                 <div className="list-container">
                     <strong>Składniki:</strong>

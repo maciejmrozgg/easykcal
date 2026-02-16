@@ -1,4 +1,4 @@
-/* Formularz przepisu */
+/*  Recipe Form Container */
 .recipe-form {
   margin-top: 1rem;
   padding: 1rem;
@@ -41,7 +41,7 @@
   align-items: center;
 }
 
-/* Przycisk dodaj w formularzu */
+/* Add button inside form */
 .recipe-form .add-btn {
   margin-top: 0.25rem;
   padding: 4px 8px;
@@ -58,7 +58,7 @@
   color: var(--button-hover-color);
 }
 
-/* Przycisk usuń składnik i instrukcje w formularzu */
+/* Remove ingredient / instruction button */
 .recipe-form .remove-ingredient-btn,
 .recipe-form .remove-instruction-btn {
   padding: 2px 6px;
@@ -75,14 +75,14 @@
   background: linear-gradient(90deg, #c0392b, #e55039);
 }
 
-/* Akcje formularza */
+/* Form action buttons (submit / cancel) */
 .recipe-form .form-actions {
   display: flex;
   gap: 0.5rem;
   margin-top: 1rem;
 }
 
-/* Submit formularza */
+/* Submit button */
 .recipe-form .submit-btn {
   padding: 6px 12px;
   border-radius: 6px;
@@ -98,7 +98,7 @@
   color: var(--button-hover-color);
 }
 
-/* Anuluj */
+/* Cancel button */
 .recipe-form .cancel-btn {
   padding: 6px 12px;
   border-radius: 6px;
@@ -114,9 +114,32 @@
   color: #fff;
 }
 
-/* Scroll przy dużej liczbie składników/instrukcji */
+/* Scroll container for large ingredient/instruction lists */
 .recipe-form .list-container {
   max-height: 200px;
   overflow-y: auto;
   padding-right: 4px;
+}
+
+/* Category Select */
+.category-select {
+  padding: 0.4rem 0.7rem;
+  font-size: 0.9rem;
+  border-radius: 6px;
+  border: 2px solid var(--accent-color);
+  background-color: var(--select-bg);
+  color: var(--select-color);
+  font-weight: 600;
+  cursor: pointer;
+  min-width: 160px;
+  transition: all 0.2s ease;
+}
+
+.category-select:hover {
+  box-shadow: 0 0 0 3px rgba(0,0,0,0.05);
+}
+
+.category-select:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--accent-color);
 }

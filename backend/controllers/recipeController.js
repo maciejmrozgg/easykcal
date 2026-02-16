@@ -27,7 +27,7 @@ exports.getRecipe = async (req, res) => {
 exports.createRecipe = async (req, res) => {
   try {
     const userId = req.user.id;
-    const { title, description, ingredients, instructions, imageName } = req.body;
+    const { title, description, ingredients, instructions, imageName, category_id } = req.body;
 
     if (!title || !ingredients || !instructions) {
       return res.status(400).json({
@@ -41,6 +41,7 @@ exports.createRecipe = async (req, res) => {
       ingredients,
       instructions,
       imageName,
+      category_id,
     });
 
     res.status(201).json(recipe);
