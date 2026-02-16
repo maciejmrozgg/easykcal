@@ -46,8 +46,9 @@ located in `backend/migrations`.
 | Column       | Type      | Notes                                   |
 |--------------|-----------|-----------------------------------------|
 | id           | integer   | Primary key                             |
-| user_id      | integer   | FK → users.id (NULL = global category) |
+| user_id      | integer   | FK → users.id (NULL = global category)  |
 | name         | varchar   | Category name                           |
+| image_url    | text      | Optional image path (static file)       |
 | created_at   | timestamp | Default: now()                          |
 | updated_at   | timestamp |                                         |
 

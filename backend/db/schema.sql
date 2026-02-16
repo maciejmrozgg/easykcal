@@ -57,7 +57,8 @@ CREATE TABLE public.categories (
     user_id integer,
     name character varying(100) NOT NULL,
     created_at timestamp without time zone DEFAULT now(),
-    updated_at timestamp without time zone DEFAULT now()
+    updated_at timestamp without time zone DEFAULT now(),
+    image_url text
 );
 
 

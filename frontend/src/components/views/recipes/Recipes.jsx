@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { getRecipes, createRecipe, updateRecipe, deleteRecipe } from "./api/recipesApi";
+import { getCategories } from "./api/categoriesApi";
 import RecipeForm from "./RecipeForm";
 import ScrollButtons from "../../products/components/ScrollButtons";
 import "./styles/Recipes.css";
@@ -14,6 +15,7 @@ const Recipes = ({ user }) => {
 
   const [viewMode, setViewMode] = useState("categories"); // "categories" | "category" | "all"
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [categories, setCategories] = useState([]);
 
   const listRef = useRef(null);
   const searchRef = useRef(null);
@@ -29,6 +31,19 @@ const Recipes = ({ user }) => {
       }
     };
     fetchRecipes();
+  }, []);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const data = await getCategories();
+        setCategories(data);
+      } catch (err) {
+        console.error("Failed to fetch categories:", err);
+      }
+    };
+
+    fetchCategories();
   }, []);
 
   useEffect(() => {
@@ -94,6 +109,14 @@ const Recipes = ({ user }) => {
     acc[category].push(recipe);
     return acc;
   }, {});
+
+  // Add virtual "Bez kategorii" tile if needed
+  const categoriesWithFallback = [
+    ...categories,
+    ...(groupedRecipes["Bez kategorii"]
+      ? [{ id: "no-category", name: "Bez kategorii", image_url: null }]
+      : [])
+  ];
 
   const categoryList = Object.keys(groupedRecipes);
 
@@ -248,18 +271,25 @@ const Recipes = ({ user }) => {
       {viewMode === "categories" && (
         <>
           <div className="categories-grid fade-in">
-            {categoryList.map((category) => {
-              const count = groupedRecipes[category].length;
+            {categoriesWithFallback.map((cat) => {
+              const count = groupedRecipes[cat.name]?.length || 0;
+
               return (
                 <div
-                  key={category}
+                  key={cat.id}
                   className="category-tile"
                   onClick={() => {
-                    setSelectedCategory(category);
+                    setSelectedCategory(cat.name);
                     setViewMode("category");
                   }}
                 >
-                  <h3>{category}</h3>
+                  <img
+                    src={cat.image_url || "/images/categories/default.jpg"}
+                    alt={cat.name}
+                    className="category-image"
+                  />
+
+                  <h3>{cat.name}</h3>
                   <span>{count} {getRecipeWord(count)}</span>
                 </div>
               );

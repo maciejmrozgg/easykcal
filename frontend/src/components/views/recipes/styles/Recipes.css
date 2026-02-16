@@ -258,6 +258,15 @@
   font-size: 0.9rem;
 }
 
+/* Category images */
+.category-image {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 0.5rem;
+}
+
 /* Back button */
 .back-to-categories-btn {
   margin-bottom: 1.5rem;
