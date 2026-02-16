@@ -19,23 +19,33 @@ const mapRecipe = (row) => ({
 const RecipeModel = {
   async getAll() {
     const { rows } = await pool.query(
-      `SELECT * FROM recipes ORDER BY created_at`
+      `SELECT 
+      r.*,
+      c.name AS category_name
+    FROM recipes r
+    LEFT JOIN categories c ON r.category_id = c.id
+    ORDER BY r.created_at`
     );
     return rows.map(mapRecipe);
   },
 
   async getById(id) {
     const { rows } = await pool.query(
-      `SELECT * FROM recipes WHERE id = $1`,
+      `SELECT 
+      r.*,
+      c.name AS category_name
+    FROM recipes r
+    LEFT JOIN categories c ON r.category_id = c.id
+    WHERE r.id = $1`,
       [id]
     );
     return rows[0] ? mapRecipe(rows[0]) : null;
   },
 
-  async create(userId, { title, description, ingredients, instructions, imageName }) {
+  async create(userId, { title, description, ingredients, instructions, imageName, category_id }) {
     const { rows } = await pool.query(
-      `INSERT INTO recipes (user_id, title, description, ingredients, instructions, image_name)
-       VALUES ($1, $2, $3, $4, $5, $6)
+      `INSERT INTO recipes (user_id, title, description, ingredients, instructions, image_name, category_id)
+       VALUES ($1, $2, $3, $4, $5, $6, $7)
        RETURNING *`,
       [
         userId,
@@ -44,20 +54,22 @@ const RecipeModel = {
         JSON.stringify(ingredients),
         JSON.stringify(instructions),
         imageName || null,
+        category_id || null
       ]
     );
     return mapRecipe(rows[0]);
   },
 
-  async update(id, { title, description, ingredients, instructions, imageName }) {
+  async update(id, { title, description, ingredients, instructions, imageName, category_id }) {
   const { rows } = await pool.query(
     `UPDATE recipes
      SET title = $1,
          description = $2,
          ingredients = $3,
          instructions = $4,
-         image_name = $5
-     WHERE id = $6
+         image_name = $5,
+         category_id = $6
+     WHERE id = $7
      RETURNING *`,
     [
       title,
@@ -65,6 +77,7 @@ const RecipeModel = {
       JSON.stringify(ingredients),
       JSON.stringify(instructions),
       imageName || null,
+      category_id || null,
       id,
     ]
   );

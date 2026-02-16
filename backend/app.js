@@ -10,6 +10,7 @@ const scheduleRoutes = require('./routes/scheduleRoutes');
 const errorHandler = require('./middleware/errorHandler');
 const corsOptions = require('./config/corsOptions');
 const authRoutes = require('./routes/authRoutes');
+const categoryRoutes = require('./routes/categoryRoutes');
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use(cookieparser());
 app.use('/products', productRoutes);
 app.use('/calculator', calculatorRoutes);
 app.use('/api/recipes', recipeRoutes);
+app.use('/api/categories', categoryRoutes);
 app.use('/api/schedule', scheduleRoutes);
 app.use('/auth', authRoutes);
 app.use(errorHandler);
