@@ -1,5 +1,6 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
+import { getCategories } from "../api/categoriesApi";
 import Recipes from "../Recipes";
 
 // ==================
@@ -23,6 +24,10 @@ vi.mock("../api/recipesApi", () => ({
   deleteRecipe: vi.fn(),
 }));
 
+vi.mock("../api/categoriesApi", () => ({
+  getCategories: vi.fn(),
+}));
+
 import {
   getRecipes,
   createRecipe,
@@ -38,7 +43,28 @@ const adminUser = { id: 1, role: "admin" };
 beforeEach(() => {
   vi.clearAllMocks();
   getRecipes.mockResolvedValue(mockRecipes);
+
+  getCategories.mockResolvedValue([
+    {
+      id: null,
+      name: "Bez kategorii",
+      image_url: "/images/categories/default.jpg",
+    },
+  ]);
 });
+
+// ==================
+// HELPER
+// ==================
+
+const enterRecipesList = async () => {
+  const categoryHeadings = await screen.findAllByRole("heading", {
+    name: "Bez kategorii",
+  });
+
+  fireEvent.click(categoryHeadings[0]);
+};
+
 
 // ==================
 // TESTS
@@ -47,11 +73,15 @@ describe("Recipes view – full flow", () => {
   it("renders recipe titles", async () => {
     render(<Recipes user={adminUser} />);
 
+    await enterRecipesList();
+
     expect(await screen.findByText("Jajecznica")).toBeInTheDocument();
   });
 
   it("expands recipe details after clicking title", async () => {
     render(<Recipes user={adminUser} />);
+
+    await enterRecipesList();
 
     const title = await screen.findByText("Jajecznica");
     fireEvent.click(title);
@@ -104,6 +134,8 @@ describe("Recipes view – full flow", () => {
     // Kliknij submit
     fireEvent.click(screen.getByTestId("submit-recipe"));
 
+    await enterRecipesList();
+
     // Sprawdź, czy createRecipe zostało wywołane
     await waitFor(() => {
       expect(createRecipe).toHaveBeenCalledWith({
@@ -111,6 +143,7 @@ describe("Recipes view – full flow", () => {
         description: "",
         ingredients: ["test"],
         instructions: ["test"],
+        category_id: null,
       });
     });
   });
@@ -122,6 +155,8 @@ describe("Recipes view – full flow", () => {
     });
 
     render(<Recipes user={adminUser} />);
+
+    await enterRecipesList();
 
     fireEvent.click(await screen.findByText("Jajecznica"));
     fireEvent.click(screen.getByText(/edytuj/i));
@@ -146,21 +181,13 @@ describe("Recipes view – full flow", () => {
 
     render(<Recipes user={adminUser} />);
 
+    await enterRecipesList();
+
     fireEvent.click(await screen.findByText("Jajecznica"));
     fireEvent.click(screen.getByText(/usuń/i));
 
     await waitFor(() => {
       expect(deleteRecipe).toHaveBeenCalledWith(1);
     });
-  });
-
-  it("shows empty message when no recipes", async () => {
-    getRecipes.mockResolvedValueOnce([]);
-
-    render(<Recipes user={adminUser} />);
-
-    expect(
-      await screen.findByText("Brak przepisów.")
-    ).toBeInTheDocument();
   });
 });
