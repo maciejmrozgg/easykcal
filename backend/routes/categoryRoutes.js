@@ -4,5 +4,8 @@ const authMiddleware = require("../middleware/authMiddleware");
 const categoryController = require("../controllers/categoryController");
 
 router.get("/", authMiddleware, categoryController.getCategories);
+router.post("/", authMiddleware, categoryController.createCategory);
+router.put("/:id", authMiddleware, categoryController.updateCategory);
+router.delete("/:id", authMiddleware, categoryController.deleteCategory);
 
 module.exports = router;
