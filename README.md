@@ -1,230 +1,167 @@
-# 🥗 EasyKcal
-
----
-
-## 🥗 EasyKcal (PL)
-EasyKcal to prosta aplikacja webowa do obliczania kalorii spożywanych produktów na podstawie wagi i wartości odżywczych. Projekt edukacyjny – krok po kroku, od backendu i frontendu po pełnoprawną aplikację webową.
-
-### ✨ Funkcje
-- Kalkulator kalorii (kcal/100g * waga)  
-- Odwrócony kalkulator (kalorie -> waga)  
-- Nutrition Summary – podsumowanie kalorii i wartości odżywczych wybranych w kalkulatorze produktów lub wpisanych ręcznie
-- CRUD produktów (dodawanie, edycja, usuwanie)  
-- Wyszukiwanie produktów  
-- Harmonogram posiłków – planowanie posiłków na miesiąc, zarządzanie składnikami
-- Recipes – zarządzanie przepisami kulinarnymi
-- Responsywny i prosty interfejs  
-- Przygotowany do wdrożenia online  
-
-### 🛠️ Technologie
-
-#### 🔹 Frontend (React + Vite)
-- React.js (Vite)  
-- HTML + CSS  
-- JavaScript (ES6+)  
-- react-icons  
-
-**Główne moduły frontendowe:**
-
-| Moduł                  | Pliki                                                                               |  Funkcjonalność                                                         |
-|------------------------|-------------------------------------------------------------------------------------|-------------------------------------------------------------------------|
-| Harmonogram (schedule) | `MonthView.jsx`, `MealsTable.jsx`, `Schedule.jsx`, `scheduleApi.js`   | Planowanie posiłków, dodawanie/usuwanie składników, obsługa miesięcznego harmonogramu |
-| Recipes                | `Recipes.jsx`, `RecipeForm.jsx`, `recipesApi.js`                                    | CRUD przepisów kulinarnych                                              |
-| Products               | `ProductManager.jsx`, `ProductList.jsx`, `ProductForm.jsx`, `productApi.js`         | CRUD produktów, wyszukiwanie, zarządzanie listą produktów               |
-| Calculator             | `Calculator.jsx`, `CalorieForm.jsx`, `CalculatorControls.jsx`, `calculatorApi.js`   | Obliczanie kalorii i wag produktów                                      |
-| Nutrition Summary      | `NutritionSummary.jsx`                                                              | Podsumowanie wartości odżywczych                                        |
-| Layout                 | `Navbar.jsx`, `Sidebar.jsx`, `Footer.jsx`                                           | Nawigacja i struktura interfejsu                                        |
-
----
-
-#### 🔹 Backend (Node.js + Express)
-- Node.js + Express  
-- PostgreSQL  
-- Dotenv  
-- Middleware błędów i CORS  
-- HTTPS (lokalne certyfikaty)  
-
-**Endpointy backendowe:**
-
-| Endpoint                     | Metody         | Funkcjonalność                                |
-|------------------------------|----------------|-----------------------------------------------|
-| `/products`                  | GET, POST, PUT, DELETE | CRUD produktów                        |
-| `/calculator/calculate`      | POST           | Oblicza kalorie na podstawie wagi             |
-| `/calculator/calculate-reverse` | POST        | Oblicza wagę na podstawie kalorii             |
-| `/api/recipes`               | GET, POST, PUT, DELETE | CRUD przepisów kulinarnych            |
-| `/api/schedule/:year/:month` | GET, PATCH, POST, DELETE | Pobieranie i zarządzanie harmonogramem miesięcznym |
-| `/auth/register`             | POST           | Rejestracja użytkownika                       |
-| `/auth/login`                | POST           | Logowanie użytkownika                         |
-| `/auth/logout`               | POST           | Wylogowanie użytkownika                       |
-| `/auth/me`                   | GET            | Pobranie danych zalogowanego użytkownika      |
-
----
-
-#### 🔹 Baza danych
-- PostgreSQL lokalnie lub zdalnie (Supabase / Railway / pgAdmin)  
-
-## Migracja bazy danych
-Wszystkie zmiany schematu bazy danych są przechowywane w folderze `backend/migrations`.
-Możesz je uruchomić ręcznie lub za pomocą preferowanego narzędzia do migracji.
-
-## Schemat bazy danych
-Pełny schemat bazy danych znajduje się w pliku `backend/db/schema.sql`.
-Aby odtworzyć strukturę bazy od zera, uruchom:
-
-# Linux / macOS
-psql <database_name> < backend/db/schema.sql
-
-# Windows (PowerShell)
-Get-Content backend\db\schema.sql | psql -U <db_user> <database_name>
-
-Gdzie:
-- <db_user> – nazwa użytkownika PostgreSQL (np. postgres)
-- <database_name> – nazwa bazy danych (np. easykcal)
-
-### 🚀 Uruchomienie lokalne
-
-#### ---Backend---
-1.Sklonuj repozytorium:  
-git clone https://github.com/maciejmrozgg/easykcal.git
-
-2.Przejdź do katalogu backend:
-cd easykcal/backend
-
-3.Zainstaluj zależności:
-npm install
-
-4.Skonfiguruj plik .env (przykład):
-PGHOST=localhost
-PGUSER=TwojUzytkownik
-PGPASSWORD=TwojeHaslo
-PGDB=NazwaBazy
-PGPORT=5432
-
-HOST=localhost
-PORT=3000
-
-KEY_PATH=../key.pem
-CERT_PATH=../cert.pem
-
-ALLOWED_ORIGINS=https://localhost:5173
-
-5.Uruchom backend:
-npm start
-
-Serwer wystartuje pod adresem:
-https://HOST:PORT
-
-#### ---Frontend---
-1.Przejdź do katalogu frontend:
-cd ../frontend
-
-2.Zainstaluj zależności:
-npm install
-
-3.Skonfiguruj .env (przykład):
-VITE_API_URL=https://localhost:3000
-
-4.Uruchom frontend:
-npm run dev
-
-Frontend będzie dostępny pod adresem domyślnym Vite, np.:
-https://localhost:5173
-
-⚡ Wdrożenie online
-- Backend: Railway, Render lub inny darmowy hosting Node.js. Zaktualizuj zmienne środowiskowe i upewnij się, że CORS wskazuje na frontend.
-- Frontend: Netlify lub Vercel. W .env ustaw VITE_API_URL na URL backendu online.
-
-🛡️ Bezpieczeństwo
-- CORS ograniczony do domeny frontendowej
-- HTTPS (lokalne certyfikaty lub SSL na produkcji)
-- Globalny handler błędów
-
-📚 Cel edukacyjny
-Projekt pokazuje pełny proces tworzenia aplikacji fullstack – od bazy danych, backendu po frontend i wdrożenie. Uczy pracy z React, Node.js, PostgreSQL oraz dobrych praktyk w organizacji kodu i zarządzaniu stanem.
-
-🧠 Autor
-- Maciej Mróz
-- GitHub: https://github.com/maciejmrozgg
+![Version](https://img.shields.io/badge/version-v1.0.1-blue)
+![Status](https://img.shields.io/badge/status-stable-green)
 
 # 🥗 EasyKcal (ENG)
-EasyKcal is a simple web application for calculating calories of consumed products based on weight and nutritional values. Educational project – step by step, from backend and frontend to a full-featured web app.
+EasyKcal is a full-stack web application for managing calories, products, recipes, and monthly meal schedules.
 
-## ✨ Features
-- Calorie calculator (kcal/100g * weight)
-- Reverse calculator (calories -> weight)
-- Nutrition Summary – shows a summary of calories and nutrients based on products selected in the calculator or entered manually
-- Product CRUD (add, edit, delete)
-- Product search
-- Meal Schedule – monthly meal planning, ingredient management  
-- Recipes – managing cooking recipes  
-- Responsive and simple UI
-- Ready for online deployment
+The project presents the complete process of building a web application:
+- REST API (Node.js + Express)
+- relational database (PostgreSQL)
+- user authentication (JWT)
+- roles (user / admin)
+- backend and frontend testing
+- modular React-based frontend
 
-### 🛠️ Technologies
-#### 🔹 Frontend (React + Vite)
-- React.js (Vite)
-- HTML + CSS
-- JavaScript (ES6+)
-- react-icons
+Version v1.0.0 marks the first stable release with full test coverage.
 
-**Main frontend modules:**
+## Features
 
-| Module                  | Files                                                                               | Functionality                                                           |
-|-------------------------|-------------------------------------------------------------------------------------|-------------------------------------------------------------------------|
-| Meal Schedule (schedule)| `MonthView.jsx`, `MealsTable.jsx`, `Schedule.jsx`, `scheduleApi.js`                 | Monthly meal planning, adding/removing ingredients, schedule management |
-| Recipes                 | `Recipes.jsx`, `RecipeForm.jsx`, `recipesApi.js`                                    | CRUD for cooking recipes                                                |
-| Products                | `ProductManager.jsx`, `ProductList.jsx`, `ProductForm.jsx`, `productApi.js`         | CRUD for products, search, product list management                      |
-| Calculator              | `Calculator.jsx`, `CalorieForm.jsx`, `CalculatorControls.jsx`, `calculatorApi.js`   | Calculating calories and weights                                        |
-| Nutrition Summary       | `NutritionSummary.jsx`                                                              | Overview of nutritional values                                          |
-| Layout                  | `Navbar.jsx`, `Sidebar.jsx`, `Footer.jsx`                                           | Navigation and UI structure                                             |
+### 🔹 Calculator
+- Calorie calculator (kcal/100g × weight)
+- Reverse calculator (calories → weight)
+- Nutrition Summary – overview of calories and nutritional values
 
----
+### 🔹 Products
+- Full product CRUD
+- Search functionality
+- Data updates
 
-#### 🔹 Backend (Node.js + Express)
+### 🔹 Recipes
+- Full recipe CRUD
+- Global (default) categories
+- User custom categories (custom CRUD)
+- Automatic reassignment to “Uncategorized” when a category is deleted
+
+### 🔹 Schedule
+- Monthly meal view
+- Desktop + Mobile views
+- Ingredient management
+- Calorie limits
+
+### 🔹 Authentication
+- User registration and login
+- JWT
+- Roles: user / admin
+- Protected endpoints
+
+## Architecture
+
+### Frontend
+- React + Vite
+- Modular feature-based structure
+- API abstraction layer
+- Local state + custom hooks
+- Vitest + React Testing Library
+
+### Backend
 - Node.js + Express
 - PostgreSQL
-- Dotenv
-- Error handling middleware and CORS
-- HTTPS (local certificates)
-
-| Endpoint                     | Methods         | Functionality                                |
-|------------------------------|-----------------|----------------------------------------------|
-| `/products`                  | GET, POST, PUT, DELETE | CRUD for products                     |
-| `/calculator/calculate`      | POST           | Calculates calories based on weight           |
-| `/calculator/calculate-reverse` | POST        | Calculates weight based on calories           |
-| `/api/recipes`               | GET, POST, PUT, DELETE | CRUD for cooking recipes              |
-| `/api/schedule/:year/:month` | GET, PATCH, POST, DELETE | Retrieve and manage monthly meal schedule |
-| `/auth/register`             | POST           | User registration                             |
-| `/auth/login`                | POST           | User login                                    |
-| `/auth/logout`               | POST           | User logout                                   |
-| `/auth/me`                   | GET            | Get logged-in user information                |
+- Relational data model
+- Middleware (auth, error handler, CORS)
+- SQL migrations
+- Integration tests (Jest)
 
 ---
 
-#### 🔹 Database
-- PostgreSQL locally or remotely (Supabase / Railway / pgAdmin)
+## Testing
 
-## Database migrations
-All database schema changes are stored in `backend/migrations`.
-Run them manually or using your preferred migration tool.
+### Backend
+- Jest
+- Endpoint integration tests
+- Authorization and ownership tests
+- CRUD tests for recipes and categories
 
-## Database schema
-A full database schema is available in `backend/db/schema.sql`.
-You can recreate the entire database structure by running:
+### Frontend
+- Vitest
+- React Testing Library
+- Component tests
+- Integration tests
+- Modal tests
 
-# Linux / macOS
+All tests pass in version v1.0.0.
+
+---
+
+## Technologies
+
+### Frontend
+- React (Vite)
+- JavaScript (ES6+)
+- HTML + CSS
+- react-icons
+
+### Backend
+- Node.js + Express
+- PostgreSQL
+- JWT
+- Dotenv
+- HTTPS (local certificates)
+
+**Backend endpoints:**
+
+| Endpoint                        | Methods                  | Functionality                                 |
+|---------------------------------|--------------------------|-----------------------------------------------|
+| `/products`                     | GET, POST, PUT, DELETE   | CRUD for products                             |
+| `/calculator/calculate`         | POST                     | Calculates calories based on weight           |
+| `/calculator/calculate-reverse` | POST                     | Calculates weight based on calories           |
+| `/api/recipes`                  | GET, POST, PUT, DELETE   | CRUD for cooking recipes                      |
+| `/api/categories`               | GET, POST, PUT, DELETE   | Categories (global + user)                    |
+| `/api/schedule/:year/:month`    | GET, PATCH, POST, DELETE | Retrieve and manage monthly meal schedule     |
+| `/auth/register`                | POST                     | User registration                             |
+| `/auth/login`                   | POST                     | User login                                    |
+| `/auth/logout`                  | POST                     | User logout                                   |
+| `/auth/me`                      | GET                      | Get logged-in user information                |
+
+---
+
+## Database
+The application uses a relational **PostgreSQL** database. 
+
+### Main design principles:
+- Foreign Keys (relational integrity)
+- UNIQUE constraints
+- JSONB (ingredients, instructions, schedule)
+- `updated_at` triggers
+- SQL migrations (schema evolution during project development)
+
+---
+
+### 📄 Structure and documentation
+The project includes three levels of working with the database schema:
+
+### 1️⃣ Full schema (rebuild from scratch)
+Executable file: `backend/db/schema.sql`
+Allows rebuilding the entire database structure from scratch.
+
+### 2️⃣ Migrations (incremental changes)
+Folder: `backend/migrations`
+Contains migration files documenting schema evolution during the development of the project.
+
+### 3️⃣ Technical documentation
+File: `backend/db/SCHEMA.md`
+Describes:
+- table structures
+- relationships
+- constraints
+- database design assumptions
+
+---
+
+## Rebuilding the database
+
+### Linux / macOS
 psql <database_name> < backend/db/schema.sql
 
-# Windows (PowerShell)
+### Windows (PowerShell)
 Get-Content backend\db\schema.sql | psql -U <db_user> <database_name>
-
 Where:
-- <db_user> – your PostgreSQL user (e.g. postgres)
-- <database_name> – your database name (e.g. easykcal)
+- `<db_user>` – your PostgreSQL user (e.g. postgres)
+- `<database_name>` – your database name (e.g. easykcal)
+---
 
- ### 🚀 Local setup
+## 🚀 Local setup
 
-#### ---Backend---
+### Backend
 1.Clone the repository:
 git clone https://github.com/maciejmrozgg/easykcal.git
 
@@ -255,7 +192,7 @@ npm start
 Backend will run at:
 https://HOST:PORT
 
-#### ---Frontend---
+### Frontend
 1.Go to frontend folder:
 cd ../frontend
 
@@ -271,18 +208,270 @@ npm run dev
 Frontend will be available at default Vite address, e.g.:
 https://localhost:5173
 
-⚡ Deployment
+## ⚡ Deployment
 - Backend: Railway, Render, or other free Node.js hosting. Update environment variables and make sure CORS points to frontend.
 - Frontend: Netlify or Vercel. Set VITE_API_URL to backend URL in .env.
 
-🛡️ Security
+## 🛡️ Security
 - CORS limited to frontend domain
+- JWT authentication
+- Role based access
 - HTTPS (local certificates or production SSL)
 - Global error handler
 
-📚 Educational purpose
-The project demonstrates a full-stack application workflow – from database and backend to frontend and deployment. Teaches React, Node.js, PostgreSQL, and good practices in code organization and state management.
+## 📚 Educational purpose
+The project demonstrates the complete full-stack development process:
+- database design
+- migrations
+- REST API
+- frontend SPA
+- testing
+- semantic versioning (SemVer)
+- release management
 
-🧠 Author
+## 🧠 Author
 - Maciej Mróz
 - GitHub: https://github.com/maciejmrozgg
+
+---
+
+# 🥗 EasyKcal (PL)
+EasyKcal to pełnoprawna aplikacja webowa typu **full-stack** do zarządzania kaloriami, produktami, przepisami oraz harmonogramem posiłków.
+
+Projekt prezentuje pełny proces budowy aplikacji webowej:
+- REST API (Node.js + Express)
+- relacyjną bazę danych (PostgreSQL)
+- uwierzytelnianie użytkowników (JWT)
+- role (user / admin)
+- testy backendu i frontendu
+- modularny frontend oparty o React
+
+Wersja **v1.0.0** oznacza pierwszą stabilną wersję aplikacji z pełnym pokryciem testowym.
+
+---
+
+## Funkcje
+
+### 🔹 Kalkulator
+- Kalkulator kalorii (kcal/100g × waga)
+- Odwrócony kalkulator (kalorie → waga)
+- Nutrition Summary – podsumowanie kalorii i wartości odżywczych
+
+### 🔹 Produkty
+- CRUD produktów
+- Wyszukiwanie
+- Aktualizacja danych
+
+### 🔹 Przepisy
+- CRUD przepisów
+- Kategorie globalne (default)
+- Kategorie użytkownika (custom CRUD)
+- Automatyczne przenoszenie przepisów do „Bez kategorii” po usunięciu kategorii
+
+### 🔹 Harmonogram
+- Miesięczny widok posiłków
+- Desktop + Mobile views
+- Zarządzanie składnikami
+- Limity kalorii
+
+### 🔹 Autoryzacja
+- Rejestracja i logowanie
+- JWT
+- Role: user / admin
+- Ochrona endpointów
+
+## Architektura
+
+### Frontend
+- React + Vite
+- Modularna struktura (feature-based)
+- API abstraction layer
+- Local state + custom hooks
+- Vitest + React Testing Library
+
+### Backend
+- Node.js + Express
+- PostgreSQL
+- Relacyjny model danych
+- Middleware (auth, error handler, CORS)
+- Migracje SQL
+- Testy integracyjne (Jest)
+
+---
+
+## Testy
+
+### Backend
+- Jest
+- Testy integracyjne endpointów
+- Testy autoryzacji i ownership
+- Testy CRUD dla recipes i categories
+
+### Frontend
+- Vitest
+- React Testing Library
+- Testy komponentów
+- Testy integracyjne
+- Testy modali
+
+Wszystkie testy przechodzą w wersji v1.0.0.
+
+---
+
+## Technologie
+
+### Frontend
+- React (Vite)
+- JavaScript (ES6+) 
+- HTML + CSS  
+- react-icons  
+
+### Backend
+- Node.js + Express  
+- PostgreSQL
+- JWT
+- Dotenv   
+- HTTPS (lokalne certyfikaty)  
+
+**Endpointy backendowe:**
+
+| Endpoint                        | Metody                   | Funkcjonalność                                |
+|---------------------------------|--------------------------|-----------------------------------------------|
+| `/products`                     | GET, POST, PUT, DELETE   | CRUD produktów                                |
+| `/calculator/calculate`         | POST                     | Oblicza kalorie na podstawie wagi             |
+| `/calculator/calculate-reverse` | POST                     | Oblicza wagę na podstawie kalorii             |
+| `/api/recipes`                  | GET, POST, PUT, DELETE   | CRUD przepisów kulinarnych                    |
+| `/api/categories`               | GET, POST, PUT, DELETE   | Kategorie (global + user)                     |
+| `/api/schedule/:year/:month`    | GET, PATCH, POST, DELETE | Pobieranie i zarządzanie harmonogramem        |
+| `/auth/register`                | POST                     | Rejestracja użytkownika                       |
+| `/auth/login`                   | POST                     | Logowanie użytkownika                         |
+| `/auth/logout`                  | POST                     | Wylogowanie użytkownika                       |
+| `/auth/me`                      | GET                      | Pobranie danych zalogowanego użytkownika      |
+
+---
+
+## Baza danych
+
+Aplikacja wykorzystuje relacyjną bazę danych **PostgreSQL**.
+
+### Główne założenia projektowe:
+- Foreign Keys (spójność relacyjna)
+- UNIQUE constraints
+- JSONB (ingredients, instructions, schedule)
+- Triggery `updated_at`
+- Migracje SQL (ewolucja schematu w trakcie rozwoju projektu)
+
+---
+
+### 📄 Struktura i dokumentacja
+Projekt zawiera trzy poziomy pracy ze schematem bazy:
+
+### 1️⃣ Pełny schemat (odtworzenie od zera)
+Wykonywalny plik: `backend/db/schema.sql`
+Umożliwia zbudowanie całej struktury bazy od podstaw.
+
+### 2️⃣ Migracje (zmiany inkrementalne)
+Folder: `backend/migrations`
+Zawiera pliki migracyjne dokumentujące ewolucję schematu w kolejnych etapach rozwoju projektu.
+
+### 3️⃣ Dokumentacja techniczna
+Plik: `backend/db/SCHEMA.md`
+Opisuje:
+- strukturę tabel
+- relacje
+- constrainty
+- założenia projektowe
+
+---
+
+## Odtworzenie bazy danych
+
+### Linux / macOS
+psql <database_name> < backend/db/schema.sql
+
+### Windows (PowerShell)
+Get-Content backend\db\schema.sql | psql -U <db_user> <database_name>
+Gdzie:
+- `<db_user>` – użytkownik PostgreSQL (np. postgres)
+- `<database_name>` – nazwa bazy danych (np. easykcal)
+
+---
+
+## 🚀 Uruchomienie lokalne
+
+### Backend
+1.Sklonuj repozytorium:  
+git clone https://github.com/maciejmrozgg/easykcal.git
+
+2.Przejdź do katalogu backend:
+cd easykcal/backend
+
+3.Zainstaluj zależności:
+npm install
+
+4.Skonfiguruj plik .env (przykład):
+PGHOST=localhost
+PGUSER=TwojUzytkownik
+PGPASSWORD=TwojeHaslo
+PGDB=NazwaBazy
+PGPORT=5432
+
+HOST=localhost
+PORT=3000
+
+KEY_PATH=../key.pem
+CERT_PATH=../cert.pem
+
+ALLOWED_ORIGINS=https://localhost:5173
+
+5.Uruchom backend:
+npm start
+
+Serwer wystartuje pod adresem:
+https://HOST:PORT
+
+### Frontend
+1.Przejdź do katalogu frontend:
+cd ../frontend
+
+2.Zainstaluj zależności:
+npm install
+
+3.Skonfiguruj .env (przykład):
+VITE_API_URL=https://localhost:3000
+
+4.Uruchom frontend:
+npm run dev
+
+Frontend będzie dostępny pod adresem domyślnym Vite, np.:
+https://localhost:5173
+
+## ⚡ Wdrożenie online
+- Backend: Railway, Render lub inny darmowy hosting Node.js. Zaktualizuj zmienne środowiskowe i upewnij się, że CORS wskazuje na frontend.
+- Frontend: Netlify lub Vercel. W .env ustaw VITE_API_URL na URL backendu online.
+
+## 🛡️ Bezpieczeństwo
+- CORS ograniczony do domeny frontendowej
+- Uwierzytelnianie JWT
+- Dostęp oparty na rolach
+- HTTPS (lokalne certyfikaty lub SSL na produkcji)
+- Globalny handler błędów
+
+## 📚 Cel edukacyjny
+Projekt pokazuje kompletny proces tworzenia aplikacji full-stack:
+- projekt bazy danych
+- migracje
+- REST API
+- frontend SPA
+- testowanie
+- wersjonowanie (SemVer)
+- release management
+
+---
+
+## 🧠 Autor
+- Maciej Mróz
+- GitHub: https://github.com/maciejmrozgg
+
+Version: v1.0.1 
+Status: Stable
