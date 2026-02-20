@@ -11,9 +11,9 @@
 
   --component-bg: #ffffff;
 
-  --button-bg: #2ecc71;
+  --button-bg: #3498db;
   --button-color: #ffffff;
-  --button-hover-bg: #27ae60;
+  --button-hover-bg: #3dadf8;
   --button-hover-color: #ffffff;
 
   --input-bg: #f0f2f5;
@@ -24,7 +24,7 @@
 
   --result-bg: linear-gradient(90deg, #2ecc71, #6dd5a7);
 
-  --navbar-bg: linear-gradient(90deg, #2ecc71, #3498db);
+  --navbar-bg: linear-gradient(90deg, #3498db, #2ecc71);
   --navbar-color: #ffffff;
 
   --product-card-total: #1e1e1e;
