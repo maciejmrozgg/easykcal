@@ -1,6 +1,6 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { getCategories } from "../api/categoriesApi";
+import { getCategories, createCategory, updateCategory, deleteCategory } from "../api/categoriesApi";
 import Recipes from "../Recipes";
 
 // ==================
@@ -26,6 +26,9 @@ vi.mock("../api/recipesApi", () => ({
 
 vi.mock("../api/categoriesApi", () => ({
   getCategories: vi.fn(),
+  createCategory: vi.fn(),
+  updateCategory: vi.fn(),
+  deleteCategory: vi.fn(),
 }));
 
 import {
@@ -113,30 +116,23 @@ describe("Recipes view – full flow", () => {
     });
 
     render(<Recipes user={adminUser} />);
-
-    // Otwórz formularz
+    
     fireEvent.click(await screen.findByText("Dodaj przepis"));
 
-    // Wypełnij tytuł i opis
     fireEvent.change(screen.getByPlaceholderText("Tytuł"), { target: { value: "Nowy przepis" } });
     fireEvent.change(screen.getByPlaceholderText("Opis"), { target: { value: "" } });
 
-    // Wypełnij pierwszy składnik
     const ingredientInput = screen.getByPlaceholderText("Tytuł").closest('form')
       .querySelector(".ingredient input");
     fireEvent.change(ingredientInput, { target: { value: "test" } });
 
-    // Wypełnij pierwszą instrukcję
     const instructionInput = screen.getByPlaceholderText("Tytuł").closest('form')
       .querySelector(".instruction input");
     fireEvent.change(instructionInput, { target: { value: "test" } });
-
-    // Kliknij submit
     fireEvent.click(screen.getByTestId("submit-recipe"));
 
     await enterRecipesList();
 
-    // Sprawdź, czy createRecipe zostało wywołane
     await waitFor(() => {
       expect(createRecipe).toHaveBeenCalledWith({
         title: "Nowy przepis",
@@ -188,6 +184,76 @@ describe("Recipes view – full flow", () => {
 
     await waitFor(() => {
       expect(deleteRecipe).toHaveBeenCalledWith(1);
+    });
+  });
+
+  it("creates a new category", async () => {
+    createCategory.mockResolvedValueOnce({
+      id: 2,
+      name: "Nowa kategoria",
+      user_id: 1,
+    });
+
+    render(<Recipes user={adminUser} />);
+
+    fireEvent.click(await screen.findByText("Dodaj kategorię"));
+
+    fireEvent.change(screen.getByLabelText("Nazwa:"), {
+      target: { value: "Nowa kategoria" },
+    });
+
+    fireEvent.click(screen.getByText("Zapisz"));
+
+    await waitFor(() => {
+      expect(createCategory).toHaveBeenCalledWith("Nowa kategoria");
+    });
+  });
+
+  it("updates category", async () => {
+    getCategories.mockResolvedValueOnce([
+      { id: 1, name: "Obiady", user_id: 1 },
+    ]);
+
+    updateCategory.mockResolvedValueOnce({
+      id: 1,
+      name: "Kolacje",
+      user_id: 1,
+    });
+
+    render(<Recipes user={adminUser} />);
+
+    const editButton = await screen.findByText("✏️");
+    fireEvent.click(editButton);
+
+    fireEvent.change(screen.getByLabelText("Nazwa:"), {
+      target: { value: "Kolacje" },
+    });
+
+    fireEvent.click(screen.getByText("Zapisz"));
+
+    await waitFor(() => {
+      expect(updateCategory).toHaveBeenCalledWith(1, "Kolacje");
+    });
+  });
+
+  it("deletes category", async () => {
+    getCategories.mockResolvedValueOnce([
+      { id: 1, name: "Obiady", user_id: 1 },
+    ]);
+
+    deleteCategory.mockResolvedValueOnce({});
+
+    vi.spyOn(window, "confirm").mockReturnValue(true);
+
+    render(<Recipes user={adminUser} />);
+
+    const editButton = await screen.findByText("✏️");
+    fireEvent.click(editButton);
+
+    fireEvent.click(screen.getByText("Usuń"));
+
+    await waitFor(() => {
+      expect(deleteCategory).toHaveBeenCalledWith(1);
     });
   });
 });
