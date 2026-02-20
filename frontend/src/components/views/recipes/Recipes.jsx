@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import { getRecipes, createRecipe, updateRecipe, deleteRecipe } from "./api/recipesApi";
-import { getCategories } from "./api/categoriesApi";
+import { getCategories, createCategory, updateCategory, deleteCategory } from "./api/categoriesApi";
 import RecipeForm from "./RecipeForm";
 import ScrollButtons from "../../products/components/ScrollButtons";
+import CategoryModal from "./components/modals/CategoryModal";
 import "./styles/Recipes.css";
 
 const Recipes = ({ user }) => {
@@ -16,6 +17,8 @@ const Recipes = ({ user }) => {
   const [viewMode, setViewMode] = useState("categories"); // "categories" | "category" | "all"
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [categories, setCategories] = useState([]);
+  const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
+  const [categoryToEdit, setCategoryToEdit] = useState(null);
 
   const listRef = useRef(null);
   const searchRef = useRef(null);
@@ -80,15 +83,20 @@ const Recipes = ({ user }) => {
   };
 
   const handleFormSubmit = async (recipeData) => {
-    if (editingRecipeId) {
-      await updateRecipe(editingRecipeId, recipeData);
+    try {
+      if (editingRecipeId) {
+        await updateRecipe(editingRecipeId, recipeData);
+        setEditingRecipeId(null);
+      } else {
+        await createRecipe(recipeData);
+        setShowAddForm(false);
+      }
+
       const refreshed = await getRecipes();
       setRecipes(refreshed);
-      setEditingRecipeId(null);
-    } else {
-      const newRecipe = await createRecipe(recipeData);
-      setRecipes([...recipes, newRecipe]);
-      setShowAddForm(false);
+
+    } catch (err) {
+      console.error("Błąd zapisu przepisu:", err);
     }
   };
 
@@ -124,6 +132,57 @@ const Recipes = ({ user }) => {
     if (count === 1) return "przepis";
     if (count >= 2 && count <= 4) return "przepisy";
     return "przepisów";
+  };
+
+  const openAddCategoryModal = () => {
+    setCategoryToEdit(null);
+    setIsCategoryModalOpen(true);
+  };
+
+  const openEditCategoryModal = (cat) => {
+    setCategoryToEdit(cat);
+    setIsCategoryModalOpen(true);
+  };
+
+  const handleSaveCategory = async (name) => {
+    try {
+      if (categoryToEdit) {
+        const updated = await updateCategory(categoryToEdit.id, name);
+
+        setCategories(prev =>
+          prev.map(c => c.id === categoryToEdit.id ? updated : c)
+        );
+      } else {
+        const created = await createCategory(name);
+        setCategories(prev => [...prev, created]);
+      }
+
+      setIsCategoryModalOpen(false);
+      setCategoryToEdit(null);
+
+    } catch {
+      alert("Błąd zapisu kategorii");
+    }
+  };
+
+  const handleDeleteCategory = async () => {
+    if (!categoryToEdit) return;
+
+    try {
+      await deleteCategory(categoryToEdit.id);
+      setCategories(prev =>
+        prev.filter(c => c.id !== categoryToEdit.id)
+      );
+
+      const refreshedRecipes = await getRecipes();
+      setRecipes(refreshedRecipes);
+
+      setIsCategoryModalOpen(false);
+      setCategoryToEdit(null);
+
+    } catch {
+      alert("Błąd usuwania");
+    }
   };
 
   const renderRecipeCard = (r) => {
@@ -275,25 +334,49 @@ const Recipes = ({ user }) => {
               const count = groupedRecipes[cat.name]?.length || 0;
 
               return (
-                <div
-                  key={cat.id}
-                  className="category-tile"
-                  onClick={() => {
-                    setSelectedCategory(cat.name);
-                    setViewMode("category");
-                  }}
-                >
-                  <img
-                    src={cat.image_url || "/images/categories/default.jpg"}
-                    alt={cat.name}
-                    className="category-image"
-                  />
+                <div key={cat.id} className="category-tile">
+                  <div
+                    onClick={() => {
+                      setSelectedCategory(cat.name);
+                      setViewMode("category");
+                    }}
+                  >
+                    <img
+                      src={cat.image_url || "/images/categories/default.jpg"}
+                      alt={cat.name}
+                      className="category-image"
+                    />
 
-                  <h3>{cat.name}</h3>
-                  <span>{count} {getRecipeWord(count)}</span>
+                    <h3>{cat.name}</h3>
+                    <span>{count} {getRecipeWord(count)}</span>
+                  </div>
+
+                  {/* CUSTOM CATEGORIES OPEN MODAL */}
+                  {cat.user_id && (
+                    <div style={{ marginTop: "0.7rem" }}>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          openEditCategoryModal(cat);
+                        }}
+                        style={{ marginRight: "0.5rem" }}
+                      >
+                        ✏️
+                      </button>
+                    </div>
+                  )}
                 </div>
               );
             })}
+
+            {/* ADD CUSTOM CATEGORY TILE*/}
+            <div
+              className="category-tile add-category-tile"
+              onClick={openAddCategoryModal}
+            >
+              <div className="add-category-plus">+</div>
+              <h3>Dodaj kategorię</h3>
+            </div>
           </div>
 
           <div style={{ marginTop: "2rem", textAlign: "center" }}>
@@ -346,6 +429,17 @@ const Recipes = ({ user }) => {
           </div>
         </div>
       )}
+
+      <CategoryModal
+        open={isCategoryModalOpen}
+        category={categoryToEdit}
+        onSave={handleSaveCategory}
+        onDelete={handleDeleteCategory}
+        onClose={() => {
+          setIsCategoryModalOpen(false);
+          setCategoryToEdit(null);
+        }}
+      />
     </div>
   );
 };

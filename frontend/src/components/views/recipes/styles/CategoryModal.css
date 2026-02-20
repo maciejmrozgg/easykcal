@@ -1,0 +1,71 @@
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: var(--component-bg);
+  padding: 1.5rem;
+  border-radius: 8px;
+  width: 320px;
+  max-width: 90%;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+.modal-content h2 {
+  margin-top: 0;
+  color: var(--accent-color);
+}
+
+.modal-content label {
+  display: block;
+  margin: 0.5rem 0;
+}
+
+.modal-content input {
+  width: 100%;
+  padding: 0.4rem 0.6rem;
+  margin-top: 0.2rem;
+  border-radius: 6px;
+  border: 2px solid var(--accent-color);
+  background: var(--input-bg);
+  color: var(--input-color);
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.modal-buttons button {
+  padding: 0.4rem 0.9rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+.modal-buttons .save {
+  background: var(--button-bg);
+  color: var(--button-color);
+}
+
+.modal-buttons .save:hover {
+  background: var(--button-hover-bg);
+  color: var(--button-hover-color);
+}
+
+.modal-buttons .cancel {
+  background: #ccc;
+}
+
+.modal-buttons .delete {
+  background: #e74c3c;
+  color: #fff;
+}
