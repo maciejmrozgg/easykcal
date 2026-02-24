@@ -81,7 +81,3 @@ describe("Categories API – CRUD", () => {
     expect(res.body.message).toBe("Category deleted");
   });
 });
-
-afterAll(async () => {
-  await pool.end();
-});

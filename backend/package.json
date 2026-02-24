@@ -5,7 +5,12 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "test": "jest"
+    "test": "jest --runInBand"
+  },
+  "jest": {
+    "globalSetup": "<rootDir>/tests/global/globalSetup.js",
+    "globalTeardown": "<rootDir>/tests/global/globalTeardown.js",
+    "testEnvironment": "node"
   },
   "keywords": [],
   "author": "",

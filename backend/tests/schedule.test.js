@@ -142,7 +142,3 @@ describe("Schedule API", () => {
     expect(res.body.meals.some(m => m.id === mealId)).toBe(false);
   });
 });
-
-afterAll(async () => {
-  await pool.end();
-});

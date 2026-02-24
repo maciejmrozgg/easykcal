@@ -104,7 +104,3 @@ describe("Recipes API – CRUD (JWT)", () => {
     expect(res.body.message).toBe("Recipe deleted");
   });
 });
-
-afterAll(async () => {
-  await pool.end();
-});

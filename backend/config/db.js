@@ -1,12 +1,15 @@
-require('dotenv').config(); //ładuje zmienne środowiskowe z pliku .env do process.env.
-const { Pool } = require('pg'); //klasa Pool z modułu pg
+require('dotenv').config({
+    path: process.env.JEST_WORKER_ID ? '.env.test' : '.env',
+    override: true
+}); 
+const { Pool } = require('pg'); 
 
-const pool = new Pool({ //tworzymy instancję klasy Pool, przekazując jej dane logowania do bazy
+const pool = new Pool({ 
     host: process.env.PGHOST, 
     user: process.env.PGUSER,
     password: process.env.PGPASSWORD,
     database: process.env.PGDB,
     port: process.env.PGPORT
-}); //host, user, password, database, port są wczytywane z pliku .env za pomocą process.env.NAZWA_ZMIENNEJ
+}); 
 
-module.exports = pool; //udostępnienie obiektu pool innym plikom w aplikacji
+module.exports = pool;
