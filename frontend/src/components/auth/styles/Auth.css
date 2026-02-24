@@ -8,7 +8,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000; 
+  z-index: 1000;
 }
 
 .auth-container {
@@ -40,41 +40,43 @@
 
 .auth-container input:focus {
   border-color: var(--text-color);
-  box-shadow: 0 0 6px rgba(255,255,255,0.6);
+  box-shadow: 0 0 6px rgba(255,255,255,0.4);
 }
 
-.auth-container .btn-register {
-  display: inline-block;
-  width: 48%;
+/* Auth shared button styles */
+.auth-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 0.5rem;
+}
+
+.auth-buttons button {
+  flex: 1;
   padding: 12px 16px;
-  margin-right: 4%;
   border-radius: 8px;
   border: none;
-  background-color: var(--button-bg);
-  color: var(--button-color);
   font-weight: bold;
   cursor: pointer;
-  text-align: center;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: 0.3s ease;
 }
 
-.auth-container .btn-register:last-child {
-  margin-right: 0;
+.btn-primary {
+  background-color: var(--button-bg);
+  color: var(--button-color);
 }
 
-.auth-container .btn-register:hover {
+.btn-primary:hover {
   background-color: var(--button-hover-bg);
   color: var(--button-hover-color);
 }
 
-.auth-container .btn-register-cancel {
-  background-color: #e74c3c;
+.btn-danger {
+  background-color: #c0392b;
   color: #fff;
-  width: 48%;
 }
 
-.auth-container .btn-register-cancel:hover {
-  background-color: #c0392b;
+.btn-danger:hover {
+  background-color: #a93226;
 }
 
 .auth-container p {

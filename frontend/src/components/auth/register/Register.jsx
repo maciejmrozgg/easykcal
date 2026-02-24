@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { registerUser } from "../api/authApi";
-import './Register.css';
+import '../styles/Auth.css';
 
 export default function Register({ onClose }) {
   const [email, setEmail] = useState("");
@@ -43,10 +43,12 @@ export default function Register({ onClose }) {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <button type="submit" disabled={loading} className="btn-register">
+        <div className="auth-buttons">
+        <button type="submit" disabled={loading} className="btn-primary">
           {loading ? "Rejestracja..." : "Zarejestruj"}
         </button>
-        <button type="button" className="btn-register-cancel" onClick={onClose}>Anuluj</button>
+        <button type="button" className="btn-danger" onClick={onClose}>Anuluj</button>
+        </div>
       </form>
       {message && <p>{message}</p>}
     </div>

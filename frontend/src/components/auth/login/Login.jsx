@@ -1,5 +1,5 @@
 import { useState } from "react";
-import './Login.css';
+import '../styles/Auth.css';
 
 export default function Login({ onLoginSuccess, onClose }) {
   const [email, setEmail] = useState("");
@@ -51,10 +51,10 @@ export default function Login({ onLoginSuccess, onClose }) {
           required
         />
         <div className="auth-buttons">
-          <button type="submit" className="btn-login-submit" disabled={loading}>
+          <button type="submit" className="btn-primary" disabled={loading}>
             {loading ? "Logowanie..." : "Zaloguj"}
           </button>
-          <button type="button" className="btn-login-cancel" onClick={onClose}>
+          <button type="button" className="btn-danger" onClick={onClose}>
             Anuluj
           </button>
         </div>
