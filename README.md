@@ -1,4 +1,4 @@
-![Version](https://img.shields.io/badge/version-v1.0.1-blue)
+![Version](https://img.shields.io/badge/version-v1.0.2-blue)
 ![Status](https://img.shields.io/badge/status-stable-green)
 
 # 🥗 EasyKcal (ENG)
@@ -12,7 +12,8 @@ The project presents the complete process of building a web application:
 - backend and frontend testing
 - modular React-based frontend
 
-Version v1.0.0 marks the first stable release with full test coverage.
+Version v1.0.0 marks the first stable release of the application.
+Current version: v1.0.2.
 
 ## Features
 
@@ -78,7 +79,7 @@ Version v1.0.0 marks the first stable release with full test coverage.
 - Integration tests
 - Modal tests
 
-All tests pass in version v1.0.0.
+All tests pass in the current stable version.
 
 ---
 
@@ -246,7 +247,8 @@ Projekt prezentuje pełny proces budowy aplikacji webowej:
 - testy backendu i frontendu
 - modularny frontend oparty o React
 
-Wersja **v1.0.0** oznacza pierwszą stabilną wersję aplikacji z pełnym pokryciem testowym.
+Wersja **v1.0.0** oznacza pierwszą stabilną wersję aplikacji.
+Obecna wersja: v1.0.2.
 
 ---
 
@@ -314,7 +316,7 @@ Wersja **v1.0.0** oznacza pierwszą stabilną wersję aplikacji z pełnym pokryc
 - Testy integracyjne
 - Testy modali
 
-Wszystkie testy przechodzą w wersji v1.0.0.
+Wszystkie testy w obecnej stabilnej wersji przechodzą pomyślnie.
 
 ---
 
@@ -473,5 +475,5 @@ Projekt pokazuje kompletny proces tworzenia aplikacji full-stack:
 - Maciej Mróz
 - GitHub: https://github.com/maciejmrozgg
 
-Version: v1.0.1 
+Version: v1.0.2
 Status: Stable
