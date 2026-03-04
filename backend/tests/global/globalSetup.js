@@ -1,5 +1,13 @@
 require("dotenv").config({ path: ".env.test" });
 
+if (process.env.NODE_ENV !== "test") {
+  throw new Error("Tests must run with NODE_ENV=test");
+}
+
+if (process.env.PGDB !== "easykcal_test") {
+  throw new Error("Tests cannot run on non-test database!");
+}
+
 const pool = require("../../config/db");
 const fs = require("fs");
 const path = require("path");
