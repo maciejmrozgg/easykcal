@@ -25,4 +25,13 @@ module.exports = async () => {
   );
 
   await pool.query(schema);
+
+  await pool.query("SET search_path TO public");
+
+  const seed = fs.readFileSync(
+    path.join(__dirname, "../../db/seeds.sql"),
+    "utf8"
+  );
+
+  await pool.query(seed);
 };

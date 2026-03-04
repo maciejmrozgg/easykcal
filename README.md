@@ -1,4 +1,4 @@
-![Version](https://img.shields.io/badge/version-v1.0.3-blue)
+![Version](https://img.shields.io/badge/version-v1.0.4-blue)
 ![Status](https://img.shields.io/badge/status-stable-green)
 
 # 🥗 EasyKcal (ENG)
@@ -13,7 +13,7 @@ The project presents the complete process of building a web application:
 - modular React-based frontend
 
 Version **v1.0.0** marks the first stable release of the application.
-Current version: v1.0.3.
+Current version: v1.0.4.
 
 ## Features
 
@@ -72,6 +72,8 @@ Current version: v1.0.3.
 - Authorization and ownership tests
 - CRUD tests for recipes and categories
 - Dedicated test database (.env.test)
+
+Database is rebuilt from schema.sql and seeded before each test run.
 
 ### Frontend
 - Vitest
@@ -202,6 +204,15 @@ npm start
 Backend will run at:
 https://HOST:PORT
 
+## Example accounts
+Admin account  
+email: admin@easykcal.local  
+password: admin123  
+
+User account  
+email: user@easykcal.local  
+password: admin123
+
 ### Frontend
 1.Go to frontend folder:
 cd ../frontend
@@ -257,7 +268,7 @@ Projekt prezentuje pełny proces budowy aplikacji webowej:
 - modularny frontend oparty o React
 
 Wersja **v1.0.0** oznacza pierwszą stabilną wersję aplikacji.
-Obecna wersja: v1.0.3.
+Obecna wersja: v1.0.4.
 
 ---
 
@@ -318,6 +329,8 @@ Obecna wersja: v1.0.3.
 - Testy autoryzacji i ownership
 - Testy CRUD dla recipes i categories
 - Dedykowana testowa baza danych (.env.test)
+
+Baza danych jest budowana na nowo na podstawie schema.sql i inicjowana przed każdym uruchomieniem testu.
 
 ### Frontend
 - Vitest
@@ -450,6 +463,15 @@ npm start
 Serwer wystartuje pod adresem:
 https://HOST:PORT
 
+## Przykładowe konta
+Admin account  
+email: admin@easykcal.local  
+password: admin123  
+
+User account  
+email: user@easykcal.local  
+password: admin123
+
 ### Frontend
 1.Przejdź do katalogu frontend:
 cd ../frontend
@@ -493,5 +515,5 @@ Projekt pokazuje kompletny proces tworzenia aplikacji full-stack:
 - Maciej Mróz
 - GitHub: https://github.com/maciejmrozgg
 
-Version: v1.0.3
+Version: v1.0.4
 Status: Stable
