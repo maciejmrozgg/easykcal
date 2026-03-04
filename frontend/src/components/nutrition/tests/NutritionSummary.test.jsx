@@ -4,8 +4,8 @@ import NutritionSummary from "../NutritionSummary";
 
 describe("NutritionSummary", () => {
   const sampleProducts = [
-    { name: "Jabłko", weight: 150, result: 80 },
-    { name: "Banana", weight: 120, result: 100 },
+    { id: 1, name: "Jabłko", weight: 150, result: 80 },
+    { id: 2, name: "Banana", weight: 120, result: 100 },
   ];
 
   it("renders header", () => {

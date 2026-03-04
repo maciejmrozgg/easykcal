@@ -13,7 +13,7 @@ export default function NutritionSummary({ selectedProducts, onRemove, onReset, 
         <AnimatePresence mode='popLayout' initial={false}>
           {selectedProducts.map((product, index) => (
             <motion.div
-              key={product.id}
+              key={product.id ?? `${product.name}-${index}`}
               className="product-card-wrapper"
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.8, y: 10 }}

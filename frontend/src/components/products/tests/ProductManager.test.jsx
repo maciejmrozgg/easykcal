@@ -15,12 +15,14 @@ vi.mock('../api/productApi', () => ({
 }));
 
 describe('ProductManager', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
         render(
             <ProductsProvider>
                 <ProductManager />
             </ProductsProvider>
         );
+
+        await screen.findByText(/Zarządzanie produktami/i);
     });
 
     it('renders main components', () => {
@@ -76,6 +78,9 @@ describe('ProductManager', () => {
         );
 
         fireEvent.click(editButton);
-        expect(window.prompt).toHaveBeenCalledTimes(2);
+
+        await waitFor(() => {
+            expect(window.prompt).toHaveBeenCalledTimes(2);
+        })
     });
 });
