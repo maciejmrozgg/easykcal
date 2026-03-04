@@ -1,16 +1,10 @@
-const { Pool } = require("pg");
-const fs = require("fs");
-const path = require("path");
 require("dotenv").config({ path: ".env.test" });
 
+const pool = require("../../config/db");
+const fs = require("fs");
+const path = require("path");
+
 module.exports = async () => {
-  const pool = new Pool({
-    host: process.env.PGHOST,
-    user: process.env.PGUSER,
-    password: process.env.PGPASSWORD,
-    database: process.env.PGDB,
-    port: process.env.PGPORT,
-  });
 
   await pool.query(`
     DROP SCHEMA public CASCADE;
@@ -23,6 +17,4 @@ module.exports = async () => {
   );
 
   await pool.query(schema);
-
-  await pool.end();
 };

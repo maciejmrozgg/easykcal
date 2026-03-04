@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "test": "jest --runInBand"
+    "test": "set NODE_ENV=test&& jest --runInBand --detectOpenHandles"
   },
   "jest": {
     "globalSetup": "<rootDir>/tests/global/globalSetup.js",

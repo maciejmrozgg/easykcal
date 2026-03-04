@@ -12,4 +12,8 @@ const pool = new Pool({
     port: process.env.PGPORT
 }); 
 
+if (process.env.NODE_ENV === "test") {
+  console.log("Connected to test database:", process.env.PGDB);
+}
+
 module.exports = pool;
