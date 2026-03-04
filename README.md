@@ -1,4 +1,4 @@
-![Version](https://img.shields.io/badge/version-v1.0.2-blue)
+![Version](https://img.shields.io/badge/version-v1.0.3-blue)
 ![Status](https://img.shields.io/badge/status-stable-green)
 
 # 🥗 EasyKcal (ENG)
@@ -12,8 +12,8 @@ The project presents the complete process of building a web application:
 - backend and frontend testing
 - modular React-based frontend
 
-Version v1.0.0 marks the first stable release of the application.
-Current version: v1.0.2.
+Version **v1.0.0** marks the first stable release of the application.
+Current version: v1.0.3.
 
 ## Features
 
@@ -71,6 +71,7 @@ Current version: v1.0.2.
 - Endpoint integration tests
 - Authorization and ownership tests
 - CRUD tests for recipes and categories
+- Dedicated test database (.env.test)
 
 ### Frontend
 - Vitest
@@ -81,6 +82,13 @@ Current version: v1.0.2.
 
 All tests pass in the current stable version.
 
+Test coverage includes:
+- backend API endpoints
+- authentication and authorization
+- CRUD operations
+- frontend component behavior
+- user interaction flows
+
 ---
 
 ## Technologies
@@ -90,6 +98,7 @@ All tests pass in the current stable version.
 - JavaScript (ES6+)
 - HTML + CSS
 - react-icons
+- framer-motion
 
 ### Backend
 - Node.js + Express
@@ -248,7 +257,7 @@ Projekt prezentuje pełny proces budowy aplikacji webowej:
 - modularny frontend oparty o React
 
 Wersja **v1.0.0** oznacza pierwszą stabilną wersję aplikacji.
-Obecna wersja: v1.0.2.
+Obecna wersja: v1.0.3.
 
 ---
 
@@ -308,6 +317,7 @@ Obecna wersja: v1.0.2.
 - Testy integracyjne endpointów
 - Testy autoryzacji i ownership
 - Testy CRUD dla recipes i categories
+- Dedykowana testowa baza danych (.env.test)
 
 ### Frontend
 - Vitest
@@ -318,6 +328,13 @@ Obecna wersja: v1.0.2.
 
 Wszystkie testy w obecnej stabilnej wersji przechodzą pomyślnie.
 
+Testy obejmują:
+- backend API endpoints
+- uwierzytelnianie i autoryzację
+- operacje CRUD
+- zachowanie komponentów front-end
+- przepływy interakcji użytkownika
+
 ---
 
 ## Technologie
@@ -327,6 +344,7 @@ Wszystkie testy w obecnej stabilnej wersji przechodzą pomyślnie.
 - JavaScript (ES6+) 
 - HTML + CSS  
 - react-icons  
+- framer-motion
 
 ### Backend
 - Node.js + Express  
@@ -475,5 +493,5 @@ Projekt pokazuje kompletny proces tworzenia aplikacji full-stack:
 - Maciej Mróz
 - GitHub: https://github.com/maciejmrozgg
 
-Version: v1.0.2
+Version: v1.0.3
 Status: Stable
