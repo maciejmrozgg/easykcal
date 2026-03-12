@@ -15,6 +15,8 @@ The project presents the complete process of building a web application:
 Version **v1.0.0** marks the first stable release of the application.
 Current version: v1.0.4.
 
+---
+
 ## Features
 
 ### 🔹 Calculator
@@ -45,6 +47,8 @@ Current version: v1.0.4.
 - Roles: user / admin
 - Protected endpoints
 
+---
+
 ## Project Roadmap
 Planned improvements and future features for EasyKcal.
 
@@ -64,6 +68,8 @@ Planned improvements and future features for EasyKcal.
 - Docker containerization (backend + database)
 - Full deployment (frontend + backend + database)
 - CI pipeline for automated testing
+
+---
 
 ## Architecture
 
@@ -189,6 +195,21 @@ Get-Content backend\db\schema.sql | psql -U <db_user> <database_name>
 Where:
 - `<db_user>` – your PostgreSQL user (e.g. postgres)
 - `<database_name>` – your database name (e.g. easykcal)
+
+---
+
+## Default categories initialization
+The application includes a set of global recipe categories.
+These categories are global (user_id = NULL) and visible to all users.
+
+To initialize default categories in a production database run:
+
+### Linux / macOS
+psql <database_name> < backend/db/defaultData.sql
+
+### Windows (PowerShell)
+Get-Content backend\db\defaultData.sql | psql -U <db_user> <database_name>
+
 ---
 
 ## 🚀 Local setup
@@ -224,15 +245,6 @@ npm start
 Backend will run at:
 https://HOST:PORT
 
-## Example accounts (local development)
-Admin account  
-email: admin@easykcal.local  
-password: admin123  
-
-User account  
-email: user@easykcal.local  
-password: admin123
-
 ### Frontend
 1.Go to frontend folder:
 cd ../frontend
@@ -248,6 +260,17 @@ npm run dev
 
 Frontend will be available at default Vite address, e.g.:
 https://localhost:5173
+
+### Example accounts (local development)
+Admin account  
+email: admin@easykcal.local  
+password: admin123  
+
+User account  
+email: user@easykcal.local  
+password: admin123
+
+---
 
 ## ⚡ Deployment
 - Backend: Railway, Render, or other free Node.js hosting. Update environment variables and make sure CORS points to frontend.
@@ -328,6 +351,8 @@ Obecna wersja: v1.0.4.
 - Role: user / admin
 - Ochrona endpointów
 
+---
+
 ## Plan projektu
 Planowane ulepszenia i przyszłe funkcje dla EasyKcal.
 
@@ -347,6 +372,8 @@ Planowane ulepszenia i przyszłe funkcje dla EasyKcal.
 - Konteneryzacja Dockera (backend + baza danych)
 - Pełne wdrożenie (frontend + backend + baza danych)
 - Potok CI dla zautomatyzowanych testów
+
+---
 
 ## Architektura
 
@@ -440,8 +467,6 @@ Aplikacja wykorzystuje relacyjną bazę danych **PostgreSQL**.
 - Triggery `updated_at`
 - Migracje SQL (ewolucja schematu w trakcie rozwoju projektu)
 
----
-
 ### 📄 Struktura i dokumentacja
 Projekt zawiera trzy poziomy pracy ze schematem bazy:
 
@@ -473,6 +498,20 @@ Get-Content backend\db\schema.sql | psql -U <db_user> <database_name>
 Gdzie:
 - `<db_user>` – użytkownik PostgreSQL (np. postgres)
 - `<database_name>` – nazwa bazy danych (np. easykcal)
+
+---
+
+## Inicjalizacja domyślnych kategorii
+Aplikacja zawiera zestaw globalnych kategorii przepisów.
+Kategorie te są globalne (user_id = NULL) i widoczne dla wszystkich użytkowników.
+
+Aby dodać domyślne kategorie do produkcyjnej bazy danych uruchom:
+
+### Linux / macOS
+psql <database_name> < backend/db/defaultData.sql
+
+### Windows (PowerShell)
+Get-Content backend\db\defaultData.sql | psql -U <db_user> <database_name>
 
 ---
 
@@ -509,15 +548,6 @@ npm start
 Serwer wystartuje pod adresem:
 https://HOST:PORT
 
-## Przykładowe konta
-Admin account  
-email: admin@easykcal.local  
-password: admin123  
-
-User account  
-email: user@easykcal.local  
-password: admin123
-
 ### Frontend
 1.Przejdź do katalogu frontend:
 cd ../frontend
@@ -533,6 +563,17 @@ npm run dev
 
 Frontend będzie dostępny pod adresem domyślnym Vite, np.:
 https://localhost:5173
+
+### Przykładowe konta
+Admin account  
+email: admin@easykcal.local  
+password: admin123  
+
+User account  
+email: user@easykcal.local  
+password: admin123
+
+---
 
 ## ⚡ Wdrożenie online
 - Backend: Railway, Render lub inny darmowy hosting Node.js. Zaktualizuj zmienne środowiskowe i upewnij się, że CORS wskazuje na frontend.
