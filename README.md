@@ -45,6 +45,26 @@ Current version: v1.0.4.
 - Roles: user / admin
 - Protected endpoints
 
+## Project Roadmap
+Planned improvements and future features for EasyKcal.
+
+### Short term
+- Default categories initialization in production database
+- Backup system for products (export + seed)
+- Refactor Recipes.jsx into smaller components
+- Introduce TypeScript in Recipes module
+
+### Medium term
+- Integrate Nutrition Summary with Schedule
+- Add recipe image preview and gallery
+- Shared BaseModal component for consistent UI
+- Improve test coverage reporting
+
+### Long term
+- Docker containerization (backend + database)
+- Full deployment (frontend + backend + database)
+- CI pipeline for automated testing
+
 ## Architecture
 
 ### Frontend
@@ -204,7 +224,7 @@ npm start
 Backend will run at:
 https://HOST:PORT
 
-## Example accounts
+## Example accounts (local development)
 Admin account  
 email: admin@easykcal.local  
 password: admin123  
@@ -249,6 +269,12 @@ The project demonstrates the complete full-stack development process:
 - testing
 - semantic versioning (SemVer)
 - release management
+
+## Development
+Project planning and development history:
+
+- Development log: `docs/DEVLOG.md`
+- Project backlog: `docs/BACKLOG.md`
 
 ## 🧠 Author
 - Maciej Mróz
@@ -301,6 +327,26 @@ Obecna wersja: v1.0.4.
 - JWT
 - Role: user / admin
 - Ochrona endpointów
+
+## Plan projektu
+Planowane ulepszenia i przyszłe funkcje dla EasyKcal.
+
+### Krótkoterminowo
+- Inicjalizacja domyślnych kategorii w produkcyjnej bazie danych
+- System kopii zapasowych produktów (eksport + seed)
+- Przebudowa Recipes.jsx na mniejsze komponenty
+- Wprowadzenie TypeScript w module Recipes
+
+### Średnioterminowo
+- Zintegrowanie podsumowania wartości odżywczych z harmonogramem
+- Dodanie podglądu obrazu przepisu i galerii
+- Wspólny komponent BaseModal dla zapewnienia spójności interfejsu użytkownika
+- Poprawa raportowania pokrycia testami
+
+### Długoterminowo
+- Konteneryzacja Dockera (backend + baza danych)
+- Pełne wdrożenie (frontend + backend + baza danych)
+- Potok CI dla zautomatyzowanych testów
 
 ## Architektura
 
@@ -509,11 +555,17 @@ Projekt pokazuje kompletny proces tworzenia aplikacji full-stack:
 - wersjonowanie (SemVer)
 - release management
 
----
+## Rozwój
+Planowanie projektu i historia rozwoju:
+
+- Dziennik rozwoju: `docs/DEVLOG.md`
+- Rejestr zaległości projektu: `docs/BACKLOG.md`
 
 ## 🧠 Autor
 - Maciej Mróz
 - GitHub: https://github.com/maciejmrozgg
+
+---
 
 Version: v1.0.4
 Status: Stable
