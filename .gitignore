@@ -15,6 +15,7 @@ node_modules/
 # =========================
 struktura.txt
 tree.js
+treeSnapshot.json
 
 # =========================
 # Local data & seed files
