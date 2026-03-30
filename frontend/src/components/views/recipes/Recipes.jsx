@@ -1,9 +1,12 @@
 import { useState, useEffect, useRef } from "react";
 import { getRecipes, createRecipe, updateRecipe, deleteRecipe } from "./api/recipesApi";
 import { getCategories, createCategory, updateCategory, deleteCategory } from "./api/categoriesApi";
+
 import RecipeForm from "./RecipeForm";
 import ScrollButtons from "../../products/components/ScrollButtons";
 import CategoryModal from "./components/modals/CategoryModal";
+import RecipeCard from "./components/RecipeCard";
+
 import "./styles/Recipes.css";
 
 const Recipes = ({ user }) => {
@@ -185,74 +188,6 @@ const Recipes = ({ user }) => {
     }
   };
 
-  const renderRecipeCard = (r) => {
-    const isExpanded = expandedRecipeId === r.id;
-
-    return (
-      <div key={r.id} className="recipe-card">
-        <h3
-          className="recipe-title"
-          onClick={() => toggleRecipe(r.id)}
-        >
-          {r.title} <span>{isExpanded ? "▲" : "▼"}</span>
-        </h3>
-
-        <div className={`recipe-details ${isExpanded ? "open" : ""}`}>
-          {r.description && <p>{r.description}</p>}
-
-          {r.ingredients?.length > 0 && (
-            <>
-              <strong>Składniki:</strong>
-              <ul>
-                {r.ingredients.map((ing, i) => (
-                  <li key={i}>{ing}</li>
-                ))}
-              </ul>
-            </>
-          )}
-
-          {r.instructions?.length > 0 && (
-            <>
-              <strong>Instrukcje:</strong>
-              <ol>
-                {r.instructions.map((inst, i) => (
-                  <li key={i}>{inst}</li>
-                ))}
-              </ol>
-            </>
-          )}
-
-          {user &&
-            (user.id === r.user_id || user.role === "admin") && (
-              <button
-                className="edit-recipe-btn"
-                onClick={() => setEditingRecipeId(r.id)}
-              >
-                ✏️ Edytuj
-              </button>
-            )}
-
-          {user?.role === "admin" && (
-            <button
-              className="del-recipe-btn"
-              onClick={() => handleDelete(r.id)}
-            >
-              🗑️ Usuń
-            </button>
-          )}
-
-          {editingRecipeId === r.id && (
-            <RecipeForm
-              initialData={r}
-              onSubmit={handleFormSubmit}
-              onCancel={() => setEditingRecipeId(null)}
-            />
-          )}
-        </div>
-      </div>
-    );
-  };
-
   return (
     <div className="component">
       <h2>Przepisy</h2>
@@ -404,7 +339,20 @@ const Recipes = ({ user }) => {
           </button>
 
           <div ref={listRef} className="recipes-scroll-container">
-            {groupedRecipes[selectedCategory]?.map(renderRecipeCard)}
+            {groupedRecipes[selectedCategory]?.map((r) => (
+              <RecipeCard
+                key={r.id}
+                recipe={r}
+                isExpanded={expandedRecipeId === r.id}
+                isEditing={editingRecipeId === r.id}
+                user={user}
+                onToggle={toggleRecipe}
+                onEdit={setEditingRecipeId}
+                onDelete={handleDelete}
+                onSubmit={handleFormSubmit}
+                onCancel={() => setEditingRecipeId(null)}
+              />
+            ))}
           </div>
         </div>
       )}
@@ -423,7 +371,20 @@ const Recipes = ({ user }) => {
             {Object.entries(groupedRecipes).map(([category, recipesInCategory]) => (
               <div key={category} className="recipe-category-section">
                 <h2 className="category-header">{category}</h2>
-                {recipesInCategory.map(renderRecipeCard)}
+                {recipesInCategory.map((r) => (
+                  <RecipeCard
+                    key={r.id}
+                    recipe={r}
+                    isExpanded={expandedRecipeId === r.id}
+                    isEditing={editingRecipeId === r.id}
+                    user={user}
+                    onToggle={toggleRecipe}
+                    onEdit={setEditingRecipeId}
+                    onDelete={handleDelete}
+                    onSubmit={handleFormSubmit}
+                    onCancel={() => setEditingRecipeId(null)}
+                  />
+                ))}
               </div>
             ))}
           </div>
