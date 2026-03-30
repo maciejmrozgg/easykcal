@@ -16,3 +16,16 @@ Earlier development notes were kept privately.
 
 ### Issues discovered
 - tests previously wiped production database due to missing environment guard
+
+## 2026-03-12
+
+### Done
+- added default categories seed for production database
+
+## 2026-03-30
+
+### Done
+- extracted RecipeCard component
+
+### In Progress
+- started refactor of Recipe module
