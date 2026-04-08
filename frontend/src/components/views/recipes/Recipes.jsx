@@ -3,9 +3,9 @@ import { getRecipes, createRecipe, updateRecipe, deleteRecipe } from "./api/reci
 import { getCategories, createCategory, updateCategory, deleteCategory } from "./api/categoriesApi";
 
 import RecipeForm from "./RecipeForm";
-import ScrollButtons from "../../products/components/ScrollButtons";
 import CategoryModal from "./components/modals/CategoryModal";
 import RecipeCard from "./components/RecipeCard";
+import RecipesToolbar from "./components/RecipesToolbar";
 
 import "./styles/Recipes.css";
 
@@ -193,66 +193,20 @@ const Recipes = ({ user }) => {
       <h2>Przepisy</h2>
 
       {/* TOOLBAR */}
-      <div className="recipes-toolbar">
-        <div className="recipe-search" ref={searchRef}>
-          <input
-            className="recipe-filter"
-            type="text"
-            placeholder="Wyszukaj przepis po nazwie..."
-            value={filter}
-            onChange={(e) => {
-              setFilter(e.target.value);
-              setShowSuggestions(true);
-            }}
-          />
-
-          {/* SUGESTIONS */}
-          {showSuggestions && filter && filteredRecipes.length > 0 && (
-            <ul className="recipe-suggestions">
-              {filteredRecipes.slice(0, 5).map((r) => (
-                <li
-                  key={r.id}
-                  onClick={() => {
-                    setFilter(r.title);
-                    setShowSuggestions(false);
-                    setViewMode("all");
-                  }}
-                >
-                  {r.title}
-                </li>
-              ))}
-            </ul>
-          )}
-
-          {filter && (
-            <button
-              className="clear-search-btn"
-              onClick={() => {
-                setFilter("");
-                setShowSuggestions(false);
-              }}
-            >
-              ✕ Wyczyść
-            </button>
-          )}
-        </div>
-
-        {!showAddForm && (
-          <button
-            className="add-recipe-btn"
-            onClick={() => setShowAddForm(true)}
-          >
-            Dodaj przepis
-          </button>
-        )}
-
-        {viewMode !== "categories" && (
-          <ScrollButtons
-            scrollToTop={scrollToTop}
-            scrollToBottom={scrollToBottom}
-          />
-        )}
-      </div>
+      <RecipesToolbar
+        filter={filter}
+        setFilter={setFilter}
+        showSuggestions={showSuggestions}
+        setShowSuggestions={setShowSuggestions}
+        filteredRecipes={filteredRecipes}
+        setViewMode={setViewMode}
+        showAddForm={showAddForm}
+        setShowAddForm={setShowAddForm}
+        viewMode={viewMode}
+        scrollToTop={scrollToTop}
+        scrollToBottom={scrollToBottom}
+        searchRef={searchRef}
+      />
 
       {showAddForm && (
         <RecipeForm
