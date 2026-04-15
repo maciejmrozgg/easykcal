@@ -1,19 +1,27 @@
 import { useState, useEffect, useRef } from "react";
-import { getRecipes, createRecipe, updateRecipe, deleteRecipe } from "./api/recipesApi";
-import { getCategories, createCategory, updateCategory, deleteCategory } from "./api/categoriesApi";
 
 import RecipeForm from "./RecipeForm";
 import CategoryModal from "./components/modals/CategoryModal";
-import RecipeCard from "./components/RecipeCard";
 import RecipesToolbar from "./components/RecipesToolbar";
 import CategoriesView from "./views/categories/CategoriesView";
 import CategoryView from "./views/category/CategoryView";
 import RecipesListView from "./views/list/RecipesListView";
+import useRecipes from "../../../hooks/useRecipes";
 
 import "./styles/Recipes.css";
 
 const Recipes = ({ user }) => {
-  const [recipes, setRecipes] = useState([]);
+  const {
+    recipes,
+    categories,
+    addRecipe,
+    editRecipe,
+    removeRecipe,
+    addCategory,
+    editCategory,
+    removeCategory
+  } = useRecipes();
+
   const [editingRecipeId, setEditingRecipeId] = useState(null);
   const [expandedRecipeId, setExpandedRecipeId] = useState(null);
   const [showAddForm, setShowAddForm] = useState(false);
@@ -22,38 +30,12 @@ const Recipes = ({ user }) => {
 
   const [viewMode, setViewMode] = useState("categories"); // "categories" | "category" | "all"
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const [categories, setCategories] = useState([]);
+
   const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
   const [categoryToEdit, setCategoryToEdit] = useState(null);
 
   const listRef = useRef(null);
   const searchRef = useRef(null);
-
-  // Fetch recipes on component mount
-  useEffect(() => {
-    const fetchRecipes = async () => {
-      try {
-        const data = await getRecipes();
-        setRecipes(data);
-      } catch (err) {
-        console.error("Błąd pobierania przepisów:", err);
-      }
-    };
-    fetchRecipes();
-  }, []);
-
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const data = await getCategories();
-        setCategories(data);
-      } catch (err) {
-        console.error("Failed to fetch categories:", err);
-      }
-    };
-
-    fetchCategories();
-  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -91,15 +73,12 @@ const Recipes = ({ user }) => {
   const handleFormSubmit = async (recipeData) => {
     try {
       if (editingRecipeId) {
-        await updateRecipe(editingRecipeId, recipeData);
+        await editRecipe(editingRecipeId, recipeData);
         setEditingRecipeId(null);
       } else {
-        await createRecipe(recipeData);
+        await addRecipe(recipeData);
         setShowAddForm(false);
       }
-
-      const refreshed = await getRecipes();
-      setRecipes(refreshed);
 
     } catch (err) {
       console.error("Błąd zapisu przepisu:", err);
@@ -108,8 +87,7 @@ const Recipes = ({ user }) => {
 
   const handleDelete = async (id) => {
     if (window.confirm("Czy na pewno chcesz usunąć przepis?")) {
-      await deleteRecipe(id);
-      setRecipes(recipes.filter(r => r.id !== id));
+      await removeRecipe(id);
     }
   };
 
@@ -151,14 +129,9 @@ const Recipes = ({ user }) => {
   const handleSaveCategory = async (name) => {
     try {
       if (categoryToEdit) {
-        const updated = await updateCategory(categoryToEdit.id, name);
-
-        setCategories(prev =>
-          prev.map(c => c.id === categoryToEdit.id ? updated : c)
-        );
+        await editCategory(categoryToEdit.id, name);
       } else {
-        const created = await createCategory(name);
-        setCategories(prev => [...prev, created]);
+        await addCategory(name);
       }
 
       setIsCategoryModalOpen(false);
@@ -173,13 +146,7 @@ const Recipes = ({ user }) => {
     if (!categoryToEdit) return;
 
     try {
-      await deleteCategory(categoryToEdit.id);
-      setCategories(prev =>
-        prev.filter(c => c.id !== categoryToEdit.id)
-      );
-
-      const refreshedRecipes = await getRecipes();
-      setRecipes(refreshedRecipes);
+      await removeCategory(categoryToEdit.id);
 
       setIsCategoryModalOpen(false);
       setCategoryToEdit(null);
