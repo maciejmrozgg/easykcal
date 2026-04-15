@@ -7,6 +7,7 @@ import CategoryModal from "./components/modals/CategoryModal";
 import RecipeCard from "./components/RecipeCard";
 import RecipesToolbar from "./components/RecipesToolbar";
 import CategoriesView from "./views/categories/CategoriesView";
+import CategoryView from "./views/category/CategoryView";
 
 import "./styles/Recipes.css";
 
@@ -229,34 +230,21 @@ const Recipes = ({ user }) => {
 
       {/* SINGLE CATEGORY */}
       {viewMode === "category" && (
-        <div className="fade-in">
-          <button
-            className="back-to-categories-btn"
-            onClick={() => {
-              setViewMode("categories");
-              setSelectedCategory(null);
-            }}
-          >
-            ← Wszystkie kategorie
-          </button>
-
-          <div ref={listRef} className="recipes-scroll-container">
-            {groupedRecipes[selectedCategory]?.map((r) => (
-              <RecipeCard
-                key={r.id}
-                recipe={r}
-                isExpanded={expandedRecipeId === r.id}
-                isEditing={editingRecipeId === r.id}
-                user={user}
-                onToggle={toggleRecipe}
-                onEdit={setEditingRecipeId}
-                onDelete={handleDelete}
-                onSubmit={handleFormSubmit}
-                onCancel={() => setEditingRecipeId(null)}
-              />
-            ))}
-          </div>
-        </div>
+        <CategoryView
+          selectedCategory={selectedCategory}
+          groupedRecipes={groupedRecipes}
+          listRef={listRef}
+          setViewMode={setViewMode}
+          setSelectedCategory={setSelectedCategory}
+          expandedRecipeId={expandedRecipeId}
+          editingRecipeId={editingRecipeId}
+          user={user}
+          onToggle={toggleRecipe}
+          onEdit={setEditingRecipeId}
+          onDelete={handleDelete}
+          onSubmit={handleFormSubmit}
+          onCancel={() => setEditingRecipeId(null)}
+        />
       )}
 
       {/* ALL RECIPES */}
