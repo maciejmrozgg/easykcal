@@ -8,6 +8,7 @@ import RecipeCard from "./components/RecipeCard";
 import RecipesToolbar from "./components/RecipesToolbar";
 import CategoriesView from "./views/categories/CategoriesView";
 import CategoryView from "./views/category/CategoryView";
+import RecipesListView from "./views/list/RecipesListView";
 
 import "./styles/Recipes.css";
 
@@ -249,36 +250,19 @@ const Recipes = ({ user }) => {
 
       {/* ALL RECIPES */}
       {viewMode === "all" && (
-        <div className="fade-in">
-          <button
-            className="back-to-categories-btn"
-            onClick={() => setViewMode("categories")}
-          >
-            ← Wszystkie kategorie
-          </button>
-
-          <div ref={listRef} className="recipes-scroll-container">
-            {Object.entries(groupedRecipes).map(([category, recipesInCategory]) => (
-              <div key={category} className="recipe-category-section">
-                <h2 className="category-header">{category}</h2>
-                {recipesInCategory.map((r) => (
-                  <RecipeCard
-                    key={r.id}
-                    recipe={r}
-                    isExpanded={expandedRecipeId === r.id}
-                    isEditing={editingRecipeId === r.id}
-                    user={user}
-                    onToggle={toggleRecipe}
-                    onEdit={setEditingRecipeId}
-                    onDelete={handleDelete}
-                    onSubmit={handleFormSubmit}
-                    onCancel={() => setEditingRecipeId(null)}
-                  />
-                ))}
-              </div>
-            ))}
-          </div>
-        </div>
+        <RecipesListView
+          groupedRecipes={groupedRecipes}
+          listRef={listRef}
+          setViewMode={setViewMode}
+          expandedRecipeId={expandedRecipeId}
+          editingRecipeId={editingRecipeId}
+          user={user}
+          onToggle={toggleRecipe}
+          onEdit={setEditingRecipeId}
+          onDelete={handleDelete}
+          onSubmit={handleFormSubmit}
+          onCancel={() => setEditingRecipeId(null)}
+        />
       )}
 
       <CategoryModal
