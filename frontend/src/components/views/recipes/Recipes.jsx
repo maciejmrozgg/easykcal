@@ -6,6 +6,7 @@ import RecipeForm from "./RecipeForm";
 import CategoryModal from "./components/modals/CategoryModal";
 import RecipeCard from "./components/RecipeCard";
 import RecipesToolbar from "./components/RecipesToolbar";
+import CategoriesView from "./views/categories/CategoriesView";
 
 import "./styles/Recipes.css";
 
@@ -122,14 +123,12 @@ const Recipes = ({ user }) => {
   }, {});
 
   // Add virtual "Bez kategorii" tile if needed
-  const categoriesWithFallback = [
+  const categoriesToDisplay = [
     ...categories,
     ...(groupedRecipes["Bez kategorii"]
       ? [{ id: "no-category", name: "Bez kategorii", image_url: null }]
       : [])
   ];
-
-  const categoryList = Object.keys(groupedRecipes);
 
   const getRecipeWord = (count) => {
     if (count === 1) return "przepis";
@@ -215,68 +214,17 @@ const Recipes = ({ user }) => {
         />
       )}
 
-      {/* CATEGORY GRID */}
+      {/* CATEGORIES GRID */}
       {viewMode === "categories" && (
-        <>
-          <div className="categories-grid fade-in">
-            {categoriesWithFallback.map((cat) => {
-              const count = groupedRecipes[cat.name]?.length || 0;
-
-              return (
-                <div key={cat.id} className="category-tile">
-                  <div
-                    onClick={() => {
-                      setSelectedCategory(cat.name);
-                      setViewMode("category");
-                    }}
-                  >
-                    <img
-                      src={cat.image_url || "/images/categories/default.jpg"}
-                      alt={cat.name}
-                      className="category-image"
-                    />
-
-                    <h3>{cat.name}</h3>
-                    <span>{count} {getRecipeWord(count)}</span>
-                  </div>
-
-                  {/* CUSTOM CATEGORIES OPEN MODAL */}
-                  {cat.user_id && (
-                    <div style={{ marginTop: "0.7rem" }}>
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          openEditCategoryModal(cat);
-                        }}
-                        style={{ marginRight: "0.5rem" }}
-                      >
-                        ✏️
-                      </button>
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-
-            {/* ADD CUSTOM CATEGORY TILE*/}
-            <div
-              className="category-tile add-category-tile"
-              onClick={openAddCategoryModal}
-            >
-              <div className="add-category-plus">+</div>
-              <h3>Dodaj kategorię</h3>
-            </div>
-          </div>
-
-          <div style={{ marginTop: "2rem", textAlign: "center" }}>
-            <button
-              className="back-to-categories-btn"
-              onClick={() => setViewMode("all")}
-            >
-              Pokaż wszystkie przepisy
-            </button>
-          </div>
-        </>
+        <CategoriesView
+          categoriesToDisplay={categoriesToDisplay}
+          groupedRecipes={groupedRecipes}
+          setSelectedCategory={setSelectedCategory}
+          setViewMode={setViewMode}
+          openEditCategoryModal={openEditCategoryModal}
+          openAddCategoryModal={openAddCategoryModal}
+          getRecipeWord={getRecipeWord}
+        />
       )}
 
       {/* SINGLE CATEGORY */}
