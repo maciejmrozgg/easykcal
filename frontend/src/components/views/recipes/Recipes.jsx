@@ -11,21 +11,23 @@ import useRecipes from "../../../hooks/useRecipes";
 import "./styles/Recipes.css";
 
 const Recipes = ({ user }) => {
+  const [filter, setFilter] = useState("");
+
   const {
-    recipes,
-    categories,
+    filteredRecipes,
+    groupedRecipes,
+    categoriesToDisplay,
     addRecipe,
     editRecipe,
     removeRecipe,
     addCategory,
     editCategory,
     removeCategory
-  } = useRecipes();
+  } = useRecipes(filter);
 
   const [editingRecipeId, setEditingRecipeId] = useState(null);
   const [expandedRecipeId, setExpandedRecipeId] = useState(null);
   const [showAddForm, setShowAddForm] = useState(false);
-  const [filter, setFilter] = useState("");
   const [showSuggestions, setShowSuggestions] = useState(false);
 
   const [viewMode, setViewMode] = useState("categories"); // "categories" | "category" | "all"
@@ -90,25 +92,6 @@ const Recipes = ({ user }) => {
       await removeRecipe(id);
     }
   };
-
-  const filteredRecipes = recipes.filter(recipe =>
-    recipe.title.toLowerCase().includes(filter.toLowerCase())
-  );
-
-  const groupedRecipes = filteredRecipes.reduce((acc, recipe) => {
-    const category = recipe.category_name || "Bez kategorii";
-    if (!acc[category]) acc[category] = [];
-    acc[category].push(recipe);
-    return acc;
-  }, {});
-
-  // Add virtual "Bez kategorii" tile if needed
-  const categoriesToDisplay = [
-    ...categories,
-    ...(groupedRecipes["Bez kategorii"]
-      ? [{ id: "no-category", name: "Bez kategorii", image_url: null }]
-      : [])
-  ];
 
   const getRecipeWord = (count) => {
     if (count === 1) return "przepis";
