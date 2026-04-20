@@ -7,6 +7,7 @@ import CategoriesView from "./views/categories/CategoriesView";
 import CategoryView from "./views/category/CategoryView";
 import RecipesListView from "./views/list/RecipesListView";
 import useRecipes from "../../../hooks/useRecipes";
+import { getRecipeWord } from "../../../utils/recipeUtils";
 
 import "./styles/Recipes.css";
 
@@ -39,6 +40,7 @@ const Recipes = ({ user }) => {
   const listRef = useRef(null);
   const searchRef = useRef(null);
 
+  // close suggestions dropdown when clicking outside search input
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -72,7 +74,7 @@ const Recipes = ({ user }) => {
     setEditingRecipeId(null);
   };
 
-  const handleFormSubmit = async (recipeData) => {
+  const handleRecipeSubmit = async (recipeData) => {
     try {
       if (editingRecipeId) {
         await editRecipe(editingRecipeId, recipeData);
@@ -82,21 +84,17 @@ const Recipes = ({ user }) => {
         setShowAddForm(false);
       }
 
+      setExpandedRecipeId(null);
+
     } catch (err) {
       console.error("Błąd zapisu przepisu:", err);
     }
   };
 
-  const handleDelete = async (id) => {
+  const handleRecipeDelete = async (id) => {
     if (window.confirm("Czy na pewno chcesz usunąć przepis?")) {
       await removeRecipe(id);
     }
-  };
-
-  const getRecipeWord = (count) => {
-    if (count === 1) return "przepis";
-    if (count >= 2 && count <= 4) return "przepisy";
-    return "przepisów";
   };
 
   const openAddCategoryModal = () => {
@@ -161,7 +159,7 @@ const Recipes = ({ user }) => {
 
       {showAddForm && (
         <RecipeForm
-          onSubmit={handleFormSubmit}
+          onSubmit={handleRecipeSubmit}
           onCancel={() => setShowAddForm(false)}
         />
       )}
@@ -192,8 +190,8 @@ const Recipes = ({ user }) => {
           user={user}
           onToggle={toggleRecipe}
           onEdit={setEditingRecipeId}
-          onDelete={handleDelete}
-          onSubmit={handleFormSubmit}
+          onDelete={handleRecipeDelete}
+          onSubmit={handleRecipeSubmit}
           onCancel={() => setEditingRecipeId(null)}
         />
       )}
@@ -209,8 +207,8 @@ const Recipes = ({ user }) => {
           user={user}
           onToggle={toggleRecipe}
           onEdit={setEditingRecipeId}
-          onDelete={handleDelete}
-          onSubmit={handleFormSubmit}
+          onDelete={handleRecipeDelete}
+          onSubmit={handleRecipeSubmit}
           onCancel={() => setEditingRecipeId(null)}
         />
       )}

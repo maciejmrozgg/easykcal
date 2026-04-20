@@ -72,8 +72,6 @@ const useRecipes = (filter = "") => {
   ];
 
   return {
-    recipes,
-    categories,
     filteredRecipes,
     groupedRecipes,
     categoriesToDisplay,
