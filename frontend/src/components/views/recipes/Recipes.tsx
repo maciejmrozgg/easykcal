@@ -11,7 +11,11 @@ import { getRecipeWord } from "../../../utils/recipeUtils";
 
 import "./styles/Recipes.css";
 
-const Recipes = ({ user }) => {
+type RecipesProps = {
+  user: any;
+}
+
+const Recipes = ({ user }: RecipesProps) => {
   const [filter, setFilter] = useState("");
 
   const {
@@ -42,7 +46,7 @@ const Recipes = ({ user }) => {
 
   // close suggestions dropdown when clicking outside search input
   useEffect(() => {
-    const handleClickOutside = (event) => {
+    const handleClickOutside = (event: MouseEvent) => {
       if (
         searchRef.current &&
         !searchRef.current.contains(event.target)
