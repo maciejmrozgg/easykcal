@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import { getRecipes, createRecipe, updateRecipe, deleteRecipe } from "../components/views/recipes/api/recipesApi";
 import { getCategories, createCategory, updateCategory, deleteCategory } from "../components/views/recipes/api/categoriesApi";
+import type { Recipe } from "../types/recipe";
+import type { Category } from "../types/category";
 
 const useRecipes = (filter = "") => {
-  const [recipes, setRecipes] = useState([]);
-  const [categories, setCategories] = useState([]);
+  const [recipes, setRecipes] = useState<Recipe[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
 
   const fetchData = async () => {
     const recipesData = await getRecipes();
@@ -19,7 +21,6 @@ const useRecipes = (filter = "") => {
   }, []);
 
   // ✅ RECIPE CRUD
-
   const addRecipe = async (data) => {
     await createRecipe(data);
     await fetchData();
@@ -36,7 +37,6 @@ const useRecipes = (filter = "") => {
   };
 
   // ✅ CATEGORY CRUD
-
   const addCategory = async (name) => {
     await createCategory(name);
     await fetchData();

@@ -1,6 +1,8 @@
+import type { Category } from "../../../../types/category";
+
 const API_URL = import.meta.env.VITE_API_URL;
 
-export const getCategories = async () => {
+export const getCategories = async (): Promise<Category[]> => {
   const res = await fetch(`${API_URL}/api/categories`, {
     credentials: "include",
   });
@@ -10,7 +12,7 @@ export const getCategories = async () => {
   return res.json();
 };
 
-export const createCategory = async (name) => {
+export const createCategory = async (name: string) => {
   const res = await fetch(`${API_URL}/api/categories`, {
     method: "POST",
     headers: {
@@ -25,7 +27,7 @@ export const createCategory = async (name) => {
   return res.json();
 };
 
-export const updateCategory = async (id, name) => {
+export const updateCategory = async (id: number, name: string) => {
   const res = await fetch(`${API_URL}/api/categories/${id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
@@ -38,7 +40,7 @@ export const updateCategory = async (id, name) => {
   return res.json();
 };
 
-export const deleteCategory = async (id) => {
+export const deleteCategory = async (id: number) => {
   const res = await fetch(`${API_URL}/api/categories/${id}`, {
     method: "DELETE",
     credentials: "include",
