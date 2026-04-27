@@ -1,0 +1,1 @@
+export type ViewMode = "categories" | "category" | "all";

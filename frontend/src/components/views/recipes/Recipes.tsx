@@ -9,11 +9,16 @@ import RecipesListView from "./views/list/RecipesListView";
 import useRecipes from "../../../hooks/useRecipes";
 import { getRecipeWord } from "../../../utils/recipeUtils";
 
+import type { Category } from "../../../types/category";
+import type { Recipe } from "../../../types/recipe";
+import type { User } from "../../../types/user";
+import type { ViewMode } from "../../../types/ui";
+
 import "./styles/Recipes.css";
 
 type RecipesProps = {
-  user: any;
-}
+  user: User;
+};
 
 const Recipes = ({ user }: RecipesProps) => {
   const [filter, setFilter] = useState("");
@@ -30,26 +35,25 @@ const Recipes = ({ user }: RecipesProps) => {
     removeCategory
   } = useRecipes(filter);
 
-  const [editingRecipeId, setEditingRecipeId] = useState(null);
-  const [expandedRecipeId, setExpandedRecipeId] = useState(null);
+  const [editingRecipeId, setEditingRecipeId] = useState<number | null>(null);
+  const [expandedRecipeId, setExpandedRecipeId] = useState<number | null>(null);
   const [showAddForm, setShowAddForm] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(false);
 
-  const [viewMode, setViewMode] = useState("categories"); // "categories" | "category" | "all"
-  const [selectedCategory, setSelectedCategory] = useState(null);
-
+  const [viewMode, setViewMode] = useState<ViewMode>("categories"); // "categories" | "category" | "all"
+  const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
+  const [categoryToEdit, setCategoryToEdit] = useState<Category | null>(null);
   const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
-  const [categoryToEdit, setCategoryToEdit] = useState(null);
 
-  const listRef = useRef(null);
-  const searchRef = useRef(null);
+  const listRef = useRef<HTMLDivElement | null>(null);
+  const searchRef = useRef<HTMLDivElement | null>(null);
 
   // close suggestions dropdown when clicking outside search input
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
         searchRef.current &&
-        !searchRef.current.contains(event.target)
+        !searchRef.current.contains(event.target as Node)
       ) {
         setShowSuggestions(false);
       }
@@ -73,12 +77,12 @@ const Recipes = ({ user }: RecipesProps) => {
     });
   };
 
-  const toggleRecipe = (id) => {
+  const toggleRecipe = (id: number) => {
     setExpandedRecipeId(prev => (prev === id ? null : id));
     setEditingRecipeId(null);
   };
 
-  const handleRecipeSubmit = async (recipeData) => {
+  const handleRecipeSubmit = async (recipeData: Recipe) => {
     try {
       if (editingRecipeId) {
         await editRecipe(editingRecipeId, recipeData);
@@ -95,7 +99,7 @@ const Recipes = ({ user }: RecipesProps) => {
     }
   };
 
-  const handleRecipeDelete = async (id) => {
+  const handleRecipeDelete = async (id: number) => {
     if (window.confirm("Czy na pewno chcesz usunąć przepis?")) {
       await removeRecipe(id);
     }
@@ -106,12 +110,12 @@ const Recipes = ({ user }: RecipesProps) => {
     setIsCategoryModalOpen(true);
   };
 
-  const openEditCategoryModal = (cat) => {
+  const openEditCategoryModal = (cat: Category) => {
     setCategoryToEdit(cat);
     setIsCategoryModalOpen(true);
   };
 
-  const handleSaveCategory = async (name) => {
+  const handleSaveCategory = async (name: string) => {
     try {
       if (categoryToEdit) {
         await editCategory(categoryToEdit.id, name);
