@@ -1,4 +1,28 @@
 import ScrollButtons from "../../../products/components/ScrollButtons";
+import type { Recipe } from "../../../../types/recipe";
+import type { ViewMode } from "../../../../types/ui";
+
+type RecipesToolbarProps = {
+  filter: string;
+  setFilter: React.Dispatch<React.SetStateAction<string>>;
+
+  showSuggestions: boolean;
+  setShowSuggestions: React.Dispatch<React.SetStateAction<boolean>>;
+
+  filteredRecipes: Recipe[];
+
+  setViewMode: React.Dispatch<React.SetStateAction<ViewMode>>;
+
+  showAddForm: boolean;
+  setShowAddForm: React.Dispatch<React.SetStateAction<boolean>>;
+
+  viewMode: ViewMode;
+
+  scrollToTop: () => void;
+  scrollToBottom: () => void;
+
+  searchRef: React.RefObject<HTMLDivElement>;
+};
 
 const RecipesToolbar = ({
     filter,
@@ -13,7 +37,7 @@ const RecipesToolbar = ({
     scrollToTop,
     scrollToBottom,
     searchRef,
-}) => {
+}: RecipesToolbarProps) => {
     return (
         <div className="recipes-toolbar" >
             <div className="recipe-search" ref={searchRef}>
