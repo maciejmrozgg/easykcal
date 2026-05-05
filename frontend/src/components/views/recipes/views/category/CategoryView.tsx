@@ -1,4 +1,31 @@
 import RecipeCard from "../../components/RecipeCard";
+import type { Category } from "../../../../../types/category"; 
+import type { Recipe } from "../../../../../types/recipe"; 
+import type { User } from "../../../../../types/user";
+import type { ViewMode } from "../../../../../types/ui"; 
+
+type CategoryViewProps = {
+    selectedCategory: Category | null;
+
+    groupedRecipes: Record<string, Recipe[]>;
+
+    listRef: React.RefObject<HTMLDivElement>;
+
+    setViewMode: React.Dispatch<React.SetStateAction<ViewMode>>;
+    setSelectedCategory: React.Dispatch<React.SetStateAction<Category| null>>;
+
+    expandedRecipeId: number | null;
+    editingRecipeId: number | null;
+
+    user: User;
+
+    onToggle: (id: number) => void;
+    onEdit: React.Dispatch<React.SetStateAction<number | null>>;
+    onDelete: (id: number) => Promise<void>;
+
+    onSubmit: (recipe: Recipe) => Promise<void>;
+    onCancel: () => void;
+};
 
 const CategoryView = ({
     selectedCategory,
@@ -14,7 +41,10 @@ const CategoryView = ({
     onDelete,
     onSubmit,
     onCancel,
-}) => {
+}: CategoryViewProps) => {
+
+    const categoryName = selectedCategory?.name;
+
     return (
         <div className="fade-in">
             <button
@@ -28,7 +58,7 @@ const CategoryView = ({
             </button>
 
             <div ref={listRef} className="recipes-scroll-container">
-                {groupedRecipes[selectedCategory]?.map((r) => (
+                {categoryName && groupedRecipes[categoryName]?.map((r) => (
                     <RecipeCard
                         key={r.id}
                         recipe={r}
