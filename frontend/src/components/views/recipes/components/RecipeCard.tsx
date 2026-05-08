@@ -1,4 +1,22 @@
 import RecipeForm from "../RecipeForm";
+import type { Recipe } from "../../../../types/recipe";
+import type { User } from "../../../../types/user";
+
+type RecipeCardProps = {
+  recipe: Recipe;
+
+  isExpanded: boolean;
+  isEditing: boolean;
+
+  user: User;
+
+  onToggle: (id: number) => void;
+  onEdit: React.Dispatch<React.SetStateAction<number | null>>;
+  onDelete: (id: number) => Promise<void>;
+
+  onSubmit: (recipe: Recipe) => Promise<void>;
+  onCancel: () => void;
+};
 
 const RecipeCard = ({
   recipe,
@@ -10,7 +28,7 @@ const RecipeCard = ({
   onDelete,
   onSubmit,
   onCancel,
-}) => {
+}: RecipeCardProps) => {
   return (
     <div className="recipe-card">
       <h3
