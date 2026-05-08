@@ -12,12 +12,12 @@
 - [ ] Backup system for products (export / seed)
 
 ## Frontend improvements
-- [~] Refactor Recipes.jsx into smaller components (in progress)
+- [x] Refactor Recipes.jsx into smaller components
   - [x] Extract RecipeCard
-  - [ ] Extract RecipesToolbar
-  - [ ] Extract views (categories / list)
-  - [ ] Move logic to hooks
-- [~] Introduce TypeScript in Recipes module (in progress)
+  - [x] Extract RecipesToolbar
+  - [x] Extract views (categories / list)
+  - [x] Move logic to hooks
+- [x] Introduce TypeScript in Recipes module
 
 ## DevOps
 - [ ] Docker containerization
