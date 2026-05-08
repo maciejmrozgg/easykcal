@@ -1,4 +1,4 @@
-![Version](https://img.shields.io/badge/version-v1.0.4-blue)
+![Version](https://img.shields.io/badge/version-v1.1.0-blue)
 ![Status](https://img.shields.io/badge/status-stable-green)
 
 # 🥗 EasyKcal (ENG)
@@ -13,7 +13,7 @@ The project presents the complete process of building a web application:
 - modular React-based frontend
 
 Version **v1.0.0** marks the first stable release of the application.
-Current version: v1.0.4.
+Current version: v1.1.0.
 
 ---
 
@@ -53,10 +53,7 @@ Current version: v1.0.4.
 Planned improvements and future features for EasyKcal.
 
 ### Short term
-- Default categories initialization in production database
 - Backup system for products (export + seed)
-- Refactor Recipes.jsx into smaller components
-- Introduce TypeScript in Recipes module
 
 ### Medium term
 - Integrate Nutrition Summary with Schedule
@@ -123,7 +120,7 @@ Test coverage includes:
 
 ### Frontend
 - React (Vite)
-- JavaScript (ES6+)
+- JavaScript + TypeScript
 - HTML + CSS
 - react-icons
 - framer-motion
@@ -317,7 +314,7 @@ Projekt prezentuje pełny proces budowy aplikacji webowej:
 - modularny frontend oparty o React
 
 Wersja **v1.0.0** oznacza pierwszą stabilną wersję aplikacji.
-Obecna wersja: v1.0.4.
+Obecna wersja: v1.1.0.
 
 ---
 
@@ -357,10 +354,7 @@ Obecna wersja: v1.0.4.
 Planowane ulepszenia i przyszłe funkcje dla EasyKcal.
 
 ### Krótkoterminowo
-- Inicjalizacja domyślnych kategorii w produkcyjnej bazie danych
 - System kopii zapasowych produktów (eksport + seed)
-- Przebudowa Recipes.jsx na mniejsze komponenty
-- Wprowadzenie TypeScript w module Recipes
 
 ### Średnioterminowo
 - Zintegrowanie podsumowania wartości odżywczych z harmonogramem
@@ -371,7 +365,7 @@ Planowane ulepszenia i przyszłe funkcje dla EasyKcal.
 ### Długoterminowo
 - Konteneryzacja Dockera (backend + baza danych)
 - Pełne wdrożenie (frontend + backend + baza danych)
-- Potok CI dla zautomatyzowanych testów
+- Automatyzacja testów przy pomocy CI pipeline
 
 ---
 
@@ -427,7 +421,7 @@ Testy obejmują:
 
 ### Frontend
 - React (Vite)
-- JavaScript (ES6+) 
+- JavaScript + TypeScript
 - HTML + CSS  
 - react-icons  
 - framer-motion
@@ -608,5 +602,5 @@ Planowanie projektu i historia rozwoju:
 
 ---
 
-Version: v1.0.4
+Version: v1.1.0
 Status: Stable
