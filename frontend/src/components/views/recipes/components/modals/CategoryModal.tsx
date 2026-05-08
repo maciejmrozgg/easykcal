@@ -1,5 +1,16 @@
 import { useState, useEffect } from "react";
 import "../../styles/CategoryModal.css";
+import type { Category } from "../../../../../types/category";
+
+type CategoryModalProps = {
+    open: boolean;
+
+    category: Category | null;
+
+    onSave:(name: string) => Promise<void>;
+    onDelete:() => Promise<void>;
+    onClose: () => void;
+};
 
 const CategoryModal = ({
     open,
@@ -7,8 +18,8 @@ const CategoryModal = ({
     onSave,
     onDelete,
     onClose
-}) => {
-    const [name, setName] = useState("");
+}: CategoryModalProps ) => {
+    const [name, setName] = useState<string>("");
 
     useEffect(() => {
         if (category) {
