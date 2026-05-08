@@ -1,3 +1,22 @@
+import type { Category } from "../../../../../types/category";
+import type { Recipe } from "../../../../../types/recipe";
+import type { ViewMode } from "../../../../../types/ui";
+
+type CategoriesViewProps = {
+    categoriesToDisplay: Category[];
+
+    groupedRecipes: Record<string, Recipe[]>;
+
+    setSelectedCategory: React.Dispatch<React.SetStateAction<Category | null>>;
+
+    setViewMode: React.Dispatch<React.SetStateAction<ViewMode>>;
+
+    openEditCategoryModal:(cat: Category) => void;
+    openAddCategoryModal: () => void;
+
+    getRecipeWord: (count: number) => "przepis" | "przepisy" | "przepisów";
+};
+
 const CategoriesView = ({
     categoriesToDisplay,
     groupedRecipes,
@@ -6,7 +25,7 @@ const CategoriesView = ({
     openEditCategoryModal,
     openAddCategoryModal,
     getRecipeWord,
-}) => {
+}: CategoriesViewProps) => {
     return (
         <>
             {/* CATEGORIES GRID */}
@@ -36,7 +55,7 @@ const CategoriesView = ({
                             {cat.user_id && (
                                 <div style={{ marginTop: "0.7rem" }}>
                                     <button
-                                        onClick={(e) => {
+                                        onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
                                             e.stopPropagation();
                                             openEditCategoryModal(cat);
                                         }}
