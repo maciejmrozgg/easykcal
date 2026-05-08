@@ -18,7 +18,7 @@ const CategoriesView = ({
                         <div key={cat.id} className="category-tile">
                             <div
                                 onClick={() => {
-                                    setSelectedCategory(cat.name);
+                                    setSelectedCategory(cat);
                                     setViewMode("category");
                                 }}
                             >

@@ -21,33 +21,33 @@ const useRecipes = (filter = "") => {
   }, []);
 
   // ✅ RECIPE CRUD
-  const addRecipe = async (data) => {
+  const addRecipe = async (data: Recipe) => {
     await createRecipe(data);
     await fetchData();
   };
 
-  const editRecipe = async (id, data) => {
+  const editRecipe = async (id: number, data: Recipe) => {
     await updateRecipe(id, data);
     await fetchData();
   };
 
-  const removeRecipe = async (id) => {
+  const removeRecipe = async (id: number) => {
     await deleteRecipe(id);
     await fetchData();
   };
 
   // ✅ CATEGORY CRUD
-  const addCategory = async (name) => {
+  const addCategory = async (name: string) => {
     await createCategory(name);
     await fetchData();
   };
 
-  const editCategory = async (id, name) => {
+  const editCategory = async (id: number, name: string) => {
     await updateCategory(id, name);
     await fetchData();
   };
 
-  const removeCategory = async (id) => {
+  const removeCategory = async (id: number) => {
     await deleteCategory(id);
     await fetchData();
   };
@@ -56,19 +56,26 @@ const useRecipes = (filter = "") => {
     recipe.title.toLowerCase().includes(filter.toLowerCase())
   );
 
-  const groupedRecipes = filteredRecipes.reduce((acc, recipe) => {
-    const category = recipe.category_name || "Bez kategorii";
-    if (!acc[category]) acc[category] = [];
-    acc[category].push(recipe);
-    return acc;
-  }, {});
+  const groupedRecipes = filteredRecipes.reduce<Record<string, Recipe[]>>(
+    (acc, recipe) => {
+      const category = recipe.category_name || "Bez kategorii";
+
+      if (!acc[category]) acc[category] = [];
+      acc[category].push(recipe);
+      return acc;
+    }, {});
 
   // Add virtual "Bez kategorii" tile if needed
+  const hasUncategorizedCategory = categories.some(
+    category => category.name === "Bez kategorii"
+  );
+
   const categoriesToDisplay = [
     ...categories,
-    ...(groupedRecipes["Bez kategorii"]
-      ? [{ id: "no-category", name: "Bez kategorii", image_url: null }]
-      : [])
+    ...(groupedRecipes["Bez kategorii"] && !hasUncategorizedCategory
+      ? [{ id: -1, name: "Bez kategorii", image_url: null }]
+      : []
+    )
   ];
 
   return {
