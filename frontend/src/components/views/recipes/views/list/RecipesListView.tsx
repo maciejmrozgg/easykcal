@@ -1,4 +1,26 @@
 import RecipeCard from "../../components/RecipeCard";
+import type { Recipe } from "../../../../../types/recipe";
+import type { ViewMode } from "../../../../../types/ui";
+import type { User } from "../../../../../types/user";
+
+type RecipesListViewProps = {
+    groupedRecipes: Record<string, Recipe[]>;
+
+    listRef: React.RefObject<HTMLDivElement>;
+    setViewMode: React.Dispatch<React.SetStateAction<ViewMode>>;
+
+    expandedRecipeId: number | null;
+    editingRecipeId: number | null;
+
+    user: User;
+
+    onToggle: (id: number) => void;
+    onEdit: React.Dispatch<React.SetStateAction<number | null>>;
+    onDelete: (id: number) => Promise<void>;
+
+    onSubmit: (recipeData: Recipe) => Promise<void>;
+    onCancel: () => void;
+};
 
 const RecipesListView = ({
     groupedRecipes,
@@ -12,7 +34,7 @@ const RecipesListView = ({
     onDelete,
     onSubmit,
     onCancel,
-}) => {
+}: RecipesListViewProps) => {
     return (
         <div className="fade-in">
             <button
