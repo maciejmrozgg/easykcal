@@ -2,6 +2,7 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { ProductsProvider } from '../context/ProductsProvider';
 import ProductManager from '../ProductManager';
+import { cleanup } from '@testing-library/react';
 
 // Mock for window.prompt
 vi.stubGlobal('prompt', vi.fn());
@@ -18,7 +19,7 @@ describe('ProductManager', () => {
     beforeEach(async () => {
         render(
             <ProductsProvider>
-                <ProductManager />
+                <ProductManager user={{ id: 1, username: 'test' }} />
             </ProductsProvider>
         );
 
@@ -82,5 +83,18 @@ describe('ProductManager', () => {
         await waitFor(() => {
             expect(window.prompt).toHaveBeenCalledTimes(2);
         })
+    });
+
+    it('hides CRUD actions for guests', () => {
+        cleanup();
+        
+        render(
+            <ProductsProvider>
+                <ProductManager user={null} />
+            </ProductsProvider>
+        );
+
+        expect(screen.queryByText(/Dodaj produkt/i)).not.toBeInTheDocument();
+        expect(screen.queryByText(/EDIT/i)).not.toBeInTheDocument();
     });
 });
