@@ -6,7 +6,7 @@ import ProductForm from './components/ProductForm';
 import ProductList from './components/ProductList';
 import ScrollButtons from './components/ScrollButtons';
 
-export default function ProductManager() {
+export default function ProductManager({ user }) {
   const { products, error, addProduct, deleteProduct, updateProduct, loadProducts } = useProducts();
   const [search, setSearch] = useState('');
   const [visibleCount, setVisibleCount] = useState(10);
@@ -38,16 +38,25 @@ export default function ProductManager() {
   const scrollToBottom = () => listRef.current?.scrollTo({ top: listRef.current.scrollHeight, behavior: 'smooth' });
 
   return (
-    <div>
+    <div className="product-manager">
       <h2>Zarządzanie produktami</h2>
-      <ProductForm onAdd={handleAddProduct} />
+      {user && (
+        <ProductForm onAdd={handleAddProduct} />
+      )}
       {error && <p style={{ color: 'red' }}>{error}</p>}
 
       <h3>Wyszukaj produkt</h3>
       <input type="text" placeholder="Wpisz nazwę..." value={search} onChange={handleSearchChange} />
 
       <h3>Lista produktów</h3>
-      <ProductList products={products} visibleCount={visibleCount} onEdit={handleEditProduct} onDelete={handleDeleteProduct} ref={listRef} />
+      <ProductList
+        products={products}
+        visibleCount={visibleCount}
+        onEdit={handleEditProduct}
+        onDelete={handleDeleteProduct}
+        user={user}
+        ref={listRef}
+      />
 
       {visibleCount < products.length && <button className='pm-button' onClick={() => setVisibleCount(Math.min(visibleCount + 10, products.length))}>Pokaż więcej</button>}
       {visibleCount > 10 && <button className='pm-button' onClick={() => setVisibleCount(Math.max(visibleCount - 10, 10))}>Pokaż mniej</button>}

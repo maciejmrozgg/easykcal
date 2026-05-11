@@ -135,7 +135,7 @@ function App() {
                   </div>
 
                   <div className="component">
-                    <ProductManager />
+                    <ProductManager user={user} />
                   </div>
 
                   <div className="component">

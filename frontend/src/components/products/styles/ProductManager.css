@@ -18,3 +18,11 @@
   background-color: var(--button-hover-bg);
   color: var(--button-hover-color);
 }
+
+.product-manager h3 {
+  margin-top: 1.5rem;
+}
+
+.product-manager input {
+  margin-top: 0.5rem;
+}
