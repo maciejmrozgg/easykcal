@@ -109,3 +109,18 @@ Earlier development notes were kept privately.
 
 ### Release
 - release v1.1.0 – completed Recipes module TypeScript migration
+
+## 2026-05-11
+
+### Done
+- protected product CRUD routes using authMiddleware
+- restricted guests to read-only product access
+- hide add/edit/delete product actions in frontend for unauthorized users
+- improved ProductManager spacing and guest UI layout
+- updated ProductManager frontend tests for guest/user conditional rendering
+- added frontend test case for hidden CRUD actions for guests
+- verified backend and frontend behavior for guest permissions
+
+### Notes
+- backend authorization is now enforced both on API level and frontend UI level
+- guests can browse products but cannot modify them

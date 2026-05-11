@@ -25,9 +25,10 @@ Current version: v1.1.0.
 - Nutrition Summary – overview of calories and nutritional values
 
 ### 🔹 Products
-- Full product CRUD
-- Search functionality
-- Data updates
+- JWT-protected product CRUD
+- Read-only access for guests
+- Product search functionality
+- Product data updates
 
 ### 🔹 Recipes
 - Full recipe CRUD
@@ -326,8 +327,9 @@ Obecna wersja: v1.1.0.
 - Nutrition Summary – podsumowanie kalorii i wartości odżywczych
 
 ### 🔹 Produkty
-- CRUD produktów
-- Wyszukiwanie
+- CRUD produktów z autoryzacją JWT
+- Tryb tylko do odczytu dla gości
+- Wyszukiwanie produktów
 - Aktualizacja danych
 
 ### 🔹 Przepisy
