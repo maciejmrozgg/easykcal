@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect } from 'vitest';
 import NutritionSummary from "../NutritionSummary";
+import ToastProvider from "../../ui/toast/context/ToastProvider";
 
 describe("NutritionSummary", () => {
   const sampleProducts = [
@@ -9,12 +10,22 @@ describe("NutritionSummary", () => {
   ];
 
   it("renders header", () => {
-    render(<NutritionSummary selectedProducts={sampleProducts} />);
+    render(
+      <ToastProvider>
+        <NutritionSummary selectedProducts={sampleProducts} />
+      </ToastProvider>
+    );
+
     expect(screen.getByText(/Podsumowanie kalorii/i)).toBeInTheDocument();
   });
 
   it("renders all products", () => {
-    render(<NutritionSummary selectedProducts={sampleProducts} />);
+    render(
+      <ToastProvider>
+        <NutritionSummary selectedProducts={sampleProducts} />
+      </ToastProvider>
+    );
+
     expect(screen.getByText(/Jabłko/i)).toBeInTheDocument();
     expect(screen.getByText(/Banana/i)).toBeInTheDocument();
     expect(
@@ -35,18 +46,32 @@ describe("NutritionSummary", () => {
   });
 
   it("renders plus sign between products", () => {
-    render(<NutritionSummary selectedProducts={sampleProducts} />);
+    render(
+      <ToastProvider>
+        <NutritionSummary selectedProducts={sampleProducts} />
+      </ToastProvider>
+    );
+
     expect(screen.getAllByText("+")).toHaveLength(1);
   });
 
   it("calculates and renders total calories", () => {
-    render(<NutritionSummary selectedProducts={sampleProducts} />);
+    render(
+      <ToastProvider>
+        <NutritionSummary selectedProducts={sampleProducts} />
+      </ToastProvider>
+    );
     expect(screen.getByText(/Razem/i)).toBeInTheDocument();
     expect(screen.getByText(/180 kcal/i)).toBeInTheDocument();
   });
 
   it("renders nothing if no products", () => {
-    render(<NutritionSummary selectedProducts={[]} />);
+    render(
+      <ToastProvider>
+        <NutritionSummary selectedProducts={[]} />
+      </ToastProvider>
+    );
+    
     expect(screen.queryByText(/Razem/i)).not.toBeInTheDocument();
     expect(screen.queryByText("+")).not.toBeInTheDocument();
   });

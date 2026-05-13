@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 import './styles/ProductManager.css';
 import { useProducts } from './hooks/useProducts';
+import { useToast } from '../ui/toast/hooks/useToast';
 
 import ProductForm from './components/ProductForm';
 import ProductList from './components/ProductList';
@@ -11,14 +12,32 @@ export default function ProductManager({ user }) {
   const [search, setSearch] = useState('');
   const [visibleCount, setVisibleCount] = useState(10);
   const listRef = useRef(null);
+  const { showToast } = useToast();
 
   const handleAddProduct = async (product) => {
-    await addProduct(product);
+    try {
+      await addProduct(product);
+
+      showToast(
+        `Dodano produkt: ${product.name}`,
+        'success'
+      );
+    } catch {
+      showToast(
+        'Nie udało się dodać produktu',
+        'error'
+      );
+    }
   };
 
-  const handleDeleteProduct = async (id) => {
+  const handleDeleteProduct = async (product) => {
     if (window.confirm('Czy na pewno chcesz usunąć produkt?')) {
-      await deleteProduct(id);
+      await deleteProduct(product.id);
+
+      showToast(
+        `Usunięto produkt: ${product.name}`,
+        'info'
+      );
     }
   };
 
@@ -27,6 +46,10 @@ export default function ProductManager({ user }) {
     const newKcal = window.prompt('Nowa wartość kcal/100g:', p.kcalPer100g);
     if (!newName || !newKcal) return;
     await updateProduct(p.id, { name: newName, kcalPer100g: newKcal });
+    showToast(
+      `Zaktualizowano produkt: ${newName}`,
+      'success'
+    );
   };
 
   const handleSearchChange = (e) => {

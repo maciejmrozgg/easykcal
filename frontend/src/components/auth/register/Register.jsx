@@ -1,25 +1,25 @@
 import { useState } from "react";
 import { registerUser } from "../api/authApi";
+import { useToast } from "../../ui/toast/hooks/useToast";
 import '../styles/Auth.css';
 
 export default function Register({ onClose }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const { showToast } = useToast();
 
   async function handleSubmit(e) {
     e.preventDefault();
-    setMessage("");
     setLoading(true);
 
     try {
       const _res = await registerUser(email, password);
-      setMessage("Konto zostało utworzone");
+      showToast("Konto zostało utworzone", "success");
       setEmail("");
       setPassword("");
     } catch (err) {
-      setMessage(err.message);
+      showToast(err.message, "error");
     } finally {
       setLoading(false);
     }
@@ -50,7 +50,6 @@ export default function Register({ onClose }) {
         <button type="button" className="btn-danger" onClick={onClose}>Anuluj</button>
         </div>
       </form>
-      {message && <p>{message}</p>}
     </div>
   );
 }

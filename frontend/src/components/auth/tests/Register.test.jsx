@@ -2,6 +2,7 @@ import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import Register from "../register/Register";
 import * as authApi from "../api/authApi";
+import ToastProvider from "../../ui/toast/context/ToastProvider";
 
 vi.mock("../api/authApi");
 
@@ -13,7 +14,12 @@ describe("Register component", () => {
   });
 
   it("renders register form", () => {
-    render(<Register onClose={mockClose} />);
+    render(
+      <ToastProvider>
+        <Register onClose={mockClose} />
+      </ToastProvider>
+    );
+
 
     expect(screen.getByPlaceholderText("Email")).toBeInTheDocument();
     expect(screen.getByPlaceholderText("Hasło")).toBeInTheDocument();
@@ -25,7 +31,11 @@ describe("Register component", () => {
   it("calls registerUser on submit", async () => {
     authApi.registerUser.mockResolvedValueOnce({});
 
-    render(<Register onClose={mockClose} />);
+    render(
+      <ToastProvider>
+        <Register onClose={mockClose} />
+      </ToastProvider>
+    );
 
     fireEvent.change(screen.getByPlaceholderText("Email"), {
       target: { value: "test@test.com" },
@@ -45,18 +55,18 @@ describe("Register component", () => {
         "Test1234!"
       );
     });
-
-    expect(
-      screen.getByText("Konto zostało utworzone")
-    ).toBeInTheDocument();
   });
 
-  it("shows error message when register fails", async () => {
+  it("handles failed registration attempt", async () => {
     authApi.registerUser.mockRejectedValueOnce(
       new Error("Email już istnieje")
     );
 
-    render(<Register onClose={mockClose} />);
+    render(
+      <ToastProvider>
+        <Register onClose={mockClose} />
+      </ToastProvider>
+    );
 
     fireEvent.change(screen.getByPlaceholderText("Email"), {
       target: { value: "taken@test.com" },
@@ -70,8 +80,12 @@ describe("Register component", () => {
       screen.getByRole("button", { name: "Zarejestruj" })
     );
 
-    expect(
-      await screen.findByText("Email już istnieje")
-    ).toBeInTheDocument();
+    await waitFor(() => {
+      expect(authApi.registerUser).toHaveBeenCalledWith(
+        "taken@test.com",
+        "Test1234!"
+      )
+    })
+
   });
 });

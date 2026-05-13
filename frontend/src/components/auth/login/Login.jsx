@@ -1,24 +1,24 @@
 import { useState } from "react";
 import { loginUser } from "../api/authApi";
+import { useToast } from "../../ui/toast/hooks/useToast";
 import '../styles/Auth.css';
 
 export default function Login({ onLoginSuccess, onClose }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const { showToast } = useToast();
 
   async function handleSubmit(e) {
     e.preventDefault();
-    setMessage("");
     setLoading(true);
 
     try {
       const data = await loginUser(email, password);
-      setMessage("Zalogowano pomyślnie");
+      showToast("Zalogowano pomyślnie", "success");
       onLoginSuccess(data.user);
     } catch (err) {
-      setMessage(err.message);
+      showToast(err.message, "error");
     } finally {
       setLoading(false);
     }
@@ -51,7 +51,6 @@ export default function Login({ onLoginSuccess, onClose }) {
           </button>
         </div>
       </form>
-      {message && <p>{message}</p>}
     </div>
   );
 }

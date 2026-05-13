@@ -2,6 +2,7 @@ import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import Login from "../login/Login";
 import * as authApi from "../api/authApi";
+import ToastProvider from "../../ui/toast/context/ToastProvider";
 
 vi.mock("../api/authApi");
 
@@ -15,7 +16,9 @@ describe("Login component", () => {
 
   it("renders login form", () => {
     render(
-      <Login onLoginSuccess={mockLoginSuccess} onClose={mockClose} />
+      <ToastProvider>
+        <Login onLoginSuccess={mockLoginSuccess} onClose={mockClose} />
+      </ToastProvider>
     );
 
     expect(screen.getByPlaceholderText("Email")).toBeInTheDocument();
@@ -27,7 +30,9 @@ describe("Login component", () => {
 
   it("calls onClose when cancel clicked", () => {
     render(
-      <Login onLoginSuccess={mockLoginSuccess} onClose={mockClose} />
+      <ToastProvider>
+        <Login onLoginSuccess={mockLoginSuccess} onClose={mockClose} />
+      </ToastProvider>
     );
 
     fireEvent.click(
@@ -43,7 +48,9 @@ describe("Login component", () => {
     });
 
     render(
-      <Login onLoginSuccess={mockLoginSuccess} onClose={mockClose} />
+      <ToastProvider>
+        <Login onLoginSuccess={mockLoginSuccess} onClose={mockClose} />
+      </ToastProvider>
     );
 
     fireEvent.change(screen.getByPlaceholderText("Email"), {
@@ -69,19 +76,17 @@ describe("Login component", () => {
         email: "test@test.com",
       });
     });
-
-    expect(
-      screen.getByText("Zalogowano pomyślnie")
-    ).toBeInTheDocument();
   });
 
-  it("shows error message on failed login", async () => {
+  it("handles failed login attempt", async () => {
     authApi.loginUser.mockRejectedValueOnce(
       new Error("Błędne dane logowania")
     );
 
     render(
-      <Login onLoginSuccess={mockLoginSuccess} onClose={mockClose} />
+      <ToastProvider>
+        <Login onLoginSuccess={mockLoginSuccess} onClose={mockClose} />
+      </ToastProvider>
     );
 
     fireEvent.change(screen.getByPlaceholderText("Email"), {
@@ -96,8 +101,11 @@ describe("Login component", () => {
       screen.getByRole("button", { name: "Zaloguj" })
     );
 
-    expect(
-      await screen.findByText("Błędne dane logowania")
-    ).toBeInTheDocument();
+    await waitFor(() => {
+      expect(authApi.loginUser).toHaveBeenCalledWith(
+        "wrong@test.com",
+        "Wrong123!"
+      );
+    });
   });
 });

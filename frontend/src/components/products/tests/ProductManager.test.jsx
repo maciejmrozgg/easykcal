@@ -3,6 +3,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { ProductsProvider } from '../context/ProductsProvider';
 import ProductManager from '../ProductManager';
 import { cleanup } from '@testing-library/react';
+import ToastProvider from '../../ui/toast/context/ToastProvider';
 
 // Mock for window.prompt
 vi.stubGlobal('prompt', vi.fn());
@@ -18,9 +19,11 @@ vi.mock('../api/productApi', () => ({
 describe('ProductManager', () => {
     beforeEach(async () => {
         render(
-            <ProductsProvider>
-                <ProductManager user={{ id: 1, username: 'test' }} />
-            </ProductsProvider>
+            <ToastProvider>
+                <ProductsProvider>
+                    <ProductManager user={{ id: 1, username: 'test' }} />
+                </ProductsProvider>
+            </ToastProvider>
         );
 
         await screen.findByText(/Zarządzanie produktami/i);
@@ -87,11 +90,13 @@ describe('ProductManager', () => {
 
     it('hides CRUD actions for guests', () => {
         cleanup();
-        
+
         render(
-            <ProductsProvider>
-                <ProductManager user={null} />
-            </ProductsProvider>
+            <ToastProvider>
+                <ProductsProvider>
+                    <ProductManager user={null} />
+                </ProductsProvider>
+            </ToastProvider>
         );
 
         expect(screen.queryByText(/Dodaj produkt/i)).not.toBeInTheDocument();

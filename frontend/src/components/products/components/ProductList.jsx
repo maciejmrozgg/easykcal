@@ -10,11 +10,15 @@ const ProductList = forwardRef(({ products, visibleCount, onEdit, onDelete, user
             <span>{p.name} - <span className="kcal">{p.kcalPer100g} kcal</span></span>
             {user && (
               <span>
-                <button className='editbtn' onClick={() => onEdit(p)}>
+                <button
+                  className='editbtn'
+                  onClick={() => onEdit(p)}>
                   ✏️ EDIT
                 </button>
-                
-                <button className='delbtn' onClick={() => onDelete(p.id)}>
+
+                <button
+                  className='delbtn'
+                  onClick={() => onDelete(p)}>
                   🗑️ DELETE
                 </button>
               </span>

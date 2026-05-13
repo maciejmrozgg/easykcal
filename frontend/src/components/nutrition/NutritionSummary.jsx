@@ -1,7 +1,10 @@
+import { useToast } from '../ui/toast/hooks/useToast';
 import './styles/NutritionSummary.css';
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function NutritionSummary({ selectedProducts, onRemove, onReset, undoItem, onUndo }) {
+  const { showToast } = useToast();
+
   const totalKcal = parseFloat(
     selectedProducts.reduce((sum, p) => sum + (p.result || 0), 0).toFixed(2)
   );
@@ -55,7 +58,10 @@ export default function NutritionSummary({ selectedProducts, onRemove, onReset, 
       {selectedProducts.length > 0 && (
         <motion.button
           className="reset-btn"
-          onClick={onReset}
+          onClick={() => {
+            onReset();
+            showToast('Wyczyszczono podsumowanie kalorii', 'info');
+          }}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >

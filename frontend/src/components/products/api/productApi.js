@@ -19,6 +19,7 @@ export async function addProduct({ name, kcalPer100g }) {
     const res = await fetch(`${API_URL}/products`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
       body: JSON.stringify({ name, kcalPer100g: Number(kcalPer100g) }),
     });
     const data = await res.json();
@@ -48,6 +49,7 @@ export async function updateProduct(id, {name, kcalPer100g}) {
     const res = await fetch(`${API_URL}/products/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
       body: JSON.stringify({ name, kcalPer100g: Number(kcalPer100g) }),
     });
     const data = await res.json();
