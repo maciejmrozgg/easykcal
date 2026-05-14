@@ -17,6 +17,7 @@ import ProductManager from './components/products/ProductManager';
 import NutritionSummary from './components/nutrition/NutritionSummary';
 import { useNutritionSummary } from './components/nutrition/hooks/useNutritionSummary';
 import { ProductsProvider } from './components/products/context/ProductsProvider';
+import { useToast } from './components/ui/toast/hooks/useToast';
 
 import './theme/theme.css';
 
@@ -27,6 +28,7 @@ function App() {
   const [showLogin, setShowLogin] = useState(false);
   const [activeView, setActiveView] = useState("home");
   const [clearCalcSignal, setClearCalcSignal] = useState(0);
+  const { showToast } = useToast();
 
   useEffect(() => {
     document.body.className = darkMode ? 'dark-theme' : 'light-theme';
@@ -58,10 +60,15 @@ function App() {
         method: "POST",
         credentials: "include",
       });
+
       setUser(null);
       setActiveView("home");
+
+      showToast("Wylogowano pomyślnie", "info");
     } catch (err) {
       console.error("Błąd podczas wylogowania", err);
+
+      showToast("Nie udało się wylogować", "error");
     }
   };
 

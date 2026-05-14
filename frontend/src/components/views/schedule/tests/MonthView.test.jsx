@@ -19,6 +19,7 @@ vi.mock("../api/scheduleApi", () => ({
 }));
 
 import scheduleApi from "../api/scheduleApi";
+import ToastProvider from "../../../ui/toast/context/ToastProvider";
 
 const mockSchedule = {
     year: 2026,
@@ -55,7 +56,11 @@ beforeEach(() => {
 // ==================
 describe("Schedule tests MonthView", () => {
     it("fetches and renders month schedule", async () => {
-        render(<MonthView year={2026} month={0} />);
+        render(
+            <ToastProvider>
+                <MonthView year={2026} month={0} />
+            </ToastProvider>
+        );
 
         expect(scheduleApi.getMonth).toHaveBeenCalledWith(2026, 0);
 
@@ -64,7 +69,11 @@ describe("Schedule tests MonthView", () => {
     });
 
     it("shows add ingredient action for meals", async () => {
-        render(<MonthView year={2026} month={0} />);
+        render(
+            <ToastProvider>
+                <MonthView year={2026} month={0} />
+            </ToastProvider>
+        );
 
         const buttons = await screen.findAllByText("+ Dodaj składnik");
         expect(buttons.length).toBeGreaterThan(0);
@@ -73,7 +82,11 @@ describe("Schedule tests MonthView", () => {
     it("shows loading state before data loads", async () => {
         scheduleApi.getMonth.mockReturnValue(new Promise(() => { }));
 
-        render(<MonthView year={2026} month={0} />);
+        render(
+            <ToastProvider>
+                <MonthView year={2026} month={0} />
+            </ToastProvider>
+        );
 
         expect(await screen.findByText(/Ładowanie harmonogramu…/i)).toBeInTheDocument();
     });
@@ -85,7 +98,11 @@ describe("Schedule tests MonthView", () => {
             days: [],
         });
 
-        render(<MonthView year={2026} month={0} />);
+        render(
+            <ToastProvider>
+                <MonthView year={2026} month={0} />
+            </ToastProvider>
+        );
 
         expect(screen.queryByDisplayValue("Śniadanie")).not.toBeInTheDocument();
         expect(await screen.findByText("+ Dodaj posiłek")).toBeInTheDocument();

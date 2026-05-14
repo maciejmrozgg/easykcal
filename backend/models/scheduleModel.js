@@ -101,9 +101,21 @@ const ScheduleModel = {
     const day = days.find(d => d.date === date);
     if (!day) throw new Error("Day not found");
 
-    if (!mealId) mealId = Object.keys(day.meals)[0];
-    if (!day.meals[mealId] || !day.meals[mealId][ingredientIndex])
+    mealId = String(mealId);
+    ingredientIndex = Number(ingredientIndex);
+
+    if (!mealId) {
+      mealId = Object.keys(day.meals)[0];
+    }
+
+    if (
+      !day.meals[mealId] ||
+      ingredientIndex == null ||
+      ingredientIndex < 0 ||
+      ingredientIndex >= day.meals[mealId].length
+    ) {
       throw new Error("Ingredient not found");
+    }
 
     day.meals[mealId][ingredientIndex] = ingredient;
 
@@ -123,9 +135,22 @@ const ScheduleModel = {
 
     const day = days.find(d => d.date === date);
     if (!day) throw new Error("Day not found");
-    if (!mealId) mealId = Object.keys(day.meals)[0];
-    if (!day.meals[mealId] || !day.meals[mealId][ingredientIndex])
+
+    mealId = String(mealId);
+    ingredientIndex = Number(ingredientIndex);
+
+    if (!mealId) {
+      mealId = Object.keys(day.meals)[0];
+    }
+
+    if (
+      !day.meals[mealId] ||
+      ingredientIndex == null ||
+      ingredientIndex < 0 ||
+      ingredientIndex >= day.meals[mealId].length
+    ) {
       throw new Error("Ingredient not found");
+    }
 
     day.meals[mealId].splice(ingredientIndex, 1);
 

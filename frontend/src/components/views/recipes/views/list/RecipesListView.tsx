@@ -16,7 +16,7 @@ type RecipesListViewProps = {
 
     onToggle: (id: number) => void;
     onEdit: React.Dispatch<React.SetStateAction<number | null>>;
-    onDelete: (id: number) => Promise<void>;
+    onDelete: (recipe: Recipe) => Promise<void>;
 
     onSubmit: (recipeData: Recipe) => Promise<void>;
     onCancel: () => void;

@@ -37,6 +37,7 @@ import {
   updateRecipe,
   deleteRecipe,
 } from "../api/recipesApi";
+import ToastProvider from "../../../ui/toast/context/ToastProvider";
 
 // ==================
 // SETUP
@@ -74,15 +75,22 @@ const enterRecipesList = async () => {
 // ==================
 describe("Recipes view – full flow", () => {
   it("renders recipe titles", async () => {
-    render(<Recipes user={adminUser} />);
-
+    render(
+      <ToastProvider>
+        <Recipes user={adminUser} />
+      </ToastProvider>
+    );
     await enterRecipesList();
 
     expect(await screen.findByText("Jajecznica")).toBeInTheDocument();
   });
 
   it("expands recipe details after clicking title", async () => {
-    render(<Recipes user={adminUser} />);
+    render(
+      <ToastProvider>
+        <Recipes user={adminUser} />
+      </ToastProvider>
+    );
 
     await enterRecipesList();
 
@@ -95,7 +103,11 @@ describe("Recipes view – full flow", () => {
   });
 
   it("filters recipes by title", async () => {
-    render(<Recipes user={adminUser} />);
+    render(
+      <ToastProvider>
+        <Recipes user={adminUser} />
+      </ToastProvider>
+    );
 
     const input = screen.getByPlaceholderText("Wyszukaj przepis po nazwie...");
     fireEvent.change(input, { target: { value: "xyz" } });
@@ -115,8 +127,12 @@ describe("Recipes view – full flow", () => {
       user_id: 1,
     });
 
-    render(<Recipes user={adminUser} />);
-    
+    render(
+      <ToastProvider>
+        <Recipes user={adminUser} />
+      </ToastProvider>
+    );
+
     fireEvent.click(await screen.findByText("Dodaj przepis"));
 
     fireEvent.change(screen.getByPlaceholderText("Tytuł"), { target: { value: "Nowy przepis" } });
@@ -150,7 +166,11 @@ describe("Recipes view – full flow", () => {
       title: "Jajecznica deluxe",
     });
 
-    render(<Recipes user={adminUser} />);
+    render(
+      <ToastProvider>
+        <Recipes user={adminUser} />
+      </ToastProvider>
+    );
 
     await enterRecipesList();
 
@@ -175,7 +195,11 @@ describe("Recipes view – full flow", () => {
     deleteRecipe.mockResolvedValueOnce({ message: "Recipe deleted" });
     vi.spyOn(window, "confirm").mockReturnValue(true);
 
-    render(<Recipes user={adminUser} />);
+    render(
+      <ToastProvider>
+        <Recipes user={adminUser} />
+      </ToastProvider>
+    );
 
     await enterRecipesList();
 
@@ -194,7 +218,11 @@ describe("Recipes view – full flow", () => {
       user_id: 1,
     });
 
-    render(<Recipes user={adminUser} />);
+    render(
+      <ToastProvider>
+        <Recipes user={adminUser} />
+      </ToastProvider>
+    );
 
     fireEvent.click(await screen.findByText("Dodaj kategorię"));
 
@@ -220,7 +248,11 @@ describe("Recipes view – full flow", () => {
       user_id: 1,
     });
 
-    render(<Recipes user={adminUser} />);
+    render(
+      <ToastProvider>
+        <Recipes user={adminUser} />
+      </ToastProvider>
+    );
 
     const editButton = await screen.findByText("✏️");
     fireEvent.click(editButton);
@@ -245,7 +277,11 @@ describe("Recipes view – full flow", () => {
 
     vi.spyOn(window, "confirm").mockReturnValue(true);
 
-    render(<Recipes user={adminUser} />);
+    render(
+      <ToastProvider>
+        <Recipes user={adminUser} />
+      </ToastProvider>
+    );
 
     const editButton = await screen.findByText("✏️");
     fireEvent.click(editButton);

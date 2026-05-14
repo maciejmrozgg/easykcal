@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useToast } from "../../../../ui/toast/hooks/useToast";
 import MealsTable from "../MealsTable";
 import scheduleApi from "../../api/scheduleApi";
 import "./MonthView.css";
@@ -27,6 +28,7 @@ const MonthView = ({ year, month, onBack }) => {
   const [deficitDraft, setDeficitDraft] = useState(0);
   const [zeroDraft, setZeroDraft] = useState(0);
   const [loading, setLoading] = useState(true);
+  const { showToast } = useToast();
 
   /* ===== FETCH ===== */
   useEffect(() => {
@@ -57,29 +59,71 @@ const MonthView = ({ year, month, onBack }) => {
     if (meals.length >= MAX_MEALS) return;
     const schedule = await scheduleApi.addMeal(year, month, "Nowy posiłek");
     refreshFromSchedule(schedule);
+
+    showToast(
+      `Dodano posiłek: Nowy posiłek`,
+      "success"
+    );
   };
 
   const renameMeal = async (mealId, name) => {
     const schedule = await scheduleApi.updateMealName(year, month, mealId, name);
     setMeals(schedule.meals);
+
+    showToast(
+      `Zmieniono nazwę posiłku na ${name}`,
+      "info"
+    );
   };
 
   const deleteMeal = async (mealId) => {
+    const mealName = meals.find(m => m.id === mealId)?.name;
+
     const schedule = await scheduleApi.deleteMeal(year, month, mealId);
     refreshFromSchedule(schedule);
+
+    showToast(
+      `Usunięto posiłek: ${mealName}`,
+      "info"
+    );
   };
 
   /* ===== INGREDIENTS ===== */
   const handleUpdateIngredient = async (dayIndex, mealId, ingredientIndex, ingredient) => {
     const date = days[dayIndex].date;
+    const mealName = meals.find(m => m.id === mealId)?.name;
+
     let schedule;
 
     if (ingredient) {
-      schedule = ingredientIndex != null
-        ? await scheduleApi.updateIngredient(year, month, date, ingredientIndex, { mealId, ...ingredient })
-        : await scheduleApi.addIngredient(year, month, date, { mealId, ...ingredient });
+      if (ingredientIndex != null) {
+        schedule = await scheduleApi.updateIngredient(year, month, date, ingredientIndex, { mealId, ...ingredient });
+
+        showToast(
+          `Zaktualizowano składnik: ${ingredient.name}`,
+          "info"
+        );
+
+      } else {
+        schedule = await scheduleApi.addIngredient(year, month, date, { mealId, ...ingredient });
+
+        showToast(
+          `Dodano ${ingredient.name} do posiłku ${mealName}`,
+          "success"
+        );
+      }
+
     } else {
       schedule = await scheduleApi.deleteIngredient(year, month, date, ingredientIndex, mealId);
+      const ingredientName =
+        ingredientIndex != null
+          ? days[dayIndex].meals[mealId][ingredientIndex]?.name
+          : "";
+
+      showToast(
+        `Usunięto składnik ${ingredientName}`,
+        "info"
+      );
     }
 
     refreshFromSchedule(schedule);
@@ -87,9 +131,22 @@ const MonthView = ({ year, month, onBack }) => {
 
   /* ===== LIMITS ===== */
   const updateLimits = async () => {
+    if (zeroDraft < deficitDraft) {
+      showToast(
+        "Najpierw ustaw zero kaloryczne większe lub równe deficytowi",
+        "warning"
+      );
+      return;
+    }
+
     const schedule = await scheduleApi.updateLimits(year, month, deficitDraft, zeroDraft);
     setDeficitLimit(schedule.kcal_limit);
     setZeroLimit(schedule.zero_kcal_limit);
+
+    showToast(
+      `Deficyt: ${deficitDraft} kcal | Zero: ${zeroDraft} kcal`,
+      "info"
+    );
   };
 
   if (loading) return <div>Ładowanie harmonogramu…</div>;

@@ -12,7 +12,7 @@ type RecipeCardProps = {
 
   onToggle: (id: number) => void;
   onEdit: React.Dispatch<React.SetStateAction<number | null>>;
-  onDelete: (id: number) => Promise<void>;
+  onDelete: (recipe: Recipe) => Promise<void>;
 
   onSubmit: (recipe: Recipe) => Promise<void>;
   onCancel: () => void;
@@ -76,7 +76,7 @@ const RecipeCard = ({
         {user?.role === "admin" && (
           <button
             className="del-recipe-btn"
-            onClick={() => onDelete(recipe.id)}
+            onClick={() => onDelete(recipe)}
           >
             🗑️ Usuń
           </button>

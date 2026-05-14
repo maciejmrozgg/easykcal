@@ -8,6 +8,7 @@ import CategoryView from "./views/category/CategoryView";
 import RecipesListView from "./views/list/RecipesListView";
 import useRecipes from "../../../hooks/useRecipes";
 import { getRecipeWord } from "../../../utils/recipeUtils";
+import { useToast } from "../../ui/toast/hooks/useToast";
 
 import type { Category } from "../../../types/category";
 import type { Recipe } from "../../../types/recipe";
@@ -22,6 +23,7 @@ type RecipesProps = {
 
 const Recipes = ({ user }: RecipesProps) => {
   const [filter, setFilter] = useState("");
+  const { showToast } = useToast();
 
   const {
     filteredRecipes,
@@ -82,27 +84,62 @@ const Recipes = ({ user }: RecipesProps) => {
     setEditingRecipeId(null);
   };
 
+
+
   const handleRecipeSubmit = async (recipeData: Recipe) => {
     try {
+
+      const categoryName = categoriesToDisplay.find(
+        cat => cat.id === recipeData.category_id)?.name || "Bez kategorii";
+
       if (editingRecipeId) {
         await editRecipe(editingRecipeId, recipeData);
         setEditingRecipeId(null);
+
+        showToast(
+          `Zaktualizowano przepis: ${recipeData.title}`,
+          "success"
+        )
       } else {
         await addRecipe(recipeData);
         setShowAddForm(false);
+
+        showToast(
+          `Dodano przepis: ${recipeData.title} do kategorii ${categoryName}`,
+          "success"
+        );
       }
 
       setExpandedRecipeId(null);
 
-    } catch (err) {
-      console.error("Błąd zapisu przepisu:", err);
+    } catch {
+      showToast(
+        "Nie udało się zapisać przepisu",
+        "error"
+      );
     }
   };
 
-  const handleRecipeDelete = async (id: number) => {
-    if (window.confirm("Czy na pewno chcesz usunąć przepis?")) {
-      await removeRecipe(id);
+  const handleRecipeDelete = async (recipe: Recipe) => {
+    if (!window.confirm("Czy na pewno chcesz usunąć przepis?")) {
+      return;
     }
+
+    try {
+      await removeRecipe(recipe.id);
+
+      showToast(
+        `Usunięto przepis: ${recipe.title}`,
+        "info"
+      );
+
+    } catch {
+      showToast(
+        "Nie udało się usunąć przepisu",
+        "error"
+      );
+    }
+
   };
 
   const openAddCategoryModal = () => {
@@ -119,15 +156,28 @@ const Recipes = ({ user }: RecipesProps) => {
     try {
       if (categoryToEdit) {
         await editCategory(categoryToEdit.id, name);
+
+        showToast(
+          `Zaktualizowano kategorię: ${name}`,
+          "success"
+        );
       } else {
         await addCategory(name);
+
+        showToast(
+          `Dodano kategorię: ${name}`,
+          "success"
+        );
       }
 
       setIsCategoryModalOpen(false);
       setCategoryToEdit(null);
 
     } catch {
-      alert("Błąd zapisu kategorii");
+      showToast(
+        "Nie udało się zapisać kategorii",
+        "error"
+      );
     }
   };
 
@@ -137,11 +187,19 @@ const Recipes = ({ user }: RecipesProps) => {
     try {
       await removeCategory(categoryToEdit.id);
 
+      showToast(
+        `Usunięto kategorię: ${categoryToEdit.name}. Przepisy przeniesiono do "Bez kategorii"`,
+        "info"
+      );
+
       setIsCategoryModalOpen(false);
       setCategoryToEdit(null);
 
     } catch {
-      alert("Błąd usuwania");
+      showToast(
+        "Nie udało się usunąć kategorii",
+        "error"
+      );
     }
   };
 
