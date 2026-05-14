@@ -6,7 +6,7 @@
 - [x] Default categories in production database
 - [ ] BaseModal component for shared modal logic
 - [x] Restrict product management for guests (read-only access)
-- [ ] Toast notifications for user actions
+- [x] Toast notifications for user actions
 
 ## Backend improvements
 - [ ] Transactional tests

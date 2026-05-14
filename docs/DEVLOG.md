@@ -124,3 +124,54 @@ Earlier development notes were kept privately.
 ### Notes
 - backend authorization is now enforced both on API level and frontend UI level
 - guests can browse products but cannot modify them
+
+## 2026-05-12
+
+### Done
+- introduced global toast notification system
+- implemented ToastProvider, ToastContext and useToast hook
+- added reusable Toast and ToastContainer components
+- added TypeScript typings for toast system (ToastType, ToastItem)
+- integrated toast notifications with NutritionSummary component
+- integrated toast notifications with authentication flow (login/register)
+- fixed unauthorized frontend requests by adding credentials: 'include' to protected fetch requests
+- improved frontend UX feedback for async actions and errors
+
+### Notes
+- toast system is implemented globally using React Context API
+- components can trigger notifications through useToast hook
+- backend uses JWT authentication stored in HttpOnly cookies
+- protected backend routes require credentials: 'include' in frontend fetch requests
+- frontend auth state and backend authorization state can differ without credentials support
+
+## 2026-05-13
+
+### Done
+- integrated toast notifications with ProductManager component
+- added toast feedback for product add/edit/delete actions
+- updated frontend tests to support ToastProvider context
+- updated auth and product tests after toast integration
+- verified frontend tests after toast notification integration
+
+### Notes
+- toast notifications are now integrated into auth, nutrition and product management modules
+- remaining planned integrations: Recipes and Schedule modules
+
+## 2026-05-14
+
+### Done
+- integrated toast notifications with Recipes module
+- integrated toast notifications with Schedule module
+- added success/info/error/warning toast feedback for recipe and schedule CRUD actions
+- added warning toast type with dedicated styling
+- added toast icons for all notification types
+- improved calorie limit validation UX in Schedule view
+- updated Schedule frontend tests to support ToastProvider context
+- verified frontend tests after toast integration
+
+### Notes
+- toast notifications are now used across auth, nutrition, products, recipes and schedule modules
+- warning toast type is intended for validation and non-critical user feedback
+
+### Release
+- release v1.1.1 – completed toast notification integration across application
