@@ -19,6 +19,10 @@
   font-weight: bold;
 
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .toast-success {
@@ -31,4 +35,8 @@
 
 .toast-info {
   background-color: #3b82f6;
+}
+
+.toast-warning {
+  background-color: #f59e0b;
 }
