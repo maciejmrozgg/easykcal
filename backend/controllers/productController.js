@@ -23,7 +23,7 @@ exports.addProduct = async (req, res, next) => {
     return res.status(400).json({ error: 'Brakuje nazwy lub kaloryczności produktu' });
   }
 
-  const values = [kcal, fat, protein, carbs]
+  const values = [kcal, fat, protein, carbs];
 
   if (values.some(value => isNaN(value))) {
     return res.status(400).json({
@@ -63,7 +63,7 @@ exports.updateOneProduct = async (req, res, next) => {
   const protein = proteinPer100g === "" || proteinPer100g === undefined ? null : Number(proteinPer100g);
   const carbs = carbsPer100g === "" || carbsPer100g === undefined ? null : Number(carbsPer100g);
 
-  const values = [kcal, fat, protein, carbs]
+  const values = [kcal, fat, protein, carbs];
 
   if (values.some(value => isNaN(value))) {
     return res.status(400).json({
@@ -73,6 +73,13 @@ exports.updateOneProduct = async (req, res, next) => {
 
   try {
     const updatedProduct = await productModel.updateProduct(id, name, kcal, fat, protein, carbs);
+
+    if (!updatedProduct) {
+      return res.status(404).json({
+        error: 'Produkt nie istnieje'
+      });
+    }
+
     res.json(updatedProduct);
   } catch (err) {
     next(err);

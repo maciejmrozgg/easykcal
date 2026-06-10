@@ -46,6 +46,10 @@ exports.deleteProduct = async (id) => {
     [id]
   );
 
+  if (result.rows.length === 0) {
+    return null;
+  }
+
   return {
     id: result.rows[0].id,
     name: result.rows[0].name,
@@ -63,6 +67,10 @@ exports.updateProduct = async (id, name, kcal, fat, protein, carbs) => {
     'UPDATE products SET name = $1, kcal_per_100g = $2, fat_per_100g = $3, protein_per_100g = $4, carbs_per_100g = $5 WHERE id = $6 RETURNING *',
     [name, kcal, fat, protein, carbs, id]
   );
+
+  if (result.rows.length === 0) {
+    return null;
+  }
 
   return {
     id: result.rows[0].id,
