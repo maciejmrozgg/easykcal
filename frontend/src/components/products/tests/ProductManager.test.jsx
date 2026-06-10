@@ -4,13 +4,14 @@ import { ProductsProvider } from '../context/ProductsProvider';
 import ProductManager from '../ProductManager';
 import { cleanup } from '@testing-library/react';
 import ToastProvider from '../../ui/toast/context/ToastProvider';
+import * as productApi from '../api/productApi';
 
 // Mock for window.prompt
 vi.stubGlobal('prompt', vi.fn());
 
 // Mock API
 vi.mock('../api/productApi', () => ({
-    fetchProducts: vi.fn().mockResolvedValue([{ id: 1, name: 'Jabłko', kcalPer100g: 52 }]),
+    fetchProducts: vi.fn().mockResolvedValue([{ id: 1, name: 'Jabłko', kcalPer100g: 52, proteinPer100g: null, fatPer100g: null, carbsPer100g: 5 }]),
     addProduct: vi.fn().mockImplementation((p) => Promise.resolve({ ...p, id: 2 })),
     deleteProduct: vi.fn().mockResolvedValue({ success: true }),
     updateProduct: vi.fn().mockImplementation((id, p) => Promise.resolve({ id, ...p })),
@@ -33,21 +34,34 @@ describe('ProductManager', () => {
         expect(screen.getByText(/Zarządzanie produktami/i)).toBeInTheDocument();
         expect(screen.getByPlaceholderText(/Nazwa produktu/i)).toBeInTheDocument();
         expect(screen.getByPlaceholderText(/Wpisz nazwę/i)).toBeInTheDocument();
+
+        expect(screen.getByText(/B:/i)).toBeInTheDocument();
+        expect(screen.getByText(/T:/i)).toBeInTheDocument();
+        expect(screen.getByText(/W:/i)).toBeInTheDocument();
     });
 
     it('adds a product and clears inputs', async () => {
         const nameInput = screen.getByPlaceholderText(/Nazwa produktu/i);
         const kcalInput = screen.getByPlaceholderText(/Kalorie na 100g/i);
+        const proteinInput = screen.getByPlaceholderText(/Białko na 100g/i);
+        const fatInput = screen.getByPlaceholderText(/Tłuszcze na 100g/i);
+        const carbsInput = screen.getByPlaceholderText(/Węglowodany na 100g/i);
         const addButton = screen.getByRole('button', { name: /Dodaj produkt/i });
 
         fireEvent.change(nameInput, { target: { value: 'Gruszka' } });
         fireEvent.change(kcalInput, { target: { value: '65' } });
+        fireEvent.change(proteinInput, { target: { value: '' } });
+        fireEvent.change(fatInput, { target: { value: '' } });
+        fireEvent.change(carbsInput, { target: { value: '10' } });
         fireEvent.click(addButton);
 
         // Inputs should be cleared
         await waitFor(() => {
             expect(nameInput.value).toBe('');
             expect(kcalInput.value).toBe('');
+            expect(proteinInput.value).toBe('');
+            expect(fatInput.value).toBe('');
+            expect(carbsInput.value).toBe('');
         });
     });
 
@@ -79,12 +93,24 @@ describe('ProductManager', () => {
         vi.stubGlobal('prompt', vi.fn()
             .mockReturnValueOnce('Gruszka')
             .mockReturnValueOnce('65')
+            .mockReturnValueOnce('5')
+            .mockReturnValueOnce('4')
+            .mockReturnValueOnce('3')
         );
 
         fireEvent.click(editButton);
 
         await waitFor(() => {
-            expect(window.prompt).toHaveBeenCalledTimes(2);
+            expect(productApi.updateProduct).toHaveBeenCalledWith(
+                1,
+                {
+                    name: 'Gruszka',
+                    kcalPer100g: '65',
+                    proteinPer100g: '5',
+                    fatPer100g: '4',
+                    carbsPer100g: '3'
+                }
+            );
         })
     });
 

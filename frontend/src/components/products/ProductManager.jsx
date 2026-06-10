@@ -44,8 +44,12 @@ export default function ProductManager({ user }) {
   const handleEditProduct = async (p) => {
     const newName = window.prompt('Nowa nazwa produktu:', p.name);
     const newKcal = window.prompt('Nowa wartość kcal/100g:', p.kcalPer100g);
+    const newProtein = window.prompt('Nowa wartość białka/100g:', p.proteinPer100g ?? '');
+    const newFat = window.prompt('Nowa wartość tłuszczu/100g:', p.fatPer100g ?? '');
+    const newCarbs = window.prompt('Nowa wartość węglowodanów/100g:', p.carbsPer100g ?? '');
+
     if (!newName || !newKcal) return;
-    await updateProduct(p.id, { name: newName, kcalPer100g: newKcal });
+    await updateProduct(p.id, { name: newName, kcalPer100g: newKcal, fatPer100g: newFat, proteinPer100g: newProtein, carbsPer100g: newCarbs });
     showToast(
       `Zaktualizowano produkt: ${newName}`,
       'success'
