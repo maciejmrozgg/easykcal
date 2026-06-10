@@ -29,6 +29,7 @@ Current version: v1.1.1.
 - Read-only access for guests
 - Product search functionality
 - Product data updates
+- Calories, protein, fat and carbs per 100g
 
 ### 🔹 Recipes
 - Full recipe CRUD
@@ -332,6 +333,7 @@ Obecna wersja: v1.1.1.
 - Tryb tylko do odczytu dla gości
 - Wyszukiwanie produktów
 - Aktualizacja danych
+- Kalorie, białko, tłuszcz i węglowodany na 100g
 
 ### 🔹 Przepisy
 - CRUD przepisów

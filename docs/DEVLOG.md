@@ -175,3 +175,35 @@ Earlier development notes were kept privately.
 
 ### Release
 - release v1.1.1 – completed toast notification integration across application
+
+## 2026-06-09
+
+### Started: Product macros
+
+Goal:
+- add protein
+- add fat
+- add carbs
+
+Purpose:
+prepare product database for Schedule integration and Nutrition Summary.
+
+## 2026-06-10
+
+### Done
+- added protein_per_100g field
+- added fat_per_100g field
+- added carbs_per_100g field
+- added SQL migration for product macros
+- updated Product model CRUD operations
+- updated Product controller validation
+- updated frontend product forms
+- updated Product API payloads
+- extended ProductManager edit flow with macro fields
+- added macro display in ProductList
+- improved handling of missing products in update/delete operations
+- updated frontend product tests
+
+### Notes
+- macro values are optional (NULL allowed)
+- prepared product database for future Nutrition Summary and Schedule integration

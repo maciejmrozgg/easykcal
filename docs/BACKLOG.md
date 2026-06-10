@@ -1,12 +1,19 @@
 # EasyKcal Backlog
 
 ## Features
+- [ ] Schedule + Products integration (meal tracker with kcal and macros)
+- [ ] Daily and meal-level nutrition summaries
 - [ ] Integrate Nutrition Summary with Schedule
 - [ ] Add recipe images support
-- [x] Default categories in production database
+
 - [ ] BaseModal component for shared modal logic
+
+- [x] Default categories in production database
 - [x] Restrict product management for guests (read-only access)
 - [x] Toast notifications for user actions
+- [x] Add protein, fat and carbs support for products
+
+- [ ] Add backend CRUD tests for products API
 
 ## Backend improvements
 - [ ] Transactional tests
