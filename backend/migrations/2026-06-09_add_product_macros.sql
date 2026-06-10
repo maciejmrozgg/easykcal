@@ -1,0 +1,12 @@
+ALTER TABLE products
+ADD COLUMN fat_per_100g NUMERIC,
+ADD COLUMN protein_per_100g NUMERIC,
+ADD COLUMN carbs_per_100g NUMERIC,
+
+ADD COLUMN created_at TIMESTAMP DEFAULT NOW(),
+ADD COLUMN updated_at TIMESTAMP DEFAULT NOW();
+
+CREATE TRIGGER update_products_updated_at
+BEFORE UPDATE ON products
+FOR EACH ROW
+EXECUTE FUNCTION update_updated_at_column();
