@@ -13,6 +13,7 @@
 - [x] Add protein, fat and carbs support for products
 
 - [ ] Add backend CRUD tests for products API
+- [x] Improve product error handling and toast notifications
 
 ## Backend improvements
 - [ ] Transactional tests

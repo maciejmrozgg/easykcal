@@ -224,7 +224,12 @@ prepare product database for Schedule integration and Nutrition Summary.
 - added product typings (Product, ProductFormData)
 - updated product tests for modal workflow
 
+- improved ProductsProvider error propagation
+- fixed product CRUD error handling
+- added error toast notifications for failed product operations
+
 ### Notes
 - BaseModal is now the foundation for future application modals
 - modal rendering is independent from parent layout containers
 - product editing now uses the shared modal infrastructure
+- product API errors now propagate correctly to UI layer

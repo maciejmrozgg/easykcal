@@ -44,15 +44,22 @@ export default function ProductManager({ user }) {
 
     if (!confirmed) return;
 
-    await deleteProduct(editingProduct.id);
+    try {
+      await deleteProduct(editingProduct.id);
 
-    showToast(
-      `Usunięto produkt: ${editingProduct.name}`,
-      "info"
-    );
+      showToast(
+        `Usunięto produkt: ${editingProduct.name}`,
+        "info"
+      );
 
-    setIsModalOpen(false);
-    setEditingProduct(null);
+      setIsModalOpen(false);
+      setEditingProduct(null);
+    } catch {
+      showToast(
+        'Nie udało się usunąć produktu',
+        'error'
+      );
+    }
   };
 
   const handleEditProduct = (product) => {
@@ -61,18 +68,25 @@ export default function ProductManager({ user }) {
   };
 
   const handleSaveProduct = async (updatedProduct) => {
-    await updateProduct(
-      editingProduct.id,
-      updatedProduct
-    );
+    try {
+      await updateProduct(
+        editingProduct.id,
+        updatedProduct
+      );
 
-    showToast(
-      `Zaktualizowano produkt: ${updatedProduct.name}`,
-      "success"
-    );
+      showToast(
+        `Zaktualizowano produkt: ${updatedProduct.name}`,
+        "success"
+      );
 
-    setIsModalOpen(false);
-    setEditingProduct(null);
+      setIsModalOpen(false);
+      setEditingProduct(null);
+    } catch {
+      showToast(
+        'Nie udało się zaktualizować produktu',
+        'error'
+      );
+    }
   };
 
   const handleSearchChange = (e) => {

@@ -21,6 +21,7 @@ export function ProductsProvider({ children }) {
       setProducts(data);
     } catch (err) {
       setError(err.message);
+      throw err;
     }
   };
 
@@ -30,6 +31,7 @@ export function ProductsProvider({ children }) {
       setProducts((prev) => [newProduct, ...prev]);
     } catch (err) {
       setError(err.message);
+      throw err;
     }
   };
 
@@ -39,6 +41,7 @@ export function ProductsProvider({ children }) {
       setProducts((prev) => prev.filter((p) => p.id !== id));
     } catch (err) {
       setError(err.message);
+      throw err;
     }
   };
 
@@ -48,6 +51,7 @@ export function ProductsProvider({ children }) {
       setProducts((prev) => prev.map((p) => (p.id === id ? updated : p)));
     } catch (err) {
       setError(err.message);
+      throw err;
     }
   };
 
