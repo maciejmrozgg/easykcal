@@ -207,3 +207,18 @@ prepare product database for Schedule integration and Nutrition Summary.
 ### Notes
 - macro values are optional (NULL allowed)
 - prepared product database for future Nutrition Summary and Schedule integration
+
+## 2026-06-11
+
+### Done
+- introduced reusable BaseModal component
+- moved modal backdrop and container logic into shared UI component
+- migrated CategoryModal to BaseModal
+- migrated IngredientModal to BaseModal
+- moved modal rendering to React Portal (document.body)
+- fixed modal positioning issues caused by parent container hover transforms
+- verified frontend build and tests after modal refactor
+
+### Notes
+- BaseModal is now the foundation for future application modals
+- modal rendering is independent from parent layout containers

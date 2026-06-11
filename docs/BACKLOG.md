@@ -6,8 +6,7 @@
 - [ ] Integrate Nutrition Summary with Schedule
 - [ ] Add recipe images support
 
-- [ ] BaseModal component for shared modal logic
-
+- [x] BaseModal component for shared modal logic
 - [x] Default categories in production database
 - [x] Restrict product management for guests (read-only access)
 - [x] Toast notifications for user actions

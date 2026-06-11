@@ -49,6 +49,9 @@ Current version: v1.1.1.
 - Roles: user / admin
 - Protected endpoints
 
+### 🔹 UI
+- Shared BaseModal component
+
 ---
 
 ## Project Roadmap
@@ -58,9 +61,11 @@ Planned improvements and future features for EasyKcal.
 - Backup system for products (export + seed)
 
 ### Medium term
+- Schedule + Products integration (meal tracker with kcal and macros)
+- Daily and meal-level nutrition summaries
 - Integrate Nutrition Summary with Schedule
 - Add recipe image preview and gallery
-- Shared BaseModal component for consistent UI
+- Manual nutrition entry for custom meals and ingredients
 - Improve test coverage reporting
 
 ### Long term
@@ -353,6 +358,9 @@ Obecna wersja: v1.1.1.
 - Role: user / admin
 - Ochrona endpointów
 
+### 🔹 UI
+- Współdzielony komponent BaseModal
+
 ---
 
 ## Plan projektu
@@ -362,9 +370,11 @@ Planowane ulepszenia i przyszłe funkcje dla EasyKcal.
 - System kopii zapasowych produktów (eksport + seed)
 
 ### Średnioterminowo
-- Zintegrowanie podsumowania wartości odżywczych z harmonogramem
-- Dodanie podglądu obrazu przepisu i galerii
-- Wspólny komponent BaseModal dla zapewnienia spójności interfejsu użytkownika
+- Integracja harmonogramu z produktami (meal tracker z kcal i makroskładnikami)
+- Podsumowania wartości odżywczych dla posiłków i całego dnia
+- Integracja Nutrition Summary z harmonogramem
+- Dodanie podglądu obrazów i galerii przepisów
+- Ręczne dodawanie wartości odżywczych dla własnych posiłków i składników
 - Poprawa raportowania pokrycia testami
 
 ### Długoterminowo
