@@ -1,0 +1,32 @@
+.modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.modal-buttons button {
+  padding: 0.4rem 0.9rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+.modal-buttons .save {
+  background: var(--button-bg);
+  color: var(--button-color);
+}
+
+.modal-buttons .save:hover {
+  background: var(--button-hover-bg);
+  color: var(--button-hover-color);
+}
+
+.modal-buttons .cancel {
+  background: #ccc;
+}
+
+.modal-buttons .delete {
+  background: #e74c3c;
+  color: #fff;
+}

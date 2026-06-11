@@ -1,7 +1,7 @@
 import { forwardRef } from 'react';
 import '../styles/ProductList.css';
 
-const ProductList = forwardRef(({ products, visibleCount, onEdit, onDelete, user }, ref) => {
+const ProductList = forwardRef(({ products, visibleCount, onEdit, user }, ref) => {
   return (
     <ol ref={ref} className="scrollable-list">
       {products.slice(0, visibleCount).map(p => (
@@ -26,14 +26,7 @@ const ProductList = forwardRef(({ products, visibleCount, onEdit, onDelete, user
                   className="editbtn"
                   onClick={() => onEdit(p)}
                 >
-                  ✏️ EDIT
-                </button>
-
-                <button
-                  className="delbtn"
-                  onClick={() => onDelete(p)}
-                >
-                  🗑️ DELETE
+                  ✏️ EDYTUJ
                 </button>
               </span>
             )}

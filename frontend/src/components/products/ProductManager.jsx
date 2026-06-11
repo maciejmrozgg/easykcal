@@ -6,12 +6,17 @@ import { useToast } from '../ui/toast/hooks/useToast';
 import ProductForm from './components/ProductForm';
 import ProductList from './components/ProductList';
 import ScrollButtons from './components/ScrollButtons';
+import ProductModal from './components/modals/ProductModal';
 
 export default function ProductManager({ user }) {
   const { products, error, addProduct, deleteProduct, updateProduct, loadProducts } = useProducts();
   const [search, setSearch] = useState('');
   const [visibleCount, setVisibleCount] = useState(10);
+  const [editingProduct, setEditingProduct] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const listRef = useRef(null);
+
   const { showToast } = useToast();
 
   const handleAddProduct = async (product) => {
@@ -30,30 +35,44 @@ export default function ProductManager({ user }) {
     }
   };
 
-  const handleDeleteProduct = async (product) => {
-    if (window.confirm('Czy na pewno chcesz usunąć produkt?')) {
-      await deleteProduct(product.id);
+  const handleDeleteFromModal = async () => {
+    if (!editingProduct) return;
 
-      showToast(
-        `Usunięto produkt: ${product.name}`,
-        'info'
-      );
-    }
+    const confirmed = window.confirm(
+      `Czy na pewno chcesz usunąć produkt "${editingProduct.name}"?`
+    );
+
+    if (!confirmed) return;
+
+    await deleteProduct(editingProduct.id);
+
+    showToast(
+      `Usunięto produkt: ${editingProduct.name}`,
+      "info"
+    );
+
+    setIsModalOpen(false);
+    setEditingProduct(null);
   };
 
-  const handleEditProduct = async (p) => {
-    const newName = window.prompt('Nowa nazwa produktu:', p.name);
-    const newKcal = window.prompt('Nowa wartość kcal/100g:', p.kcalPer100g);
-    const newProtein = window.prompt('Nowa wartość białka/100g:', p.proteinPer100g ?? '');
-    const newFat = window.prompt('Nowa wartość tłuszczu/100g:', p.fatPer100g ?? '');
-    const newCarbs = window.prompt('Nowa wartość węglowodanów/100g:', p.carbsPer100g ?? '');
+  const handleEditProduct = (product) => {
+    setEditingProduct(product);
+    setIsModalOpen(true);
+  };
 
-    if (!newName || !newKcal) return;
-    await updateProduct(p.id, { name: newName, kcalPer100g: newKcal, fatPer100g: newFat, proteinPer100g: newProtein, carbsPer100g: newCarbs });
-    showToast(
-      `Zaktualizowano produkt: ${newName}`,
-      'success'
+  const handleSaveProduct = async (updatedProduct) => {
+    await updateProduct(
+      editingProduct.id,
+      updatedProduct
     );
+
+    showToast(
+      `Zaktualizowano produkt: ${updatedProduct.name}`,
+      "success"
+    );
+
+    setIsModalOpen(false);
+    setEditingProduct(null);
   };
 
   const handleSearchChange = (e) => {
@@ -80,7 +99,6 @@ export default function ProductManager({ user }) {
         products={products}
         visibleCount={visibleCount}
         onEdit={handleEditProduct}
-        onDelete={handleDeleteProduct}
         user={user}
         ref={listRef}
       />
@@ -91,6 +109,17 @@ export default function ProductManager({ user }) {
       {visibleCount > 10 && <button className='pm-button' onClick={() => setVisibleCount(10)}>Resetuj widok</button>}
 
       {visibleCount > 10 && <ScrollButtons scrollToTop={scrollToTop} scrollToBottom={scrollToBottom} />}
+
+      <ProductModal
+        open={isModalOpen}
+        product={editingProduct}
+        onSave={handleSaveProduct}
+        onDelete={handleDeleteFromModal}
+        onClose={() => {
+          setIsModalOpen(false);
+          setEditingProduct(null);
+        }}
+      />
     </div>
   );
 }

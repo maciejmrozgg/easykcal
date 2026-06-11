@@ -6,9 +6,6 @@ import { cleanup } from '@testing-library/react';
 import ToastProvider from '../../ui/toast/context/ToastProvider';
 import * as productApi from '../api/productApi';
 
-// Mock for window.prompt
-vi.stubGlobal('prompt', vi.fn());
-
 // Mock API
 vi.mock('../api/productApi', () => ({
     fetchProducts: vi.fn().mockResolvedValue([{ id: 1, name: 'Jabłko', kcalPer100g: 52, proteinPer100g: null, fatPer100g: null, carbsPer100g: 5 }]),
@@ -86,32 +83,42 @@ describe('ProductManager', () => {
         expect(searchInput.value).toBe('Jabłko');
     });
 
-    it('edits a product using prompt', async () => {
-        const editButton = await screen.findByText(/✏️ EDIT/i);
-
-        // Mock prompt values
-        vi.stubGlobal('prompt', vi.fn()
-            .mockReturnValueOnce('Gruszka')
-            .mockReturnValueOnce('65')
-            .mockReturnValueOnce('5')
-            .mockReturnValueOnce('4')
-            .mockReturnValueOnce('3')
-        );
+    it('edits a product using ProductModal', async () => {
+        const editButton = await screen.findByText(/✏️ EDYTUJ/i);
 
         fireEvent.click(editButton);
+
+        fireEvent.change(
+            screen.getByDisplayValue("Jabłko"),
+            { target: { value: "Gruszka" } }
+        );
+
+        fireEvent.change(
+            screen.getByDisplayValue("52"),
+            { target: { value: "65" } }
+        );
+
+        fireEvent.change(
+            screen.getByDisplayValue("5"),
+            { target: { value: "3" } }
+        );
+
+        fireEvent.click(
+            screen.getByRole("button", { name: /Zapisz/i })
+        );
 
         await waitFor(() => {
             expect(productApi.updateProduct).toHaveBeenCalledWith(
                 1,
                 {
-                    name: 'Gruszka',
-                    kcalPer100g: '65',
-                    proteinPer100g: '5',
-                    fatPer100g: '4',
-                    carbsPer100g: '3'
+                    name: "Gruszka",
+                    kcalPer100g: 65,
+                    proteinPer100g: 0,
+                    fatPer100g: 0,
+                    carbsPer100g: 3,
                 }
             );
-        })
+        });
     });
 
     it('hides CRUD actions for guests', () => {
