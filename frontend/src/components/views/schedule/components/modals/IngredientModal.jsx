@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import "./IngredientModal.css";
+import BaseModal from "../../../../ui/modal/BaseModal";
 
 const IngredientModal = ({ open, initialData, onSave, onDelete, onClose }) => {
   const [name, setName] = useState("");
@@ -25,32 +26,32 @@ const IngredientModal = ({ open, initialData, onSave, onDelete, onClose }) => {
   };
 
   return (
-    <div className="modal-backdrop" onClick={onClose}>
-      <div className="modal-content" onClick={e => e.stopPropagation()}>
-        <h2>{initialData ? "Edytuj składnik" : "Dodaj składnik"}</h2>
+    <BaseModal
+      open={open}
+      title={initialData ? "Edytuj składnik" : "Dodaj składnik"}
+      onClose={onClose}
+    >
+      <label>
+        Nazwa:
+        <input type="text" value={name} onChange={e => setName(e.target.value)} />
+      </label>
 
-        <label>
-          Nazwa:
-          <input type="text" value={name} onChange={e => setName(e.target.value)} />
-        </label>
+      <label>
+        Waga (g):
+        <input type="number" value={weight} onChange={e => setWeight(e.target.value)} />
+      </label>
 
-        <label>
-          Waga (g):
-          <input type="number" value={weight} onChange={e => setWeight(e.target.value)} />
-        </label>
+      <label>
+        Kalorie:
+        <input type="number" value={kcal} onChange={e => setKcal(e.target.value)} />
+      </label>
 
-        <label>
-          Kalorie:
-          <input type="number" value={kcal} onChange={e => setKcal(e.target.value)} />
-        </label>
-
-        <div className="modal-buttons">
-          {initialData && <button className="delete" onClick={onDelete}>Usuń</button>}
-          <button className="cancel" onClick={onClose}>Anuluj</button>
-          <button className="save" onClick={handleSave}>Zapisz</button>
-        </div>
+      <div className="modal-buttons">
+        {initialData && <button className="delete" onClick={onDelete}>Usuń</button>}
+        <button className="cancel" onClick={onClose}>Anuluj</button>
+        <button className="save" onClick={handleSave}>Zapisz</button>
       </div>
-    </div>
+    </BaseModal >
   );
 };
 

@@ -1,14 +1,15 @@
 import { useState, useEffect } from "react";
-import "../../styles/CategoryModal.css";
+import "./CategoryModal.css";
 import type { Category } from "../../../../../types/category";
+import BaseModal from "../../../../ui/modal/BaseModal";
 
 type CategoryModalProps = {
     open: boolean;
 
     category: Category | null;
 
-    onSave:(name: string) => Promise<void>;
-    onDelete:() => Promise<void>;
+    onSave: (name: string) => Promise<void>;
+    onDelete: () => Promise<void>;
     onClose: () => void;
 };
 
@@ -18,7 +19,7 @@ const CategoryModal = ({
     onSave,
     onDelete,
     onClose
-}: CategoryModalProps ) => {
+}: CategoryModalProps) => {
     const [name, setName] = useState<string>("");
 
     useEffect(() => {
@@ -37,48 +38,46 @@ const CategoryModal = ({
     };
 
     return (
-        <div className="modal-backdrop" onClick={onClose}>
-            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                <h2>
-                    {category ? "Edytuj kategorię" : "Dodaj kategorię"}
-                </h2>
+        <BaseModal
+            open={open}
+            title={category ? "Edytuj kategorię" : "Dodaj kategorię"}
+            onClose={onClose}
+        >
+            <label>
+                Nazwa:
+                <input
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    autoFocus
+                />
+            </label>
 
-                <label>
-                    Nazwa:
-                    <input
-                        type="text"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        autoFocus
-                    />
-                </label>
+            <div className="modal-buttons">
+                {category && (
+                    <button
+                        className="delete"
+                        onClick={() => {
+                            const confirmed = window.confirm(
+                                `Czy na pewno chcesz usunąć kategorię "${category.name}"?\n\nPrzepisy z tej kategorii trafią do kafelka 'Bez kategorii'`
+                            );
 
-                <div className="modal-buttons">
-                    {category && (
-                        <button
-                            className="delete"
-                            onClick={() => {
-                                const confirmed = window.confirm(
-                                    `Czy na pewno chcesz usunąć kategorię "${category.name}"?\n\nPrzepisy z tej kategorii trafią do kafelka 'Bez kategorii'`
-                                );
-
-                                if (confirmed) {
-                                    onDelete();
-                                }
-                            }}
-                        >
-                            Usuń
-                        </button>
-                    )}
-                    <button className="cancel" onClick={onClose}>
-                        Anuluj
+                            if (confirmed) {
+                                onDelete();
+                            }
+                        }}
+                    >
+                        Usuń
                     </button>
-                    <button className="save" onClick={handleSave}>
-                        Zapisz
-                    </button>
-                </div>
+                )}
+                <button className="cancel" onClick={onClose}>
+                    Anuluj
+                </button>
+                <button className="save" onClick={handleSave}>
+                    Zapisz
+                </button>
             </div>
-        </div>
+        </BaseModal>
     );
 };
 

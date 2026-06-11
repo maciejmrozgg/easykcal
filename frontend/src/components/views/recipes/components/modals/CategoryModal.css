@@ -6,15 +6,20 @@
 }
 
 .modal-buttons button {
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  cursor: pointer;
+  padding: 0.4rem 0.9rem;
+  border-radius: 6px;
   border: none;
+  cursor: pointer;
 }
 
 .modal-buttons .save {
-  background: var(--accent-color, #3498db);
-  color: #fff;
+  background: var(--button-bg);
+  color: var(--button-color);
+}
+
+.modal-buttons .save:hover {
+  background: var(--button-hover-bg);
+  color: var(--button-hover-color);
 }
 
 .modal-buttons .cancel {
