@@ -1,4 +1,4 @@
-![Version](https://img.shields.io/badge/version-v1.1.1-blue)
+![Version](https://img.shields.io/badge/version-v1.1.2-blue)
 ![Status](https://img.shields.io/badge/status-stable-green)
 
 # 🥗 EasyKcal (ENG)
@@ -13,7 +13,7 @@ The project presents the complete process of building a web application:
 - modular React-based frontend
 
 Version **v1.0.0** marks the first stable release of the application.
-Current version: v1.1.1.
+Current version: v1.1.2.
 
 ---
 
@@ -322,7 +322,7 @@ Projekt prezentuje pełny proces budowy aplikacji webowej:
 - modularny frontend oparty o React
 
 Wersja **v1.0.0** oznacza pierwszą stabilną wersję aplikacji.
-Obecna wersja: v1.1.1.
+Obecna wersja: v1.1.2.
 
 ---
 
@@ -618,5 +618,5 @@ Planowanie projektu i historia rozwoju:
 
 ---
 
-Version: v1.1.1
+Version: v1.1.2
 Status: Stable
