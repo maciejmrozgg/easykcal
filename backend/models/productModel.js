@@ -1,5 +1,14 @@
 const pool = require('../config/db');
 
+const mapProduct = (p) => ({
+  id: p.id,
+  name: p.name,
+  kcalPer100g: Number(p.kcal_per_100g),
+  fatPer100g: p.fat_per_100g == null ? null : Number(p.fat_per_100g),
+  proteinPer100g: p.protein_per_100g == null ? null : Number(p.protein_per_100g),
+  carbsPer100g: p.carbs_per_100g == null ? null : Number(p.carbs_per_100g),
+});
+
 //GET
 exports.getProducts = async (search) => {
   let result;
@@ -12,14 +21,7 @@ exports.getProducts = async (search) => {
     result = await pool.query('SELECT * FROM products ORDER BY id ASC');
   }
 
-  return result.rows.map(p => ({
-    id: p.id,
-    name: p.name,
-    kcalPer100g: p.kcal_per_100g, //conversion snake_case -> camelCase
-    fatPer100g: p.fat_per_100g,
-    proteinPer100g: p.protein_per_100g,
-    carbsPer100g: p.carbs_per_100g
-  }));
+  return result.rows.map(mapProduct);
 };
 
 //POST
@@ -29,14 +31,7 @@ exports.insertProduct = async (name, kcal, fat, protein, carbs) => {
     [name, kcal, fat, protein, carbs]
   );
 
-  return {
-    id: result.rows[0].id,
-    name: result.rows[0].name,
-    kcalPer100g: result.rows[0].kcal_per_100g, //conversion snake_case -> camelCase
-    fatPer100g: result.rows[0].fat_per_100g,
-    proteinPer100g: result.rows[0].protein_per_100g,
-    carbsPer100g: result.rows[0].carbs_per_100g
-  };
+  return mapProduct(result.rows[0]);
 };
 
 //DELETE
@@ -50,14 +45,7 @@ exports.deleteProduct = async (id) => {
     return null;
   }
 
-  return {
-    id: result.rows[0].id,
-    name: result.rows[0].name,
-    kcalPer100g: result.rows[0].kcal_per_100g, //conversion snake_case -> camelCase
-    fatPer100g: result.rows[0].fat_per_100g,
-    proteinPer100g: result.rows[0].protein_per_100g,
-    carbsPer100g: result.rows[0].carbs_per_100g
-  };
+  return mapProduct(result.rows[0]);
 }
 
 //PUT
@@ -72,12 +60,5 @@ exports.updateProduct = async (id, name, kcal, fat, protein, carbs) => {
     return null;
   }
 
-  return {
-    id: result.rows[0].id,
-    name: result.rows[0].name,
-    kcalPer100g: result.rows[0].kcal_per_100g, //conversion snake_case -> camelCase
-    fatPer100g: result.rows[0].fat_per_100g,
-    proteinPer100g: result.rows[0].protein_per_100g,
-    carbsPer100g: result.rows[0].carbs_per_100g
-  };
+  return mapProduct(result.rows[0]);
 };
