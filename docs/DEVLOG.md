@@ -233,3 +233,19 @@ prepare product database for Schedule integration and Nutrition Summary.
 - modal rendering is independent from parent layout containers
 - product editing now uses the shared modal infrastructure
 - product API errors now propagate correctly to UI layer
+
+## 2026-06-16
+
+### Done
+- added backend CRUD integration tests for products API
+- added validation tests for invalid product payloads
+- added authorization tests for protected product endpoints
+- added not-found test cases for update and delete operations
+- synchronized test database schema with product macro fields
+- updated test seed data with protein, fat and carbs values
+- normalized product numeric fields returned from PostgreSQL to JavaScript Number
+
+### Notes
+- product API test coverage now includes CRUD, validation and authorization scenarios
+- test database schema is aligned with production product structure
+- product numeric values are consistently returned as numbers instead of strings

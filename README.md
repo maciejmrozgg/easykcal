@@ -101,7 +101,7 @@ Planned improvements and future features for EasyKcal.
 - Jest
 - Endpoint integration tests
 - Authorization and ownership tests
-- CRUD tests for recipes and categories
+- CRUD tests for products, recipes and categories
 - Dedicated test database (.env.test)
 
 Database is rebuilt from schema.sql and seeded before each test run.
@@ -410,7 +410,7 @@ Planowane ulepszenia i przyszłe funkcje dla EasyKcal.
 - Jest
 - Testy integracyjne endpointów
 - Testy autoryzacji i ownership
-- Testy CRUD dla recipes i categories
+- Testy CRUD dla products, recipes i categories
 - Dedykowana testowa baza danych (.env.test)
 
 Baza danych jest budowana na nowo na podstawie schema.sql i inicjowana przed każdym uruchomieniem testu.
