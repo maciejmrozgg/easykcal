@@ -62,28 +62,34 @@ const MealsTable = ({
 
   /* ===== HELPERS ===== */
   const getMealTotals = (ingredients) => {
-    if (!Array.isArray(ingredients)) return { kcal: 0, weight: 0 };
+    if (!Array.isArray(ingredients)) return { kcal: 0, weight: 0, protein: 0, fat: 0, carbs: 0 };
     return ingredients.reduce(
       (acc, i) => ({
         kcal: acc.kcal + (i.kcal || 0),
-        weight: acc.weight + (i.weight || 0)
+        weight: acc.weight + (i.weight || 0),
+        protein: acc.protein + (i.protein || 0),
+        fat: acc.fat + (i.fat || 0),
+        carbs: acc.carbs + (i.carbs || 0)
       }),
-      { kcal: 0, weight: 0 }
+      { kcal: 0, weight: 0, protein: 0, fat: 0, carbs: 0 }
     );
   };
 
   const getDayTotals = (day) => {
-    if (!day?.meals) return { kcal: 0, weight: 0 };
+    if (!day?.meals) return { kcal: 0, weight: 0, protein: 0, fat: 0, carbs: 0 };
     return Object.values(day.meals).reduce(
       (acc, meal) => {
         if (!Array.isArray(meal)) return acc;
         meal.forEach(i => {
           acc.kcal += i.kcal || 0;
           acc.weight += i.weight || 0;
+          acc.protein += i.protein || 0;
+          acc.fat += i.fat || 0;
+          acc.carbs += i.carbs || 0;
         });
         return acc;
       },
-      { kcal: 0, weight: 0 }
+      { kcal: 0, weight: 0, protein: 0, fat: 0, carbs: 0 }
     );
   };
 
@@ -162,7 +168,10 @@ const MealsTable = ({
 
                     {ingredients.length > 0 && (
                       <div style={{ fontWeight: "bold", marginTop: "4px" }}>
-                        {totals.weight}g / {totals.kcal} kcal
+                        <div>{totals.weight}g / {totals.kcal} kcal</div>
+                        <div>B: {totals.protein.toFixed(1)}g</div>
+                        <div>T: {totals.fat.toFixed(1)}g</div>
+                        <div>W: {totals.carbs.toFixed(1)}g</div>
                       </div>
                     )}
 
@@ -179,6 +188,10 @@ const MealsTable = ({
 
               <div className={`meal-cell total ${getLimitClass(dayTotals.kcal)}`}>
                 <strong>{dayTotals.weight}g / {dayTotals.kcal} kcal</strong>
+
+                <div>B: {dayTotals.protein.toFixed(1)}g</div>
+                <div>T: {dayTotals.fat.toFixed(1)}g</div>
+                <div>W: {dayTotals.carbs.toFixed(1)}g</div>
               </div>
 
               <div />

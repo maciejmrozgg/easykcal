@@ -43,18 +43,38 @@ const MealsTableMobile = ({ days, meals, onUpdateIngredient, zeroLimit, deficitL
     setModalOpen(true);
   };
 
-  const getDayTotals = () => {
-    if (!day?.meals) return { kcal: 0, weight: 0 };
-    return Object.values(day.meals).flat().reduce(
+  const getMealTotals = (ingredients) => {
+    if (!Array.isArray(ingredients)) {
+      return { kcal: 0, weight: 0, protein: 0, fat: 0, carbs: 0 };
+    }
+
+    return ingredients.reduce(
       (acc, i) => ({
         kcal: acc.kcal + (i.kcal || 0),
-        weight: acc.weight + (i.weight || 0)
+        weight: acc.weight + (i.weight || 0),
+        protein: acc.protein + (i.protein || 0),
+        fat: acc.fat + (i.fat || 0),
+        carbs: acc.carbs + (i.carbs || 0)
       }),
-      { kcal: 0, weight: 0 }
+      { kcal: 0, weight: 0, protein: 0, fat: 0, carbs: 0 }
     );
   };
 
-  const totals = getDayTotals();
+  const getDayTotals = () => {
+    if (!day?.meals) return { kcal: 0, weight: 0, protein: 0, fat: 0, carbs: 0 };
+    return Object.values(day.meals).flat().reduce(
+      (acc, i) => ({
+        kcal: acc.kcal + (i.kcal || 0),
+        weight: acc.weight + (i.weight || 0),
+        protein: acc.protein + (i.protein || 0),
+        fat: acc.fat + (i.fat || 0),
+        carbs: acc.carbs + (i.carbs || 0)
+      }),
+      { kcal: 0, weight: 0, protein: 0, fat: 0, carbs: 0 }
+    );
+  };
+
+  const dayTotals = getDayTotals();
 
   const getLimitClass = (kcal) => {
     if (kcal > zeroLimit) return "danger";
@@ -106,6 +126,7 @@ const MealsTableMobile = ({ days, meals, onUpdateIngredient, zeroLimit, deficitL
       {/* MEALS */}
       {meals.map(meal => {
         const ingredients = day.meals?.[meal.id] || [];
+        const mealTotals = getMealTotals(ingredients);
         const isOpen = openMeals[meal.id];
 
         return (
@@ -117,13 +138,13 @@ const MealsTableMobile = ({ days, meals, onUpdateIngredient, zeroLimit, deficitL
                 <button
                   className="delete-meal"
                   onClick={async () => {
-                    if (isDeleting) return; 
+                    if (isDeleting) return;
                     const confirmed = window.confirm("Czy na pewno chcesz usunąć ten posiłek?");
                     if (!confirmed) return;
 
-                    setIsDeleting(true);          
-                    await onDeleteMeal(meal.id);  
-                    setTimeout(() => setIsDeleting(false), 2000); 
+                    setIsDeleting(true);
+                    await onDeleteMeal(meal.id);
+                    setTimeout(() => setIsDeleting(false), 2000);
                   }}
                   title="Usuń posiłek"
                   disabled={isDeleting}
@@ -150,6 +171,17 @@ const MealsTableMobile = ({ days, meals, onUpdateIngredient, zeroLimit, deficitL
                   ))}
                 </ul>
 
+                {ingredients.length > 0 && (
+                  <div className="meal-totals">
+                    <div>{mealTotals.weight}g / {mealTotals.kcal} kcal</div>
+                    <div>
+                      B: {mealTotals.protein.toFixed(1)}g •
+                      T: {mealTotals.fat.toFixed(1)}g •
+                      W: {mealTotals.carbs.toFixed(1)}g
+                    </div>
+                  </div>
+                )}
+
                 <button
                   className="add-ingredient"
                   onClick={() => openIngredientModal(meal.id)}
@@ -163,10 +195,16 @@ const MealsTableMobile = ({ days, meals, onUpdateIngredient, zeroLimit, deficitL
       })}
 
       {/* SUMMARY */}
-      <div className={`meal-cell total ${getLimitClass(totals.kcal)}`}>
+      <div className={`meal-cell total ${getLimitClass(dayTotals.kcal)}`}>
         <strong>
-          Suma dnia: {totals.weight}g / {totals.kcal} kcal
+          Suma dnia: {dayTotals.weight}g / {dayTotals.kcal} kcal
         </strong>
+        
+        <div>
+          B: {dayTotals.protein.toFixed(1)}g •
+          T: {dayTotals.fat.toFixed(1)}g •
+          W: {dayTotals.carbs.toFixed(1)}g
+        </div>
       </div>
 
       {/* MODAL */}
