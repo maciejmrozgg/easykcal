@@ -102,7 +102,7 @@ exports.addIngredient = async (req, res) => {
     try {
         const userId = req.user.id;
         const { year, month, date } = req.params; // <-- data z URL
-        const { mealId, name, weight, kcal } = req.body;
+        const { mealId, name, weight, kcal, protein, fat, carbs, productId } = req.body;
 
         if (!name || weight == null || kcal == null)
             return res.status(400).json({ error: "Invalid ingredient" });
@@ -112,7 +112,7 @@ exports.addIngredient = async (req, res) => {
             Number(year),
             Number(month),
             date,
-            { mealId, name, weight, kcal }
+            { mealId, name, weight, kcal, protein, fat, carbs, productId }
         );
 
         res.json(schedule);

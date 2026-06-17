@@ -63,7 +63,7 @@ const ScheduleModel = {
 
   async addIngredient(userId, year, month, date, ingredient = {}) {
     // teraz destrukturyzujemy bez błędu
-    let { mealId, name, weight, kcal } = ingredient;
+    let { mealId, name, weight, kcal, protein, fat, carbs, productId } = ingredient;
 
     const schedule = await this.ensureSchedule(userId, year, month);
     const days = this.parseJSONSafe(schedule.days);
@@ -81,7 +81,7 @@ const ScheduleModel = {
 
     if (!day.meals[mealId]) day.meals[mealId] = [];
 
-    day.meals[mealId].push({ name, weight, kcal });
+    day.meals[mealId].push({ name, weight, kcal, protein, fat, carbs, productId });
 
     const { rows } = await pool.query(
       `UPDATE monthly_schedules SET days=$2::jsonb, updated_at=NOW() WHERE id=$1 RETURNING *`,
@@ -117,7 +117,9 @@ const ScheduleModel = {
       throw new Error("Ingredient not found");
     }
 
-    day.meals[mealId][ingredientIndex] = ingredient;
+    const { name, weight, kcal, protein, fat, carbs, productId } = ingredient;
+
+    day.meals[mealId][ingredientIndex] = { name, weight, kcal, protein, fat, carbs, productId };
 
     const { rows } = await pool.query(
       `UPDATE monthly_schedules SET days=$2::jsonb, updated_at=NOW() WHERE id=$1 RETURNING *`,
