@@ -26,6 +26,7 @@ const IngredientModal = ({ open, initialData, onSave, onDelete, onClose }) => {
       setProtein(initialData.protein || "");
       setFat(initialData.fat || "");
       setCarbs(initialData.carbs || "");
+      setSelectedProductId(initialData.productId || "");
     } else {
       setName("");
       setWeight("");
@@ -33,6 +34,7 @@ const IngredientModal = ({ open, initialData, onSave, onDelete, onClose }) => {
       setProtein("");
       setFat("");
       setCarbs("");
+      setSelectedProductId("");
     }
   }, [initialData]);
 

@@ -156,6 +156,7 @@ const MealsTable = ({
                     <ul style={{ paddingLeft: "1rem", margin: "0.2rem 0" }}>
                       {ingredients.map((i, idx) => (
                         <li
+                          className="ingredient-item"
                           key={idx}
                           onClick={() => openIngredientModal(dayIndex, meal.id, i, idx)}
                           style={{ cursor: "pointer" }}

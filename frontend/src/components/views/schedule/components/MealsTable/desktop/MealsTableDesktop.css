@@ -114,6 +114,17 @@
   color: #e74c3c;
 }
 
+.ingredient-item {
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  border-radius: 6px;
+  padding: 0.2rem 0.4rem;
+}
+
+.ingredient-item:hover {
+  background: rgba(128, 128, 128, 0.12);
+}
+
 @media (max-width: 768px) {
   .meal-cell.total {
     position: sticky;
