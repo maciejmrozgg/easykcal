@@ -205,24 +205,42 @@ const MealsTable = ({
       <IngredientModal
         open={modalOpen}
         initialData={modalData}
-        onClose={() => setModalOpen(false)}
-        onSave={(ingredient) => {
-          onUpdateIngredient(
-            modalDayIndex,
-            modalMealId,
-            modalIngredientIndex,
-            ingredient
-          );
+        onClose={() => {
           setModalOpen(false);
+          setModalData(null);
+          setModalIngredientIndex(null);
         }}
-        onDelete={() => {
-          onUpdateIngredient(
-            modalDayIndex,
-            modalMealId,
-            modalIngredientIndex,
-            null
-          );
-          setModalOpen(false);
+
+        onSave={async (ingredient) => {
+          try {
+            await onUpdateIngredient(
+              modalDayIndex,
+              modalMealId,
+              modalIngredientIndex,
+              ingredient
+            );
+            setModalData(null);
+            setModalIngredientIndex(null);
+            setModalOpen(false);
+          } catch (err) {
+            console.log("Failed to save ingredient:", err);
+          }
+        }}
+
+        onDelete={async () => {
+          try {
+            await onUpdateIngredient(
+              modalDayIndex,
+              modalMealId,
+              modalIngredientIndex,
+              null
+            );
+            setModalData(null);
+            setModalIngredientIndex(null);
+            setModalOpen(false);
+          } catch (err) {
+            console.log("Failed to delete ingredient:", err);
+          }
         }}
       />
     </div>

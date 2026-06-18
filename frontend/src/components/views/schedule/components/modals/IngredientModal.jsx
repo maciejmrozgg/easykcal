@@ -36,7 +36,7 @@ const IngredientModal = ({ open, initialData, onSave, onDelete, onClose }) => {
       setCarbs("");
       setSelectedProductId("");
     }
-  }, [initialData]);
+  }, [initialData, open]);
 
   useEffect(() => {
     if (!selectedProduct) return;
