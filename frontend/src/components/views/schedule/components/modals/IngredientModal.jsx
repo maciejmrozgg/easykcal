@@ -82,6 +82,10 @@ const IngredientModal = ({ open, initialData, onSave, onDelete, onClose }) => {
     onSave({ name, weight: Number(weight), kcal: Number(kcal), protein: Number(protein), fat: Number(fat), carbs: Number(carbs), productId: selectedProductId || null });
   };
 
+  const filteredProducts = products.filter(product =>
+    product.name.toLowerCase().includes(name.toLowerCase())
+  );
+
   return (
     <BaseModal
       open={open}
@@ -90,7 +94,29 @@ const IngredientModal = ({ open, initialData, onSave, onDelete, onClose }) => {
     >
       <label>
         Nazwa:
-        <input type="text" value={name} onChange={e => setName(e.target.value)} />
+        <input type="text" value={name} onChange={e => {
+          setName(e.target.value);
+          if (selectedProductId) {
+            setSelectedProductId("");
+          }
+        }} />
+
+        {name.length >= 2 && !selectedProductId && filteredProducts.length > 0 && (
+          <div className="product-suggestions">
+            {filteredProducts.slice(0, 5).map(product => (
+              <div
+                key={product.id}
+                className="product-suggestion"
+                onClick={() => {
+                  setSelectedProductId(String(product.id));
+                  setName(product.name);
+                }}
+              >
+                {product.name}
+              </div>
+            ))}
+          </div>
+        )}
       </label>
 
       <label>
@@ -133,6 +159,7 @@ const IngredientModal = ({ open, initialData, onSave, onDelete, onClose }) => {
       <label>
         Produkt z bazy:
         <select
+          className="product-select"
           value={selectedProductId}
           onChange={(e) => setSelectedProductId(e.target.value)}
         >

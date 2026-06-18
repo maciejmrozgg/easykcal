@@ -25,3 +25,42 @@
   background: #e74c3c;
   color: #fff;
 }
+
+.product-select {
+  width: 100%;
+  padding: 0.4rem 0.7rem;
+  font-size: 0.9rem;
+  border-radius: 6px;
+  border: 2px solid var(--accent-color);
+  background-color: var(--select-bg);
+  color: var(--select-color);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.product-select:hover {
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
+}
+
+.product-select:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--accent-color);
+}
+
+.product-suggestions {
+  margin-top: 0.25rem;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--ingredients-border);
+}
+
+.product-suggestion {
+  padding: 0.5rem;
+  cursor: pointer;
+  background: var(--component-bg);
+}
+
+.product-suggestion:hover {
+  background: var(--ingredients-bg);
+}
