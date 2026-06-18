@@ -22,9 +22,13 @@ treeSnapshot.json
 # =========================
 backend/data/seedRecipes.js
 backend/data/recipes.json
+backend/data/products.json
+backend/data/seedProducts.js
 
 # =========================
 # Local recipe backups (generated automatically)
 # =========================
 backend/data/recipes.backup*.json
+backend/data/products.backup*.json
 backend/data/exportRecipes.js
+backend/data/exportProducts.js
