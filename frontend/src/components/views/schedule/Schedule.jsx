@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./Schedule.css";
 import MonthView from "./components/MonthView/MonthView";
+import ScheduleInfoBanner from "./components/ScheduleInfoBanner/ScheduleInfoBanner";
 
 const MONTHS = [
   "Styczeń", "Luty", "Marzec", "Kwiecień",
@@ -18,6 +19,7 @@ const Schedule = () => {
 
       {selectedMonth === null ? (
         <>
+          <ScheduleInfoBanner />
           {/* ===== WIDOK WYBORU MIESIĄCA ===== */}
           <div className="year-navigation">
             <button onClick={() => setYear(y => y - 1)}>◀</button>

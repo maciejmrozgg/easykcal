@@ -1,0 +1,56 @@
+.schedule-info-banner {
+  background: var(--component-bg);
+  border-bottom: 1px solid var(--accent-color);
+  padding: 12px 16px;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.schedule-info-items {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+
+  margin-bottom: 0.75rem;
+}
+
+.schedule-info-item {
+  padding: 0.35rem 0.75rem;
+
+  border-radius: 6px;
+
+  background: var(--ingredients-bg);
+  border: 1px solid var(--ingredients-border);
+
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.schedule-info-description {
+  margin: 0;
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+.schedule-info-coming-soon {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  border-radius: 8px;
+  background: rgba(255, 193, 7, 0.12);
+  border: 1px solid rgba(255, 193, 7, 0.4);
+  font-size: 0.9rem;
+}
+
+.schedule-info-coming-soon::before {
+  content: "🚧";
+  margin-right: 0.5rem;
+}
+
+.schedule-info-item-deficit {
+  border-color: #ff9800;
+}
+
+.schedule-info-item-zero {
+  border-color: #3498db;
+}
