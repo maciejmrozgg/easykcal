@@ -112,7 +112,7 @@ const IngredientModal = ({ open, initialData, onSave, onDelete, onClose }) => {
                   setName(product.name);
                 }}
               >
-                {product.name}
+                {product.name} {product.kcalPer100g} kcal / 100g
               </div>
             ))}
           </div>

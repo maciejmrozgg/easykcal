@@ -180,6 +180,17 @@ function App() {
                   />
                 )
               )}
+
+              {activeView === "products" && (
+                user ? (
+                  <ProductManager user={user} />
+                ) : (
+                  <GuestBanner
+                    onLoginClick={() => setShowLogin(true)}
+                    onRegisterClick={() => setShowRegister(true)}
+                  />
+                )
+              )}
             </div>
           </div>
         </div>

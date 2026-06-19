@@ -52,6 +52,13 @@ const Sidebar = ({ user, setActiveView }) => {
           >
             📅 <span className="label">Harmonogram</span>
           </button>
+
+          <button
+            title={collapsed ? "Produkty" : undefined}
+            onClick={() => setActiveView("products")}
+          >
+            📦 <span className="label">Produkty</span>
+          </button>
         </div>
 
         {/* Desktop collapse */}
