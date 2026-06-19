@@ -18,6 +18,17 @@ export default function CalorieForm({
     <form onSubmit={handleSubmit} className="calculator" style={{ marginTop: '1rem' }}>
       <h3>Przelicz gramy na kalorie</h3>
 
+      <div
+        className={`ingredient-source ${manualMode
+            ? "ingredient-source-manual"
+            : "ingredient-source-product"
+          }`}
+      >
+        {manualMode
+          ? "📝 Ręczne wartości"
+          : "📦 Produkt z bazy"}
+      </div>
+
       {!manualMode ? (
         <div>
           <label>Produkt:</label>

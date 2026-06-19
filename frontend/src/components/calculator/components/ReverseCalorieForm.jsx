@@ -13,6 +13,10 @@ export default function ReverseCalorieForm({
     <form onSubmit={handleReverseCalc} className="reverse-calculator" style={{ marginTop: '1rem' }}>
       <h3>Przelicz kalorie na gramy</h3>
 
+      <div className="ingredient-source ingredient-source-reverse">
+        🔄 Kalkulator odwrotny
+      </div>
+
       <div>
         <label>Kalorie:</label>
         <input

@@ -11,6 +11,13 @@
   margin-bottom: 0.5rem;
 }
 
+.calculator label {
+  display: block;
+  margin-bottom: 0.25rem;
+  color: var(--text-color);
+  font-weight: 500;
+}
+
 .calorie-result {
   background: var(--result-bg);
   color: white;

@@ -117,6 +117,15 @@ const IngredientModal = ({ open, initialData, onSave, onDelete, onClose }) => {
             ))}
           </div>
         )}
+
+        <div
+          className={`ingredient-source ${selectedProductId
+              ? "ingredient-source-product"
+              : "ingredient-source-manual"
+            }`}
+        >
+          {selectedProductId ? "📦 Produkt z bazy" : "📝 Ręczny składnik"}
+        </div>
       </label>
 
       <label>

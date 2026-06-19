@@ -1,5 +1,5 @@
 /* ======================================================
-   RESET + BAZA
+   RESET + BASE
    ====================================================== */
 * {
   margin: 0;
@@ -15,7 +15,7 @@ body {
 }
 
 /* ======================================================
-   APP SHELL – globalny wrapper aplikacji
+   APP SHELL – global app wrapper
    ====================================================== */
 .app-shell {
   min-height: 100vh;
@@ -24,7 +24,7 @@ body {
 }
 
 /* ======================================================
-   APP TITLE (logo + tytuł)
+   APP TITLE (logo + title)
    ====================================================== */
 .app-title {
   display: flex;
@@ -58,7 +58,7 @@ body {
 }
 
 /* ======================================================
-   PAGE CONTAINER – główna karta widoku
+   PAGE CONTAINER
    ====================================================== */
 .page-container {
   max-width: 1200px;
@@ -70,7 +70,6 @@ body {
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
-/* Warianty szerokości (opcjonalne) */
 .page-container.wide {
   max-width: 1400px;
 }
@@ -80,7 +79,7 @@ body {
 }
 
 /* ======================================================
-   TYPOGRAFIA
+   TYPOGRAPHY
    ====================================================== */
 .page-container h1 {
   text-align: center;
@@ -90,7 +89,7 @@ body {
 }
 
 /* ======================================================
-   SEPARATOR
+   DIVIDERS
    ====================================================== */
 hr {
   border: none;
@@ -99,7 +98,7 @@ hr {
 }
 
 /* ======================================================
-   KOMPONENTY (karty)
+   COMPONENTS (cards)
    ====================================================== */
 .component {
   padding: 2rem;
@@ -116,7 +115,7 @@ hr {
 }
 
 /* ======================================================
-   KOMPONENT – Nutrition Summary (specjalny)
+   COMPONENT – Nutrition Summary
    ====================================================== */
 .nutrition-component {
   padding: 2rem;
@@ -134,7 +133,7 @@ hr {
 }
 
 /* ======================================================
-   FORMULARZE
+   FORMS
    ====================================================== */
 input {
   padding: 12px 16px;
@@ -154,7 +153,7 @@ input:focus {
 }
 
 /* ======================================================
-   BUTTONY (globalne)
+   BUTTONS
    ====================================================== */
 .page-container button {
   background-color: var(--button-bg);
@@ -174,7 +173,7 @@ input:focus {
 }
 
 /* ======================================================
-   LISTY
+   LISTS
    ====================================================== */
 ol {
   padding-left: 1.5rem;
@@ -185,7 +184,39 @@ ol li {
 }
 
 /* ======================================================
-   RESPONSYWNOŚĆ
+   STATUS BADGES
+   ====================================================== */
+
+.ingredient-source {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+
+  padding: 0.35rem 0.6rem;
+  border-radius: 6px;
+
+  font-size: 0.85rem;
+  font-weight: 600;
+
+  background: var(--component-bg);
+  border: 1px solid var(--ingredients-border);
+
+  display: inline-block;
+}
+
+.ingredient-source-product {
+  border-color: #4caf50;
+}
+
+.ingredient-source-manual {
+  border-color: #ff9800;
+}
+
+.ingredient-source-reverse {
+  border-color: #3498db;
+}
+
+/* ======================================================
+   RESPONSIVE
    ====================================================== */
 @media (max-width: 768px) {
   .main-content {
