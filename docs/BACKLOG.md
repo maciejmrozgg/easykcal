@@ -1,8 +1,8 @@
 # EasyKcal Backlog
 
 ## Features
-- [ ] Schedule + Products integration (meal tracker with kcal and macros)
-- [ ] Daily and meal-level nutrition summaries
+- [x] Schedule + Products integration (meal tracker with kcal and macros)
+- [x] Daily and meal-level nutrition summaries
 - [ ] Integrate Nutrition Summary with Schedule
 - [ ] Add recipe images support
 
@@ -18,9 +18,10 @@
 ## Backend improvements
 - [ ] Transactional tests
 - [ ] Test coverage reporting
-- [ ] Backup system for products (export / seed)
+- [x] Backup system for products (export / seed)
 
 ## Frontend improvements
+- [ ] Refactor product data flow to pass Product objects instead of individual fields
 - [x] Refactor Recipes.jsx into smaller components
   - [x] Extract RecipeCard
   - [x] Extract RecipesToolbar

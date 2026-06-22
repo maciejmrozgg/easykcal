@@ -20,9 +20,10 @@ Current version: v1.1.2.
 ## Features
 
 ### 🔹 Calculator
-- Calorie calculator (kcal/100g × weight)
+- Calorie calculator (manual or product-based)
 - Reverse calculator (calories → weight)
-- Nutrition Summary – overview of calories and nutritional values
+- Automatic protein, fat and carbs calculation for products
+- Nutrition Summary with calories and macro nutrients
 
 ### 🔹 Products
 - JWT-protected product CRUD
@@ -39,8 +40,10 @@ Current version: v1.1.2.
 
 ### 🔹 Schedule
 - Monthly meal view
-- Desktop + Mobile views
-- Ingredient management
+- Desktop and mobile layouts
+- Manual and product-based ingredients
+- Automatic calorie and macro calculations
+- Meal and daily nutrition summaries
 - Calorie limits
 
 ### 🔹 Authentication
@@ -58,20 +61,21 @@ Current version: v1.1.2.
 Planned improvements and future features for EasyKcal.
 
 ### Short term
-- Backup system for products (export + seed)
+- Add macro nutrient targets and progress indicators in Schedule
+- Refactor product data flow to use Product objects instead of individual fields
+- Extend Calculator frontend tests after frontend-only migration
 
 ### Medium term
-- Schedule + Products integration (meal tracker with kcal and macros)
-- Daily and meal-level nutrition summaries
 - Integrate Nutrition Summary with Schedule
+- Product-based ingredients in Recipes with automatic nutrition calculation
 - Add recipe image preview and gallery
-- Manual nutrition entry for custom meals and ingredients
 - Improve test coverage reporting
 
 ### Long term
 - Docker containerization (backend + database)
 - Full deployment (frontend + backend + database)
 - CI pipeline for automated testing
+- User settings (calorie and macro targets, account preferences)
 
 ---
 
@@ -145,8 +149,6 @@ Test coverage includes:
 | Endpoint                        | Methods                  | Functionality                                 |
 |---------------------------------|--------------------------|-----------------------------------------------|
 | `/products`                     | GET, POST, PUT, DELETE   | CRUD for products                             |
-| `/calculator/calculate`         | POST                     | Calculates calories based on weight           |
-| `/calculator/calculate-reverse` | POST                     | Calculates weight based on calories           |
 | `/api/recipes`                  | GET, POST, PUT, DELETE   | CRUD for cooking recipes                      |
 | `/api/categories`               | GET, POST, PUT, DELETE   | Categories (global + user)                    |
 | `/api/schedule/:year/:month`    | GET, PATCH, POST, DELETE | Retrieve and manage monthly meal schedule     |
@@ -329,9 +331,10 @@ Obecna wersja: v1.1.2.
 ## Funkcje
 
 ### 🔹 Kalkulator
-- Kalkulator kalorii (kcal/100g × waga)
+- Kalkulator kalorii (ręczny lub oparty o produkty)
 - Odwrócony kalkulator (kalorie → waga)
-- Nutrition Summary – podsumowanie kalorii i wartości odżywczych
+- Automatyczne obliczanie białka, tłuszczu i węglowodanów dla produktów
+- Nutrition Summary z kaloriami i makroskładnikami
 
 ### 🔹 Produkty
 - CRUD produktów z autoryzacją JWT
@@ -347,9 +350,11 @@ Obecna wersja: v1.1.2.
 - Automatyczne przenoszenie przepisów do „Bez kategorii” po usunięciu kategorii
 
 ### 🔹 Harmonogram
-- Miesięczny widok posiłków
-- Desktop + Mobile views
-- Zarządzanie składnikami
+- Miesięczny harmonogram posiłków
+- Widok desktop i mobile
+- Składniki ręczne oraz oparte o produkty
+- Automatyczne obliczanie kalorii i makroskładników
+- Podsumowania wartości odżywczych dla posiłków i dni
 - Limity kalorii
 
 ### 🔹 Autoryzacja
@@ -367,20 +372,21 @@ Obecna wersja: v1.1.2.
 Planowane ulepszenia i przyszłe funkcje dla EasyKcal.
 
 ### Krótkoterminowo
-- System kopii zapasowych produktów (eksport + seed)
+- Dodanie celów makroskładników i wskaźników postępu w harmonogramie
+- Refaktoryzacja przepływu danych produktów z wykorzystaniem obiektów Product
+- Rozszerzenie testów frontendu kalkulatora po migracji logiki do frontendu
 
 ### Średnioterminowo
-- Integracja harmonogramu z produktami (meal tracker z kcal i makroskładnikami)
-- Podsumowania wartości odżywczych dla posiłków i całego dnia
 - Integracja Nutrition Summary z harmonogramem
+- Integracja produktów z przepisami oraz automatyczne obliczanie wartości odżywczych
 - Dodanie podglądu obrazów i galerii przepisów
-- Ręczne dodawanie wartości odżywczych dla własnych posiłków i składników
 - Poprawa raportowania pokrycia testami
 
 ### Długoterminowo
 - Konteneryzacja Dockera (backend + baza danych)
 - Pełne wdrożenie (frontend + backend + baza danych)
 - Automatyzacja testów przy pomocy CI pipeline
+- Ustawienia użytkownika (cele kcal i makroskładników, preferencje konta)
 
 ---
 
@@ -454,8 +460,6 @@ Testy obejmują:
 | Endpoint                        | Metody                   | Funkcjonalność                                |
 |---------------------------------|--------------------------|-----------------------------------------------|
 | `/products`                     | GET, POST, PUT, DELETE   | CRUD produktów                                |
-| `/calculator/calculate`         | POST                     | Oblicza kalorie na podstawie wagi             |
-| `/calculator/calculate-reverse` | POST                     | Oblicza wagę na podstawie kalorii             |
 | `/api/recipes`                  | GET, POST, PUT, DELETE   | CRUD przepisów kulinarnych                    |
 | `/api/categories`               | GET, POST, PUT, DELETE   | Kategorie (global + user)                     |
 | `/api/schedule/:year/:month`    | GET, PATCH, POST, DELETE | Pobieranie i zarządzanie harmonogramem        |

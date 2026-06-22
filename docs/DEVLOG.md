@@ -249,3 +249,84 @@ prepare product database for Schedule integration and Nutrition Summary.
 - product API test coverage now includes CRUD, validation and authorization scenarios
 - test database schema is aligned with production product structure
 - product numeric values are consistently returned as numbers instead of strings
+
+## 2026-06-17
+
+### Done
+- extended schedule ingredient model with protein, fat, carbs and productId fields
+- updated schedule backend ingredient CRUD to persist macro nutrients
+- extended IngredientModal with protein, fat and carbs inputs
+- integrated product database with schedule ingredient modal
+- added product selector inside ingredient modal
+- implemented automatic kcal and macro calculation based on selected product and weight
+- preserved manual ingredient creation workflow alongside product-based workflow
+- added meal macro summaries in desktop schedule view
+- added meal and day macro summaries in mobile schedule view
+- improved mobile schedule layout readability for macro nutrients
+
+### Notes
+- ingredients can now be created manually or based on existing products
+- product-based ingredients automatically calculate kcal, protein, fat and carbs from weight
+- ingredient data now stores optional productId reference
+- desktop and mobile schedule views display aggregated macro nutrients
+
+## 2026-06-18
+
+### Done
+- added product backup tooling (exportProducts, seedProducts)
+- added gitignore rules for local product backup and seed files
+- restored selected product in IngredientModal edit mode using productId
+- fixed IngredientModal state reset by reinitializing form state on modal open
+- added product autocomplete suggestions in ingredient name field
+- improved product selector styling
+- reset selected product reference when ingredient name is edited manually
+- added hover feedback for schedule ingredients in desktop view
+
+### Notes
+- older schedule ingredients created before productId support cannot restore product selection automatically
+- autocomplete currently supports mouse selection and works alongside the existing product dropdown
+
+## 2026-06-19
+
+### Done
+- added products entry to application sidebar
+- added kcal per 100g information to product autocomplete suggestions
+- added source badges in IngredientModal for manual and product-based ingredients
+- added source badges in calorie calculator for manual, product and reverse modes
+- moved shared badge styles to global stylesheet
+- improved visual consistency between calculator modes
+- added schedule information banner explaining calorie deficit and maintenance calories
+- added "calculator coming soon" notice in schedule view
+- improved schedule information banner styling and status indicators
+
+### Notes
+- ingredient source is now visible during creation and editing
+- calculator clearly indicates whether values come from product database or manual input
+- reverse calculator is visually distinguished from standard calorie calculation flow
+- schedule now provides basic guidance for users who do not know their calorie targets
+- future plan: replace informational banner with integrated TDEE/BMR calculator
+
+## 2026-06-22
+
+### Done
+- added protein, fat and carbs calculation to calorie calculator for product-based mode
+- added macro nutrient display in Nutrition Summary
+- hide macro nutrients for manually entered calorie values
+- moved calorie and reverse calorie calculations entirely to the frontend
+- removed calculator backend API, routes and controller
+- removed unnecessary frontend calculator API layer
+- added macro nutrient preview to calculator product suggestions
+- improved reverse calculator toggle button styling
+- updated frontend tests after Schedule + Products integration
+- added IngredientModal tests for manual and product-based ingredient workflows
+- updated MonthView tests after product context integration
+- updated desktop and mobile Schedule component tests
+- removed obsolete calculator tests after frontend calculator migration
+
+### Notes
+- manual calculator mode displays only calories because macro nutrients are unavailable
+- product-based mode calculates calories and macro nutrients locally using selected product values
+- reverse calorie calculation is now performed entirely on the frontend
+- product suggestions now display kcal and macro nutrients before calculation to simplify product selection
+- frontend test suite is aligned with the new frontend-only calculator architecture
+- schedule component tests now cover product-based ingredients and macro nutrient support
