@@ -13,15 +13,33 @@ vi.mock("../components/modals/IngredientModal", () => ({
 // MOCK DATA
 // ==================
 const meals = [
-  { id: "1", name: "Śniadanie" },
-  { id: "2", name: "Obiad" },
+  { id: "1", name: "Posiłek 1" },
+  { id: "2", name: "Posiłek 2" },
 ];
+
+const oatMealIngredient = {
+  name: "Owsianka",
+  weight: 100,
+  kcal: 350,
+  protein: 5,
+  fat: 3,
+  carbs: 55,
+};
+
+const riceMealIngredient = {
+  name: "Ryż",
+  weight: 200,
+  kcal: 260,
+  protein: 5,
+  fat: 1,
+  carbs: 55,
+};
 
 const days = [
   {
     date: "2026-01-05",
     meals: {
-      "1": [{ name: "Owsianka", weight: 100, kcal: 350 }],
+      "1": [oatMealIngredient],
       "2": [],
     },
   },
@@ -29,7 +47,7 @@ const days = [
     date: "2026-01-06",
     meals: {
       "1": [],
-      "2": [{ name: "Ryż", weight: 200, kcal: 260 }],
+      "2": [riceMealIngredient],
     },
   },
 ];
@@ -49,40 +67,53 @@ describe("MealsTableMobile tests", () => {
     maxMeals: 6,
   };
 
-  it("renders meals and initial day", () => {
+  it("renders meals and first day", () => {
     render(<MealsTableMobile {...baseProps} />);
 
-    expect(screen.getByText("Śniadanie")).toBeInTheDocument();
-    expect(screen.getByText("Obiad")).toBeInTheDocument();
+    expect(screen.getByText("Posiłek 1")).toBeInTheDocument();
+    expect(screen.getByText("Posiłek 2")).toBeInTheDocument();
     expect(screen.getByText("2026-01-05")).toBeInTheDocument();
   });
 
-  it("changes day using select", () => {
+  it("changes selected day", () => {
     render(<MealsTableMobile {...baseProps} />);
 
-    const select = screen.getByRole("combobox");
-    fireEvent.change(select, { target: { value: "1" } });
+    fireEvent.change(screen.getByRole("combobox"), {
+      target: { value: "1" },
+    });
 
     expect(screen.getByText("2026-01-06")).toBeInTheDocument();
     expect(screen.getByText(/Ryż/)).toBeInTheDocument();
   });
 
-  it("toggles meal content visibility", () => {
+  it("toggles meal visibility", () => {
     render(<MealsTableMobile {...baseProps} />);
 
     expect(screen.getByText(/Owsianka/)).toBeInTheDocument();
 
-    const toggle = screen.getAllByText("▲")[0];
-    fireEvent.click(toggle);
+    fireEvent.click(screen.getAllByText("▲")[0]);
 
     expect(screen.queryByText(/Owsianka/)).not.toBeInTheDocument();
   });
 
-  it("opens ingredient modal on add ingredient click", () => {
+  it("renders day summary", () => {
     render(<MealsTableMobile {...baseProps} />);
 
-    const addIngredientBtn = screen.getAllByText("+ Dodaj składnik")[0];
-    fireEvent.click(addIngredientBtn);
+    expect(screen.getByText(/Suma dnia:/i)).toBeInTheDocument();
+  });
+
+  it("calls onAddMeal", () => {
+    render(<MealsTableMobile {...baseProps} />);
+
+    fireEvent.click(screen.getByText("+ Dodaj posiłek"));
+
+    expect(baseProps.onAddMeal).toHaveBeenCalled();
+  });
+
+  it("opens ingredient modal", () => {
+    render(<MealsTableMobile {...baseProps} />);
+
+    fireEvent.click(screen.getAllByText("+ Dodaj składnik")[0]);
 
     expect(screen.getByText("MODAL OPEN")).toBeInTheDocument();
   });
@@ -92,27 +123,10 @@ describe("MealsTableMobile tests", () => {
 
     render(<MealsTableMobile {...baseProps} />);
 
-    const deleteButtons = screen.getAllByTitle("Usuń posiłek");
-    fireEvent.click(deleteButtons[0]);
+    fireEvent.click(screen.getAllByTitle("Usuń posiłek")[0]);
 
     expect(baseProps.onDeleteMeal).toHaveBeenCalledWith("1");
 
     window.confirm.mockRestore();
-  });
-
-  it("renders day summary", () => {
-    render(<MealsTableMobile {...baseProps} />);
-
-    expect(
-      screen.getByText(/Suma dnia:/i)
-    ).toBeInTheDocument();
-  });
-
-  it("renders add meal button", () => {
-    render(<MealsTableMobile {...baseProps} />);
-
-    expect(
-      screen.getByText("+ Dodaj posiłek")
-    ).toBeInTheDocument();
   });
 });

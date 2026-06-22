@@ -6,19 +6,28 @@ import MealsTableDesktop from "../components/MealsTable/desktop/MealsTableDeskto
 // MOCK MODAL
 // ==================
 vi.mock("../components/modals/IngredientModal", () => ({
-  default: ({ open }) => open ? <div>MODAL OPEN</div> : null
+  default: ({ open }) => (open ? <div>MODAL OPEN</div> : null),
 }));
 
 const meals = [
-  { id: "1", name: "Śniadanie" },
-  { id: "2", name: "Obiad" },
+  { id: "1", name: "Posiłek 1" },
+  { id: "2", name: "Posiłek 2" },
 ];
+
+const oatmealIngredient = {
+  name: "Owsianka",
+  weight: 100,
+  kcal: 350,
+  protein: 5,
+  fat: 3,
+  carbs: 55,
+};
 
 const days = [
   {
     date: "2026-01-05",
     meals: {
-      "1": [{ name: "Owsianka", weight: 100, kcal: 350 }],
+      "1": [oatmealIngredient],
       "2": [],
     },
   },
@@ -43,44 +52,61 @@ describe("MealsTableDesktop tests", () => {
   it("renders meal headers", () => {
     render(<MealsTableDesktop {...baseProps} />);
 
-    expect(screen.getByDisplayValue("Śniadanie")).toBeInTheDocument();
-    expect(screen.getByDisplayValue("Obiad")).toBeInTheDocument();
+    expect(screen.getByDisplayValue("Posiłek 1")).toBeInTheDocument();
+    expect(screen.getByDisplayValue("Posiłek 2")).toBeInTheDocument();
   });
 
-  it("renders days", () => {
+  it("renders day", () => {
     render(<MealsTableDesktop {...baseProps} />);
 
-    expect(screen.getByText(days[0].date)).toBeInTheDocument();
+    expect(screen.getByText("2026-01-05")).toBeInTheDocument();
   });
 
-  it("renders add meal button", () => {
+  it("calls onAddMeal", () => {
     render(<MealsTableDesktop {...baseProps} />);
 
-    expect(screen.getByText("+ Dodaj posiłek")).toBeInTheDocument();
+    fireEvent.click(screen.getByText("+ Dodaj posiłek"));
+
+    expect(baseProps.onAddMeal).toHaveBeenCalled();
+  });
+
+  it("calls onRenameMeal on blur", () => {
+    render(<MealsTableDesktop {...baseProps} />);
+
+    const input = screen.getByDisplayValue("Posiłek 1");
+
+    fireEvent.change(input, {
+      target: { value: "Nowy posiłek" },
+    });
+
+    fireEvent.blur(input);
+
+    expect(baseProps.onRenameMeal).toHaveBeenCalledWith(
+      "1",
+      "Nowy posiłek"
+    );
   });
 
   it("renders add ingredient action", () => {
     render(<MealsTableDesktop {...baseProps} />);
 
-    expect(screen.getAllByText("+ Dodaj składnik").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("+ Dodaj składnik")).toHaveLength(2);
   });
 
-  it("opens ingredient modal on add ingredient click", () => {
+  it("opens ingredient modal", () => {
     render(<MealsTableDesktop {...baseProps} />);
 
-    const addIngredientBtn = screen.getAllByText("+ Dodaj składnik")[0];
-    fireEvent.click(addIngredientBtn);
+    fireEvent.click(screen.getAllByText("+ Dodaj składnik")[0]);
 
     expect(screen.getByText("MODAL OPEN")).toBeInTheDocument();
   });
 
-  it("calls onDeleteMeal after confirmation", async () => {
+  it("calls onDeleteMeal after confirmation", () => {
     vi.spyOn(window, "confirm").mockReturnValue(true);
 
     render(<MealsTableDesktop {...baseProps} />);
 
-    const deleteButtons = screen.getAllByTitle("Usuń posiłek");
-    fireEvent.click(deleteButtons[0]);
+    fireEvent.click(screen.getAllByTitle("Usuń posiłek")[0]);
 
     expect(baseProps.onDeleteMeal).toHaveBeenCalledWith("1");
 
