@@ -58,6 +58,23 @@ describe("Products API – CRUD", () => {
         expect(id).toBeDefined();
     });
 
+    it("GET /products - should contain created product", async () => {
+        const res = await request(app)
+            .get("/products")
+            .set("Authorization", `Bearer ${userToken}`);
+
+        expect(res.statusCode).toBe(200);
+
+        const created = res.body.find(p => p.id === id);
+
+        expect(created).toBeDefined();
+        expect(created.name).toBe(productName);
+        expect(created.kcalPer100g).toBe(250);
+        expect(created.proteinPer100g).toBe(5);
+        expect(created.fatPer100g).toBe(10);
+        expect(created.carbsPer100g).toBe(30);
+    });
+
     it("PUT /products/:id - user updates product", async () => {
 
         const res = await request(app)
@@ -102,7 +119,7 @@ describe("Validation and error handling", () => {
                 proteinPer100g: 1,
                 carbsPer100g: 1,
             });
-       
+
         expect(res.statusCode).toBe(400);
         expect(res.body.error).toBe("Brakuje nazwy lub kaloryczności produktu");
     });
@@ -118,12 +135,12 @@ describe("Validation and error handling", () => {
                 proteinPer100g: 1,
                 carbsPer100g: 1,
             });
-        
+
         expect(res.statusCode).toBe(400);
         expect(res.body.error).toBe("Wartości muszą być liczbami");
     });
 
-     it("POST /products - create without token", async () => {
+    it("POST /products - create without token", async () => {
         const productNameWithoutToken = `Test Product ${Date.now()}`;
 
         const res = await request(app)
@@ -144,7 +161,7 @@ describe("Validation and error handling", () => {
         const res = await request(app)
             .delete("/products/999999")
             .set("Authorization", `Bearer ${userToken}`);
-        
+
         expect(res.statusCode).toBe(404);
         expect(res.body.error).toBe("Produkt nie istnieje");
     });

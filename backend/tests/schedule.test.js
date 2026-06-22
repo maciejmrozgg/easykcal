@@ -88,6 +88,9 @@ describe("Schedule API", () => {
         name: "Ryż",
         weight: 100,
         kcal: 130,
+        protein: 3,
+        fat: 1,
+        carbs: 32
       });
 
     expect(res.statusCode).toBe(200);
@@ -95,6 +98,9 @@ describe("Schedule API", () => {
     const day = res.body.days.find(d => d.date === date);
     expect(day.meals[mealId].length).toBe(1);
     expect(day.meals[mealId][0].name).toBe("Ryż");
+    expect(day.meals[mealId][0].protein).toBe(3);
+    expect(day.meals[mealId][0].fat).toBe(1);
+    expect(day.meals[mealId][0].carbs).toBe(32);
   });
 
   it("PATCH /ingredient/:index - updates ingredient", async () => {
@@ -108,6 +114,9 @@ describe("Schedule API", () => {
         name: "Ryż basmati",
         weight: 120,
         kcal: 150,
+        protein: 5,
+        fat: 0.5,
+        carbs: 34
       });
 
     expect(res.statusCode).toBe(200);
@@ -116,6 +125,11 @@ describe("Schedule API", () => {
       res.body.days.find(d => d.date === date).meals[mealId][0];
 
     expect(ingredient.name).toBe("Ryż basmati");
+    expect(ingredient.weight).toBe(120);
+    expect(ingredient.kcal).toBe(150);
+    expect(ingredient.protein).toBe(5);
+    expect(ingredient.fat).toBe(0.5);
+    expect(ingredient.carbs).toBe(34);
   });
 
   it("DELETE /ingredient/:index - deletes ingredient", async () => {
