@@ -6,7 +6,6 @@ const cors = require('cors');
 const cookieparser = require('cookie-parser');
 
 const productRoutes = require('./routes/productRoutes');
-const calculatorRoutes = require('./routes/calculatorRoutes');
 const recipeRoutes = require('./routes/recipeRoutes');
 const scheduleRoutes = require('./routes/scheduleRoutes');
 const errorHandler = require('./middleware/errorHandler');
@@ -22,7 +21,6 @@ app.use(cookieparser());
 
 // ROUTES
 app.use('/products', productRoutes);
-app.use('/calculator', calculatorRoutes);
 app.use('/api/recipes', recipeRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/schedule', scheduleRoutes);

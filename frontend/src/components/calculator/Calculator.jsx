@@ -8,7 +8,7 @@ import { useCalculator } from './hooks/useCalculator';
 
 export default function Calculator({ addProduct, clearResultSignal }) {
   const { products } = useProducts();
-  const calc = useCalculator(addProduct);
+  const calc = useCalculator(addProduct, products);
 
   useEffect(() => {
     calc.setResult(null);
@@ -50,7 +50,22 @@ export default function Calculator({ addProduct, clearResultSignal }) {
         />
       )}
 
-      {calc.result !== null && <div className="calorie-result">{calc.result} kcal</div>}
+      {calc.result !== null && (
+        <div className="calorie-result">
+          {calc.result} kcal
+
+          {!calc.manualMode && calc.protein !== null && (
+            <>
+              <br />
+              B: {calc.protein.toFixed(1)} g
+              {" | "}
+              T: {calc.fat.toFixed(1)} g
+              {" | "}
+              W: {calc.carbs.toFixed(1)} g
+            </>
+          )}
+        </div>
+      )}
       {calc.error && <p style={{ color: 'red' }}>{calc.error}</p>}
     </div>
   );

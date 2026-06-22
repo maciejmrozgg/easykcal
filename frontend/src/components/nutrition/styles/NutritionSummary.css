@@ -102,3 +102,13 @@
 .undo-bar button:hover {
   background: var(--return-btn-hover-bg);
 }
+
+.product-macros {
+  margin-top: .25rem;
+  font-size: .85rem;
+  opacity: .9;
+}
+
+.total .product-macros {
+  font-weight: 600;
+}
