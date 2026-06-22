@@ -4,19 +4,26 @@
   margin-bottom: 1rem;
 }
 
-.swap-btn {
-  background-color: var(--reverse-calculator-button);
-  color: var(--reverse-calculator-button-text);
-  border: none;
-  border-radius: 8px;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
+.swap-btn{
+    background:var(--reverse-button-bg) !important;
+    color:var(--reverse-button-color) !important;
+    border:2px solid var(--reverse-button-border) !important;
+    font-weight:600;
+    letter-spacing:.2px;
+    transition:.25s;
 }
 
-.swap-btn:hover {
-  background-color: var(--reverse-calculator-button-hover-bg);
-  color: var(--reverse-calculator-button-hover-color);
+.swap-btn:hover{
+    background:var(--reverse-button-hover-bg) !important;
+    color:var(--reverse-button-hover-color) !important;
+}
+
+.swap-btn.active{
+    background:var(--reverse-active-bg) !important;
+    border-color:var(--reverse-active-bg) !important;
+    color:var(--reverse-active-color) !important;
+
+    box-shadow:0 0 12px rgba(255,152,0,.45);
 }
 
 @keyframes pulse {

@@ -31,3 +31,14 @@
   box-shadow: 0 6px 20px rgba(0,0,0,0.4);
   animation: pulse 2s infinite;
 }
+
+.product-meta{
+    font-size:.9rem;
+    opacity:.85;
+}
+
+.product-macros-preview{
+    margin-top:2px;
+    font-size:.82rem;
+    opacity:.8;
+}

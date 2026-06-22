@@ -20,8 +20,8 @@ export default function CalorieForm({
 
       <div
         className={`ingredient-source ${manualMode
-            ? "ingredient-source-manual"
-            : "ingredient-source-product"
+          ? "ingredient-source-manual"
+          : "ingredient-source-product"
           }`}
       >
         {manualMode
@@ -58,7 +58,19 @@ export default function CalorieForm({
                     setFilteredProducts([]);
                   }}
                 >
-                  {p.name} ({p.kcalPer100g} kcal/100g)
+                  <strong>{p.name}</strong>
+
+                  <div className="product-meta">
+                    {p.kcalPer100g} kcal / 100 g
+                  </div>
+
+                  <div className="product-macros-preview">
+                    🥩 B: {p.proteinPer100g} g
+                    {" • "}
+                    🧈 T: {p.fatPer100g} g
+                    {" • "}
+                    🍚 W: {p.carbsPer100g} g
+                  </div>
                 </li>
               ))}
             </ul>

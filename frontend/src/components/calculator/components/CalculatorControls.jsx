@@ -1,5 +1,3 @@
-import { FaExchangeAlt } from 'react-icons/fa';
-
 export default function CalculatorControls({ manualMode, setManualMode, reverseMode, setReverseMode }) {
   return (
     <div className="calc-controls">
@@ -11,8 +9,10 @@ export default function CalculatorControls({ manualMode, setManualMode, reverseM
         </button>
       )}
 
-      <button onClick={() => setReverseMode(!reverseMode)} className="swap-btn">
-        <FaExchangeAlt /> {reverseMode ? 'Tryb kcal → g' : 'Tryb g → kcal'}
+      <button
+        onClick={() => setReverseMode(!reverseMode)}
+        className={`swap-btn ${reverseMode ? "active" : ""}`}>
+        {reverseMode ? '↩ Powrót do kalkulatora' : '⇄ Kalkulator odwrotny'}
       </button>
     </div>
   );
