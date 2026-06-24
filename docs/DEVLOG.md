@@ -322,6 +322,8 @@ prepare product database for Schedule integration and Nutrition Summary.
 - updated MonthView tests after product context integration
 - updated desktop and mobile Schedule component tests
 - removed obsolete calculator tests after frontend calculator migration
+- added total weight display in Nutrition Summary
+- updated NutritionSummary tests after macro nutrient support
 
 ### Notes
 - manual calculator mode displays only calories because macro nutrients are unavailable
