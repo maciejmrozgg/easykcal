@@ -20,7 +20,7 @@
   border: 1px solid #ccc;
   border-radius: 8px;
   font-weight: 500;
-  width: 120px;
+  min-width: 150px;
   text-align: center;
   color: var(--button-color);
   background-color: var(--button-bg);

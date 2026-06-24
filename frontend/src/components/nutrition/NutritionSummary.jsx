@@ -9,6 +9,10 @@ export default function NutritionSummary({ selectedProducts, onRemove, onReset, 
     selectedProducts.reduce((sum, p) => sum + (p.result || 0), 0).toFixed(2)
   );
 
+  const totalWeight = parseFloat(
+    selectedProducts.reduce((sum, p) => sum + (p.weight || 0), 0).toFixed(2)
+  );
+
   const totalProtein = parseFloat(
     selectedProducts.reduce((sum, p) => sum + (p.protein || 0), 0).toFixed(1)
   );
@@ -43,21 +47,21 @@ export default function NutritionSummary({ selectedProducts, onRemove, onReset, 
                   ✕
                 </button>
                 <div className="product-name">{product.name}</div>
-                <div className="product-kcal">
-                  {product.weight} g – {product.result.toFixed(2)} kcal
+                <div className="product-details">
+                  {product.weight}g • {product.result.toFixed(2)} kcal
 
                   {product.hasMacros && (
                     <>
                       <div className="product-macros">
-                        🥩 {product.protein.toFixed(1)} g
+                        🥩 {product.protein.toFixed(1)}g
                       </div>
 
                       <div className="product-macros">
-                        🧈 {product.fat.toFixed(1)} g
+                        🧈 {product.fat.toFixed(1)}g
                       </div>
 
                       <div className="product-macros">
-                        🍚 {product.carbs.toFixed(1)} g
+                        🍚 {product.carbs.toFixed(1)}g
                       </div>
                     </>
                   )}
@@ -78,19 +82,21 @@ export default function NutritionSummary({ selectedProducts, onRemove, onReset, 
             animate={{ opacity: 1 }}
           >
             <div className="product-name">Razem</div>
-            <div className="product-kcal">{totalKcal} kcal</div>
+            <div className="product-details">
+              {totalWeight}g • {totalKcal} kcal
+            </div>
             {selectedProducts.some(p => p.hasMacros) && (
               <>
                 <div className="product-macros">
-                  🥩 {totalProtein} g
+                  🥩 {totalProtein}g
                 </div>
 
                 <div className="product-macros">
-                  🧈 {totalFat} g
+                  🧈 {totalFat}g
                 </div>
 
                 <div className="product-macros">
-                  🍚 {totalCarbs} g
+                  🍚 {totalCarbs}g
                 </div>
               </>
             )}
