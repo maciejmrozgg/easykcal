@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./MealsTableDesktop.css";
 import IngredientModal from "../../modals/IngredientModal";
+import DaySummary from "../../DaySummary/DaySummary";
 
 /* ===== HEADER POSIŁKU (rename na blur) ===== */
 const MealHeader = ({ meal, onRenameMeal, onDeleteMeal }) => {
@@ -93,12 +94,6 @@ const MealsTable = ({
     );
   };
 
-  const getLimitClass = (kcal) => {
-    if (kcal > zeroLimit) return "danger";
-    if (kcal > deficitLimit) return "warning";
-    if (kcal > 0) return "normal";
-  };
-
   /* ===== MODAL HANDLERS ===== */
   const openIngredientModal = (dayIndex, mealId, ingredient = null, ingredientIndex = null) => {
     setModalDayIndex(dayIndex);
@@ -187,13 +182,11 @@ const MealsTable = ({
                 );
               })}
 
-              <div className={`meal-cell total ${getLimitClass(dayTotals.kcal)}`}>
-                <strong>{dayTotals.weight}g / {dayTotals.kcal} kcal</strong>
-
-                <div>B: {dayTotals.protein.toFixed(1)}g</div>
-                <div>T: {dayTotals.fat.toFixed(1)}g</div>
-                <div>W: {dayTotals.carbs.toFixed(1)}g</div>
-              </div>
+              <DaySummary
+                dayTotals={dayTotals}
+                deficitLimit={deficitLimit}
+                zeroLimit={zeroLimit}
+              />
 
               <div />
             </div>

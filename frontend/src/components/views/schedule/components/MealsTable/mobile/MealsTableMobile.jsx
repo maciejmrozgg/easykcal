@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import IngredientModal from "../../modals/IngredientModal";
+import DaySummary from "../../DaySummary/DaySummary";
 import "./MealsTableMobile.css";
 
 const MealsTableMobile = ({ days, meals, onUpdateIngredient, zeroLimit, deficitLimit, onAddMeal, maxMeals, onDeleteMeal }) => {
@@ -75,12 +76,6 @@ const MealsTableMobile = ({ days, meals, onUpdateIngredient, zeroLimit, deficitL
   };
 
   const dayTotals = getDayTotals();
-
-  const getLimitClass = (kcal) => {
-    if (kcal > zeroLimit) return "danger";
-    if (kcal > deficitLimit) return "warning";
-    if (kcal > 0) return "normal";
-  };
 
   return (
     <div className="meals-mobile" style={{ pointerEvents: isDeleting ? "none" : "auto", opacity: isDeleting ? 0.6 : 1 }}>
@@ -195,17 +190,11 @@ const MealsTableMobile = ({ days, meals, onUpdateIngredient, zeroLimit, deficitL
       })}
 
       {/* SUMMARY */}
-      <div className={`meal-cell total ${getLimitClass(dayTotals.kcal)}`}>
-        <strong>
-          Suma dnia: {dayTotals.weight}g / {dayTotals.kcal} kcal
-        </strong>
-        
-        <div>
-          B: {dayTotals.protein.toFixed(1)}g •
-          T: {dayTotals.fat.toFixed(1)}g •
-          W: {dayTotals.carbs.toFixed(1)}g
-        </div>
-      </div>
+      <DaySummary
+        dayTotals={dayTotals}
+        deficitLimit={deficitLimit}
+        zeroLimit={zeroLimit}
+      />
 
       {/* MODAL */}
       <IngredientModal
