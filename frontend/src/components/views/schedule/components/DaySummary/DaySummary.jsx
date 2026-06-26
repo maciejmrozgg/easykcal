@@ -15,7 +15,7 @@ export default function DaySummary({ dayTotals, deficitLimit, zeroLimit }) {
         return Number(progress.toFixed(1));
     };
 
-    const getMacroClass = (progress) => {
+    const getMacroProgressStatus = (progress) => {
         if (progress === 0) return "macro-zero"
         if (progress < 50) return "macro-danger"
         if (progress >= 50 && progress < 90)
@@ -42,7 +42,7 @@ export default function DaySummary({ dayTotals, deficitLimit, zeroLimit }) {
         }
     ];
 
-    const macrosData = macros.map(macro => {
+    const macroProgressSummary = macros.map(macro => {
         const progress = getMacroProgress(
             macro.value,
             macro.target
@@ -50,29 +50,30 @@ export default function DaySummary({ dayTotals, deficitLimit, zeroLimit }) {
 
         const width = Math.max(0, Math.min(progress, 100));
 
-        const progressClass = getMacroClass(progress);
+        const progressStatus = getMacroProgressStatus(progress);
 
         return {
             ...macro,
             progress,
             width,
-            progressClass
+            progressStatus
         };
     });
 
     return (
         <div className={`meal-cell total ${getLimitClass(dayTotals.kcal)}`}>
-            <strong>{dayTotals.weight}g / {dayTotals.kcal} kcal</strong>
+            <strong>Suma dnia: {dayTotals.weight}g / {dayTotals.kcal} kcal</strong>
 
-            {macrosData.map(macro => (
+            {macroProgressSummary.map(macro => (
                 <div key={macro.label}>
-                    <div className={`macro-row ${macro.progressClass}`}>
+                    <div className={`macro-row ${macro.progressStatus}`}>
                         {macro.label}: {macro.value.toFixed(1)}g ({macro.progress}%)
                     </div>
 
                     <div className="progress-bar">
                         <div
-                            className={`progress-fill ${macro.progressClass}`}
+                            data-testid={`${macro.label}-progress`}
+                            className={`progress-fill ${macro.progressStatus}`}
                             style={{ width: `${macro.width}%` }}
                         />
                     </div>
