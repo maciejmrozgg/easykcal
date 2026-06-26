@@ -3,6 +3,7 @@
 ## Features
 - [x] Schedule + Products integration (meal tracker with kcal and macros)
 - [x] Daily and meal-level nutrition summaries
+- [x] Daily macro progress bars in Schedule
 - [ ] Integrate Nutrition Summary with Schedule
 - [ ] Add recipe images support
 

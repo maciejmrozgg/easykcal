@@ -332,3 +332,31 @@ prepare product database for Schedule integration and Nutrition Summary.
 - product suggestions now display kcal and macro nutrients before calculation to simplify product selection
 - frontend test suite is aligned with the new frontend-only calculator architecture
 - schedule component tests now cover product-based ingredients and macro nutrient support
+
+## 2026-06-24
+
+### Done
+- extracted reusable DaySummary component shared by desktop and mobile Schedule views
+- added daily macro progress percentages (protein, fat, carbs)
+- added configurable macro targets (temporary frontend constants)
+- added color indicators for macro goal completion
+- added macro progress bars to daily summary
+- unified Schedule daily summary UI between desktop and mobile
+- started cleanup and refactor of DaySummary component
+
+### Notes
+- macro targets are currently stored as frontend constants
+- custom user-configurable macro targets are planned in future Schedule update
+
+## 2026-06-26
+
+### Done
+- completed DaySummary component cleanup and refactor
+- improved macro progress calculation structure
+- renamed helper functions for better readability
+- added dedicated frontend tests for DaySummary component
+- verified frontend tests after DaySummary refactor
+
+### Notes
+- DaySummary is now shared by both desktop and mobile Schedule views
+- macro progress rendering is generated from a reusable configuration array

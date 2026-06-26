@@ -45,6 +45,7 @@ Current version: v1.1.2.
 - Automatic calorie and macro calculations
 - Meal and daily nutrition summaries
 - Calorie limits
+- Daily macro progress bars
 
 ### 🔹 Authentication
 - User registration and login
@@ -61,7 +62,6 @@ Current version: v1.1.2.
 Planned improvements and future features for EasyKcal.
 
 ### Short term
-- Add macro nutrient targets and progress indicators in Schedule
 - Refactor product data flow to use Product objects instead of individual fields
 - Extend Calculator frontend tests after frontend-only migration
 
@@ -356,6 +356,7 @@ Obecna wersja: v1.1.2.
 - Automatyczne obliczanie kalorii i makroskładników
 - Podsumowania wartości odżywczych dla posiłków i dni
 - Limity kalorii
+- Dzienne paski postępu makroskładników
 
 ### 🔹 Autoryzacja
 - Rejestracja i logowanie
@@ -372,7 +373,6 @@ Obecna wersja: v1.1.2.
 Planowane ulepszenia i przyszłe funkcje dla EasyKcal.
 
 ### Krótkoterminowo
-- Dodanie celów makroskładników i wskaźników postępu w harmonogramie
 - Refaktoryzacja przepływu danych produktów z wykorzystaniem obiektów Product
 - Rozszerzenie testów frontendu kalkulatora po migracji logiki do frontendu
 
