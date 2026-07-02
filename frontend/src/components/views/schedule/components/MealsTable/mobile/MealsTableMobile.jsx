@@ -3,7 +3,7 @@ import IngredientModal from "../../modals/IngredientModal";
 import DaySummary from "../../DaySummary/DaySummary";
 import "./MealsTableMobile.css";
 
-const MealsTableMobile = ({ days, meals, onUpdateIngredient, zeroLimit, deficitLimit, onAddMeal, maxMeals, onDeleteMeal }) => {
+const MealsTableMobile = ({ days, meals, onUpdateIngredient, zeroLimit, deficitLimit, onAddMeal, maxMeals, onDeleteMeal, scrollToDate, onScrollComplete }) => {
   const [dayIndex, setDayIndex] = useState(0);
 
   const [openMeals, setOpenMeals] = useState(() =>
@@ -27,6 +27,17 @@ const MealsTableMobile = ({ days, meals, onUpdateIngredient, zeroLimit, deficitL
       return updated;
     });
   }, [meals]);
+
+  useEffect(() => {
+    if (!scrollToDate) return;
+
+    const todayIndex = days.findIndex(day => day.date === scrollToDate);
+
+    if (todayIndex !== -1) {
+      setDayIndex(todayIndex);
+      onScrollComplete();
+    }
+  }, [scrollToDate, days, onScrollComplete]);
 
   const day = days[dayIndex];
 

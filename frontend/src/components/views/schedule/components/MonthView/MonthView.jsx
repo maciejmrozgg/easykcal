@@ -20,7 +20,7 @@ const buildDaysFromSchedule = (schedule, year, month) => {
   });
 };
 
-const MonthView = ({ year, month, onBack }) => {
+const MonthView = ({ year, month, onBack, onTodayButton, scrollToDate, onScrollComplete }) => {
   const [meals, setMeals] = useState([]);
   const [days, setDays] = useState([]);
   const [deficitLimit, setDeficitLimit] = useState(0);
@@ -155,7 +155,10 @@ const MonthView = ({ year, month, onBack }) => {
     <div className="month-view">
       {/* HEADER */}
       <header className="month-header">
-        <button className="back-btn" onClick={onBack}>← Wybierz miesiąc</button>
+        <div className="month-navigation">
+          <button onClick={onBack}>← Wybierz miesiąc</button>
+          <button onClick={onTodayButton}>📅 Dzisiaj</button>
+        </div>
         <div className="kcal-limit">
           <label>
             Deficyt kaloryczny:
@@ -191,6 +194,8 @@ const MonthView = ({ year, month, onBack }) => {
         onDeleteMeal={deleteMeal}
         onUpdateIngredient={handleUpdateIngredient}
         maxMeals={MAX_MEALS}
+        scrollToDate={scrollToDate}
+        onScrollComplete={onScrollComplete}
       />
     </div>
   );

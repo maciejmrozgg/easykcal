@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useToast } from "../../ui/toast/hooks/useToast";
 import "./Schedule.css";
 import MonthView from "./components/MonthView/MonthView";
 import ScheduleInfoBanner from "./components/ScheduleInfoBanner/ScheduleInfoBanner";
@@ -13,6 +14,23 @@ const Schedule = () => {
   const currentYear = new Date().getFullYear();
   const [year, setYear] = useState(currentYear);
   const [selectedMonth, setSelectedMonth] = useState(null);
+  const [scrollToDate, setScrollToDate] = useState(null);
+  const { showToast } = useToast();
+
+  const handleGoToToday = () => {
+    const today = new Date();
+    setYear(today.getFullYear());
+    setSelectedMonth(today.getMonth());
+
+    const todayString =
+      `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+    setScrollToDate(todayString);
+
+    showToast(
+      `Przeniesiono do ${todayString}`,
+      "success"
+    );
+  };
 
   return (
     <section className="component schedule">
@@ -44,6 +62,9 @@ const Schedule = () => {
           year={year}
           month={selectedMonth}
           onBack={() => setSelectedMonth(null)}
+          onTodayButton={handleGoToToday}
+          scrollToDate={scrollToDate}
+          onScrollComplete={() => setScrollToDate(null)}
         />
       )}
 

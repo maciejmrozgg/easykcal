@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import "./MealsTableDesktop.css";
 import IngredientModal from "../../modals/IngredientModal";
 import DaySummary from "../../DaySummary/DaySummary";
@@ -50,7 +50,9 @@ const MealsTable = ({
   onRenameMeal,
   onUpdateIngredient,
   onDeleteMeal,
-  maxMeals
+  maxMeals,
+  scrollToDate,
+  onScrollComplete
 }) => {
   const columnsTemplate = `140px repeat(${meals.length}, minmax(180px, 1fr)) 180px 140px`;
 
@@ -60,6 +62,18 @@ const MealsTable = ({
   const [modalDayIndex, setModalDayIndex] = useState(null);
   const [modalMealId, setModalMealId] = useState(null);
   const [modalIngredientIndex, setModalIngredientIndex] = useState(null);
+  const rowRefs = useRef([]);
+
+  useEffect(() => {
+    if (!scrollToDate) return;
+
+    const todayIndex = days.findIndex(day => day.date === scrollToDate);
+
+    if (todayIndex !== -1) {
+      rowRefs.current[todayIndex]?.scrollIntoView({ behavior: "smooth", block: "center" });
+      onScrollComplete();
+    }
+  }, [scrollToDate, days, onScrollComplete]);
 
   /* ===== HELPERS ===== */
   const getMealTotals = (ingredients) => {
@@ -136,6 +150,7 @@ const MealsTable = ({
             <div
               key={day.date}
               className="table-row"
+              ref={el => (rowRefs.current[dayIndex] = el)}
               style={{ gridTemplateColumns: columnsTemplate }}
             >
               <div className="date-cell">{day.date}</div>
