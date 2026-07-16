@@ -84,9 +84,10 @@ export const getMonthlyAverages = (days) => {
 /* ===== LAST 7 DAYS AVERAGES ===== */
 export const getLast7DaysAverages = (days) => {
     const today = new Date();
+    today.setHours(0, 0, 0, 0);
 
     const sevenDaysAgo = new Date(today);
-    sevenDaysAgo.setDate(today.getDate() - 7);
+    sevenDaysAgo.setDate(today.getDate() - 6);
 
     const last7Days = days.filter(day => {
         const [year, month, dayOfMonth] = day.date.split("-").map(Number);
