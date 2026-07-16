@@ -169,9 +169,8 @@
   top: 100%;
   left: 0;
   right: 0;
-  background: var(--recipes-suggestions-bg);
+  background: var(--component-bg);
   border: 2px solid var(--accent-color);
-  backdrop-filter: blur(4px);
   border-radius: 10px;
   margin-top: 6px;
   list-style: none;
@@ -181,6 +180,8 @@
 }
 
 .recipe-suggestions li {
+  color: var(--recipes-suggestion-text-color);
+  font-weight: 500;
   padding: 6px 10px;
   cursor: pointer;
   border-radius: 10px;

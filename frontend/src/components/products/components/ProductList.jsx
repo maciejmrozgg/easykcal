@@ -10,7 +10,7 @@ const ProductList = forwardRef(({ products, visibleCount, onEdit, user }, ref) =
 
             <div className="product-details">
               <div className="product-info">
-                {p.name} - <span className="kcal">{p.kcalPer100g} kcal</span>
+                {p.name} - <span className="kcal">{p.kcalPer100g} kcal/100g</span>
               </div>
 
               <div className="product-macros">

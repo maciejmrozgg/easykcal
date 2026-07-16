@@ -101,6 +101,7 @@ const IngredientModal = ({ open, initialData, onSave, onDelete, onClose }) => {
           }
         }} />
 
+        {/*  Product suggestions */}
         {name.length >= 2 && !selectedProductId && filteredProducts.length > 0 && (
           <div className="product-suggestions">
             {filteredProducts.slice(0, 5).map(product => (
@@ -112,7 +113,10 @@ const IngredientModal = ({ open, initialData, onSave, onDelete, onClose }) => {
                   setName(product.name);
                 }}
               >
-                {product.name} {product.kcalPer100g} kcal / 100g
+                <span>{product.name} </span>
+                <span className="product-suggestion-kcal">
+                  {product.kcalPer100g} kcal / 100g
+                </span>
               </div>
             ))}
           </div>
@@ -120,8 +124,8 @@ const IngredientModal = ({ open, initialData, onSave, onDelete, onClose }) => {
 
         <div
           className={`ingredient-source ${selectedProductId
-              ? "ingredient-source-product"
-              : "ingredient-source-manual"
+            ? "ingredient-source-product"
+            : "ingredient-source-manual"
             }`}
         >
           {selectedProductId ? "📦 Produkt z bazy" : "📝 Ręczny składnik"}

@@ -209,6 +209,7 @@ ol li {
 
 .ingredient-source-manual {
   border-color: #ff9800;
+  margin-top: 8px;
 }
 
 .ingredient-source-reverse {

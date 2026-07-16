@@ -380,6 +380,7 @@ prepare product database for Schedule integration and Nutrition Summary.
 - improved recipe search suggestions readability
 - replaced blurred suggestions background with component background
 - improved search suggestion colors for both light and dark themes
+- improved Schedule product suggestion readability
 - clarified product list nutrition label by displaying "kcal/100g"
 
 ### Notes
