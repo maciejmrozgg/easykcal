@@ -46,6 +46,8 @@ Current version: v1.1.2.
 - Meal and daily nutrition summaries
 - Calorie limits
 - Daily macro progress bars
+- Monthly and last 7 days nutrition averages
+- Quick navigation to selected days
 
 ### 🔹 Authentication
 - User registration and login
@@ -357,6 +359,8 @@ Obecna wersja: v1.1.2.
 - Podsumowania wartości odżywczych dla posiłków i dni
 - Limity kalorii
 - Dzienne paski postępu makroskładników
+- Średnie wartości odżywcze dla miesiąca i ostatnich 7 dni
+- Szybka nawigacja do wybranego dnia
 
 ### 🔹 Autoryzacja
 - Rejestracja i logowanie

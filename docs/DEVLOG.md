@@ -360,3 +360,43 @@ prepare product database for Schedule integration and Nutrition Summary.
 ### Notes
 - DaySummary is now shared by both desktop and mobile Schedule views
 - macro progress rendering is generated from a reusable configuration array
+
+## 2026-07-02
+
+### Done
+- added "Go to today" navigation in Schedule
+- implemented automatic scrolling to current day in desktop Schedule view
+- implemented automatic current day selection in mobile Schedule view
+- synchronized current day navigation across month changes
+- improved Schedule navigation state by resetting scroll target after navigation
+
+### Notes
+- desktop uses scrollIntoView() for current day navigation
+- mobile switches selected day instead of scrolling
+
+## 2026-07-08
+
+### Done
+- improved recipe search suggestions readability
+- replaced blurred suggestions background with component background
+- improved search suggestion colors for both light and dark themes
+- clarified product list nutrition label by displaying "kcal/100g"
+
+### Notes
+- recipe search suggestions now provide better contrast and readability across both themes
+
+## 2026-07-16
+
+### Done
+- added monthly nutrition averages in Schedule
+- added last 7 days nutrition averages for current month
+- display days included in average calculations
+- added quick navigation from averages to selected day
+- added hover highlighting for last 7 days average
+- extracted reusable nutrition averages utilities
+- improved Schedule averages UI for desktop and mobile themes
+- adjusted Schedule layering (z-index) after sticky header improvements
+
+### Notes
+- last 7 days averages are displayed only for the current month
+- averages ignore empty days without nutrition data

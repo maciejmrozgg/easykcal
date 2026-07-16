@@ -4,8 +4,14 @@
 - [x] Schedule + Products integration (meal tracker with kcal and macros)
 - [x] Daily and meal-level nutrition summaries
 - [x] Daily macro progress bars in Schedule
+
+- [x] Today button in Schedule
+- [x] Weekly and monthly nutrition averages
+- [ ] Custom daily kcal and macro targets
+
 - [ ] Integrate Nutrition Summary with Schedule
 - [ ] Add recipe images support
+- [ ] Use Product database in Recipe ingredients
 
 - [x] BaseModal component for shared modal logic
 - [x] Default categories in production database
