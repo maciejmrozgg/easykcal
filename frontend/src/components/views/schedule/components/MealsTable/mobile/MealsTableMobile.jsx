@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import IngredientModal from "../../modals/IngredientModal";
 import DaySummary from "../../DaySummary/DaySummary";
 import "./MealsTableMobile.css";
+import NutritionAverages from "../../NutritionAverages/NutritionAverages";
+import { getMealTotals, getDayTotals } from "../../../utils/nutritionAverages";
 
 const MealsTableMobile = ({ days, meals, onUpdateIngredient, zeroLimit, deficitLimit, onAddMeal, maxMeals, onDeleteMeal, scrollToDate, onScrollComplete }) => {
   const [dayIndex, setDayIndex] = useState(0);
@@ -55,41 +57,11 @@ const MealsTableMobile = ({ days, meals, onUpdateIngredient, zeroLimit, deficitL
     setModalOpen(true);
   };
 
-  const getMealTotals = (ingredients) => {
-    if (!Array.isArray(ingredients)) {
-      return { kcal: 0, weight: 0, protein: 0, fat: 0, carbs: 0 };
-    }
-
-    return ingredients.reduce(
-      (acc, i) => ({
-        kcal: acc.kcal + (i.kcal || 0),
-        weight: acc.weight + (i.weight || 0),
-        protein: acc.protein + (i.protein || 0),
-        fat: acc.fat + (i.fat || 0),
-        carbs: acc.carbs + (i.carbs || 0)
-      }),
-      { kcal: 0, weight: 0, protein: 0, fat: 0, carbs: 0 }
-    );
-  };
-
-  const getDayTotals = () => {
-    if (!day?.meals) return { kcal: 0, weight: 0, protein: 0, fat: 0, carbs: 0 };
-    return Object.values(day.meals).flat().reduce(
-      (acc, i) => ({
-        kcal: acc.kcal + (i.kcal || 0),
-        weight: acc.weight + (i.weight || 0),
-        protein: acc.protein + (i.protein || 0),
-        fat: acc.fat + (i.fat || 0),
-        carbs: acc.carbs + (i.carbs || 0)
-      }),
-      { kcal: 0, weight: 0, protein: 0, fat: 0, carbs: 0 }
-    );
-  };
-
-  const dayTotals = getDayTotals();
+  const dayTotals = getDayTotals(day);
 
   return (
     <div className="meals-mobile" style={{ pointerEvents: isDeleting ? "none" : "auto", opacity: isDeleting ? 0.6 : 1 }}>
+      <NutritionAverages days={days} />
       <div className="meals-header">
         <button
           className="add-meal"

@@ -14,9 +14,16 @@
   align-items: stretch;
 }
 
+.sticky-header{
+    position: sticky;
+    top: 0;
+    z-index: 80;
+    background: var(--component-bg);
+}
+
 .table-header {
   display: grid;
-  position: sticky;  
+  position: static;  
   top: 0;            
   background-color: var(--component-bg); 
   z-index: 10;
@@ -129,7 +136,7 @@
   .meal-cell.total {
     position: sticky;
     bottom: 0;
-    z-index: 9;
+    z-index: 10;
     margin: 0 0.5rem;
     background: rgba(255, 255, 255, 0.75);
     backdrop-filter: blur(6px);

@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from "react";
 import "./MealsTableDesktop.css";
 import IngredientModal from "../../modals/IngredientModal";
 import DaySummary from "../../DaySummary/DaySummary";
+import NutritionAverages from "../../NutritionAverages/NutritionAverages";
+import { getMealTotals, getDayTotals } from "../../../utils/nutritionAverages";
 
 /* ===== HEADER POSIŁKU (rename na blur) ===== */
 const MealHeader = ({ meal, onRenameMeal, onDeleteMeal }) => {
@@ -75,39 +77,6 @@ const MealsTable = ({
     }
   }, [scrollToDate, days, onScrollComplete]);
 
-  /* ===== HELPERS ===== */
-  const getMealTotals = (ingredients) => {
-    if (!Array.isArray(ingredients)) return { kcal: 0, weight: 0, protein: 0, fat: 0, carbs: 0 };
-    return ingredients.reduce(
-      (acc, i) => ({
-        kcal: acc.kcal + (i.kcal || 0),
-        weight: acc.weight + (i.weight || 0),
-        protein: acc.protein + (i.protein || 0),
-        fat: acc.fat + (i.fat || 0),
-        carbs: acc.carbs + (i.carbs || 0)
-      }),
-      { kcal: 0, weight: 0, protein: 0, fat: 0, carbs: 0 }
-    );
-  };
-
-  const getDayTotals = (day) => {
-    if (!day?.meals) return { kcal: 0, weight: 0, protein: 0, fat: 0, carbs: 0 };
-    return Object.values(day.meals).reduce(
-      (acc, meal) => {
-        if (!Array.isArray(meal)) return acc;
-        meal.forEach(i => {
-          acc.kcal += i.kcal || 0;
-          acc.weight += i.weight || 0;
-          acc.protein += i.protein || 0;
-          acc.fat += i.fat || 0;
-          acc.carbs += i.carbs || 0;
-        });
-        return acc;
-      },
-      { kcal: 0, weight: 0, protein: 0, fat: 0, carbs: 0 }
-    );
-  };
-
   /* ===== MODAL HANDLERS ===== */
   const openIngredientModal = (dayIndex, mealId, ingredient = null, ingredientIndex = null) => {
     setModalDayIndex(dayIndex);
@@ -120,25 +89,29 @@ const MealsTable = ({
   /* ===== RENDER ===== */
   return (
     <div className="meals-table">
-      {/* HEADER */}
-      <div className="table-header" style={{ gridTemplateColumns: columnsTemplate }}>
-        <div className="date-column">Data</div>
-        {meals.map(meal => (
-          <MealHeader
-            key={meal.id}
-            meal={meal}
-            onRenameMeal={onRenameMeal}
-            onDeleteMeal={onDeleteMeal}
-          />
-        ))}
-        <div className="meal-column">Razem</div>
-        <button
-          className="add-meal"
-          onClick={onAddMeal}
-          disabled={meals.length >= maxMeals}
-        >
-          + Dodaj posiłek
-        </button>
+      <div className="sticky-header">
+        <NutritionAverages days={days} />
+
+        {/* HEADER */}
+        <div className="table-header" style={{ gridTemplateColumns: columnsTemplate }}>
+          <div className="date-column">Data</div>
+          {meals.map(meal => (
+            <MealHeader
+              key={meal.id}
+              meal={meal}
+              onRenameMeal={onRenameMeal}
+              onDeleteMeal={onDeleteMeal}
+            />
+          ))}
+          <div className="meal-column">Razem</div>
+          <button
+            className="add-meal"
+            onClick={onAddMeal}
+            disabled={meals.length >= maxMeals}
+          >
+            + Dodaj posiłek
+          </button>
+        </div>
       </div>
 
       {/* BODY */}
