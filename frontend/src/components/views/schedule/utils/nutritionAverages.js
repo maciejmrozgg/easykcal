@@ -1,3 +1,4 @@
+/* ===== MEAL TOTALS ===== */
 export const getMealTotals = (ingredients) => {
     if (!Array.isArray(ingredients)) return { kcal: 0, weight: 0, protein: 0, fat: 0, carbs: 0 };
     return ingredients.reduce(
@@ -12,6 +13,7 @@ export const getMealTotals = (ingredients) => {
     );
 };
 
+/* ===== DAY TOTALS ===== */
 export const getDayTotals = (day) => {
     if (!day?.meals) return { kcal: 0, weight: 0, protein: 0, fat: 0, carbs: 0 };
     return Object.values(day.meals).reduce(
@@ -30,6 +32,7 @@ export const getDayTotals = (day) => {
     );
 };
 
+/***** MONTHLY AVERAGES *****/
 export const getMonthlyAverages = (days) => {
     const filledDays = days.filter(day => {
         const totals = getDayTotals(day);
@@ -37,7 +40,16 @@ export const getMonthlyAverages = (days) => {
     });
 
     if (filledDays.length === 0) {
-        return { kcal: 0, weight: 0, protein: 0, fat: 0, carbs: 0 };
+        return {
+            averages: {
+                kcal: 0,
+                weight: 0,
+                protein: 0,
+                fat: 0,
+                carbs: 0
+            },
+            days: []
+        };
     }
 
     const totals = filledDays.reduce(
@@ -62,14 +74,19 @@ export const getMonthlyAverages = (days) => {
         fat: totals.fat / filledDays.length,
         carbs: totals.carbs / filledDays.length
     };
-    return averages;
+
+    return {
+        averages,
+        days: filledDays
+    };
 };
 
+/* ===== LAST 7 DAYS AVERAGES ===== */
 export const getLast7DaysAverages = (days) => {
     const today = new Date();
 
     const sevenDaysAgo = new Date(today);
-    sevenDaysAgo.setDate(today.getDate() - 6);
+    sevenDaysAgo.setDate(today.getDate() - 7);
 
     const last7Days = days.filter(day => {
         const [year, month, dayOfMonth] = day.date.split("-").map(Number);
@@ -85,7 +102,16 @@ export const getLast7DaysAverages = (days) => {
     });
 
     if (filledDays.length === 0) {
-        return { kcal: 0, weight: 0, protein: 0, fat: 0, carbs: 0 };
+        return {
+            averages: {
+                kcal: 0,
+                weight: 0,
+                protein: 0,
+                fat: 0,
+                carbs: 0
+            },
+            days: []
+        };
     }
 
     const totals = filledDays.reduce(
@@ -110,5 +136,9 @@ export const getLast7DaysAverages = (days) => {
         fat: totals.fat / filledDays.length,
         carbs: totals.carbs / filledDays.length
     };
-    return averages;
+
+    return {
+        averages,
+        days: filledDays
+    };
 };

@@ -1,33 +1,76 @@
 import { getMonthlyAverages, getLast7DaysAverages } from "../../utils/nutritionAverages";
 import "./NutritionAverages.css";
 
-const NutritionAverages = ({ days }) => {
-  const monthlyAverages = getMonthlyAverages(days);
-  const last7DaysAverages = getLast7DaysAverages(days);
+const NutritionAverages = ({ days, isCurrentMonth, onHighlightDays, onJumpToDate }) => {
+    /* ===== CALCULATED AVERAGES ===== */
+    const monthly = getMonthlyAverages(days);
+    const last7 = getLast7DaysAverages(days);
 
-  return (
-    <div className="nutrition-averages">
+    /* ===== RENDER ===== */
+    return (
+        <div className="nutrition-averages">
 
-      <div className="average-card">
-        <h3>Średnia miesiąca</h3>
+            <div className="average-card">
+                <h3>📅 Średnia miesiąca</h3>
 
-        <div>{monthlyAverages.kcal.toFixed(0)} kcal</div>
-        <div>B: {monthlyAverages.protein.toFixed(1)} g</div>
-        <div>T: {monthlyAverages.fat.toFixed(1)} g</div>
-        <div>W: {monthlyAverages.carbs.toFixed(1)} g</div>
-      </div>
+                <div>{monthly.averages.kcal.toFixed(0)} kcal</div>
+                <div>B: {monthly.averages.protein.toFixed(1)} g</div>
+                <div>T: {monthly.averages.fat.toFixed(1)} g</div>
+                <div>W: {monthly.averages.carbs.toFixed(1)} g</div>
 
-      <div className="average-card">
-        <h3>Ostatnie 7 dni</h3>
+                <div className="average-days-label">
+                    Liczone z dni:
+                </div>
+                <div className="average-days">
+                    {monthly.days.map(day => (
+                        <span
+                            key={day.date}
+                            className="average-day"
+                            onClick={() => onJumpToDate(day.date)}
+                            title="Przewiń do tego dnia"
+                        >
+                            {day.date.split("-")[2]}
+                        </span>
+                    ))}
+                </div>
+            </div>
 
-        <div>{last7DaysAverages.kcal.toFixed(0)} kcal</div>
-        <div>B: {last7DaysAverages.protein.toFixed(1)} g</div>
-        <div>T: {last7DaysAverages.fat.toFixed(1)} g</div>
-        <div>W: {last7DaysAverages.carbs.toFixed(1)} g</div>
-      </div>
+            {isCurrentMonth && (
+                <div
+                    className="average-card"
+                    onMouseEnter={() => onHighlightDays(last7.days)}
+                    onMouseLeave={() => onHighlightDays([])}
+                >
+                    <h3>📈 Ostatnie 7 dni</h3>
+                    <div className="average-hint">
+                        Najedź, aby podświetlić dni
+                    </div>
 
-    </div>
-  );
+                    <div>{last7.averages.kcal.toFixed(0)} kcal</div>
+                    <div>B: {last7.averages.protein.toFixed(1)} g</div>
+                    <div>T: {last7.averages.fat.toFixed(1)} g</div>
+                    <div>W: {last7.averages.carbs.toFixed(1)} g</div>
+
+                    <div className="average-days-label">
+                        Liczone z dni:
+                    </div>
+                    <div className="average-days">
+                        {last7.days.map(day => (
+                            <span
+                                key={day.date}
+                                className="average-day"
+                                onClick={() => onJumpToDate(day.date)}
+                                title="Przewiń do tego dnia"
+                            >
+                                {day.date.split("-")[2]}
+                            </span>
+                        ))}
+                    </div>
+                </div>
+            )}
+
+        </div>
+    );
 };
 
 export default NutritionAverages;

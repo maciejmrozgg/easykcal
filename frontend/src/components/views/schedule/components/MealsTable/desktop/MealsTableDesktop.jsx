@@ -46,6 +46,7 @@ const MealHeader = ({ meal, onRenameMeal, onDeleteMeal }) => {
 const MealsTable = ({
   meals,
   days,
+  isCurrentMonth,
   deficitLimit,
   zeroLimit,
   onAddMeal,
@@ -56,7 +57,11 @@ const MealsTable = ({
   scrollToDate,
   onScrollComplete
 }) => {
+  /* ===== TABLE LAYOUT ===== */
   const columnsTemplate = `140px repeat(${meals.length}, minmax(180px, 1fr)) 180px 140px`;
+
+  /* ===== COMPONENT STATE ===== */
+  const [highlightedDays, setHighlightedDays] = useState([]);
 
   /* ===== MODAL STATE ===== */
   const [modalOpen, setModalOpen] = useState(false);
@@ -64,8 +69,11 @@ const MealsTable = ({
   const [modalDayIndex, setModalDayIndex] = useState(null);
   const [modalMealId, setModalMealId] = useState(null);
   const [modalIngredientIndex, setModalIngredientIndex] = useState(null);
+
+  /* ===== ROW REFERENCES ===== */
   const rowRefs = useRef([]);
 
+  /* ===== SCROLL HANDLERS ===== */
   useEffect(() => {
     if (!scrollToDate) return;
 
@@ -86,11 +94,28 @@ const MealsTable = ({
     setModalOpen(true);
   };
 
+  /* ===== NAVIGATION ===== */
+  const scrollToDay = (date) => {
+    const index = days.findIndex(day => day.date === date);
+
+    if (index !== -1) {
+      rowRefs.current[index]?.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+      });
+    }
+  };
+
   /* ===== RENDER ===== */
   return (
     <div className="meals-table">
       <div className="sticky-header">
-        <NutritionAverages days={days} />
+        <NutritionAverages
+          days={days}
+          isCurrentMonth={isCurrentMonth}
+          onHighlightDays={setHighlightedDays}
+          onJumpToDate={scrollToDay}
+        />
 
         {/* HEADER */}
         <div className="table-header" style={{ gridTemplateColumns: columnsTemplate }}>
@@ -119,6 +144,10 @@ const MealsTable = ({
         {days.map((day, dayIndex) => {
           const dayTotals = getDayTotals(day);
 
+          const isHighlighted = highlightedDays.some(
+            highlightedDay => highlightedDay.date === day.date
+          );
+
           return (
             <div
               key={day.date}
@@ -126,7 +155,9 @@ const MealsTable = ({
               ref={el => (rowRefs.current[dayIndex] = el)}
               style={{ gridTemplateColumns: columnsTemplate }}
             >
-              <div className="date-cell">{day.date}</div>
+              <div className={`date-cell ${isHighlighted ? "highlighted-date" : ""}`}>
+                {day.date}
+              </div>
 
               {meals.map(meal => {
                 const ingredients = Array.isArray(day.meals?.[meal.id])

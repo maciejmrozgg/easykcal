@@ -6,10 +6,11 @@
   --recipe-add-button-hover: #3498db;
   --recipes-clear-search-button-bg: rgba(52, 152, 219, 0.08);
   --recipes-clear-search-button-hover-bg: rgba(52, 152, 219, 0.18);
-  --recipes-suggestions-bg: rgba(52, 152, 219, 0.08);
   --recipes-suggestion-hover-bg: rgba(52, 152, 219, 0.12);
+   --recipes-suggestion-text-color: #21618c;
 
   --component-bg: #ffffff;
+  --border-color: #d9dee5;
 
   --button-bg: #3498db;
   --button-color: #ffffff;
@@ -93,10 +94,11 @@
   --recipe-add-button-hover: #2ecc71;
   --recipes-clear-search-button-bg: rgba(255, 255, 255, 0.08);
   --recipes-clear-search-button-hover-bg: rgba(255, 255, 255, 0.16);
-  --recipes-suggestions-bg: rgba(255, 255, 255, 0.06);
   --recipes-suggestion-hover-bg: rgba(255, 255, 255, 0.12);
+  --recipes-suggestion-text-color: #7dffb3;
 
   --component-bg: #1c2530;
+  --border-color: #344556;
 
   --button-bg: #2ecc71;
   --button-color: #0f1720;

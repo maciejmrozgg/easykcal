@@ -5,7 +5,7 @@ import "./MealsTableMobile.css";
 import NutritionAverages from "../../NutritionAverages/NutritionAverages";
 import { getMealTotals, getDayTotals } from "../../../utils/nutritionAverages";
 
-const MealsTableMobile = ({ days, meals, onUpdateIngredient, zeroLimit, deficitLimit, onAddMeal, maxMeals, onDeleteMeal, scrollToDate, onScrollComplete }) => {
+const MealsTableMobile = ({ days, meals, isCurrentMonth, onUpdateIngredient, zeroLimit, deficitLimit, onAddMeal, maxMeals, onDeleteMeal, scrollToDate, onScrollComplete }) => {
   const [dayIndex, setDayIndex] = useState(0);
 
   const [openMeals, setOpenMeals] = useState(() =>
@@ -61,7 +61,10 @@ const MealsTableMobile = ({ days, meals, onUpdateIngredient, zeroLimit, deficitL
 
   return (
     <div className="meals-mobile" style={{ pointerEvents: isDeleting ? "none" : "auto", opacity: isDeleting ? 0.6 : 1 }}>
-      <NutritionAverages days={days} />
+      <NutritionAverages
+        days={days}
+        isCurrentMonth={isCurrentMonth}
+      />
       <div className="meals-header">
         <button
           className="add-meal"

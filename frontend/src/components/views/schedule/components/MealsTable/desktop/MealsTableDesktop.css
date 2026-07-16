@@ -14,13 +14,6 @@
   align-items: stretch;
 }
 
-.sticky-header{
-    position: sticky;
-    top: 0;
-    z-index: 80;
-    background: var(--component-bg);
-}
-
 .table-header {
   display: grid;
   position: static;  
@@ -35,13 +28,28 @@
   border-bottom: 1px solid var(--border-color, #333);
 }
 
-/* KOMÓRKI */
+/* STICKY HEADER */
+.sticky-header{
+    position: sticky;
+    top: 0;
+    z-index: 80;
+    background: var(--component-bg);
+}
+
+/* CELLS */
 .date-column,
 .date-cell,
 .meal-column,
 .meal-cell {
   padding: 0.75rem;
   border-right: 1px solid var(--border-color, #333);
+}
+
+/* HIGHLIGHTED DAYS */
+.date-cell.highlighted-date{
+    background: color-mix(in srgb, var(--accent-color) 18%, transparent);
+    border-left:4px solid var(--accent-color);
+    font-weight:700;
 }
 
 .meal-cell {
@@ -70,7 +78,7 @@
   border-top: 1px dashed rgba(255, 255, 255, 0.12);
 }
 
-/* INPUT NA NAZWY POSIŁKÓW */
+/* INPUT FOR MEAL NAMES */
 .meal-name-input {
   width: 100%;
   text-align: center;
@@ -84,7 +92,7 @@
   outline: 1px solid var(--accent-color, #3498db);
 }
 
-/* PRZYCISK DODAWANIA POSIŁKU */
+/* ADD MEAL BUTTON */
 .add-meal {
   white-space: nowrap;
   padding: 0.4rem 0.8rem;
@@ -98,7 +106,7 @@
   cursor: not-allowed;
 }
 
-/* LIMIT KALORII */
+/* CALORIES LIMIT */
 .meal-cell.total {
   border-radius: 6px;
   border: 2px solid;
@@ -121,6 +129,7 @@
   color: #e74c3c;
 }
 
+/* INGREDIENT ITEMS */
 .ingredient-item {
   cursor: pointer;
   transition: background-color 0.15s ease;
@@ -132,6 +141,7 @@
   background: rgba(128, 128, 128, 0.12);
 }
 
+/* MOBILE */
 @media (max-width: 768px) {
   .meal-cell.total {
     position: sticky;

@@ -149,6 +149,12 @@ const MonthView = ({ year, month, onBack, onTodayButton, scrollToDate, onScrollC
     );
   };
 
+  const today = new Date();
+
+  const isCurrentMonth =
+    year === today.getFullYear() &&
+    month === today.getMonth();
+
   if (loading) return <div>Ładowanie harmonogramu…</div>;
 
   return (
@@ -187,6 +193,7 @@ const MonthView = ({ year, month, onBack, onTodayButton, scrollToDate, onScrollC
       <MealsTable
         meals={meals}
         days={days}
+        isCurrentMonth={isCurrentMonth}
         deficitLimit={deficitLimit}
         zeroLimit={zeroLimit}
         onAddMeal={addMealColumn}
