@@ -1,33 +1,33 @@
 /* LAYOUT */
-.nutrition-averages{
-    display:flex;
-    gap:16px;
-    margin-bottom:12px;
+.nutrition-averages {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 12px;
 }
 
 /* AVERAGE CARDS */
-.average-card{
-    min-width:170px;
-    padding:8px 10px;
-    border-radius:8px;
-    background:var(--background-bg);
-    border:3px solid var(--border-color);
+.average-card {
+    min-width: 170px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    background: var(--background-bg);
+    border: 3px solid var(--border-color);
 }
 
-.average-card h3{
-    margin:0 0 6px;
-    font-size:.95rem;
+.average-card h3 {
+    margin: 0 0 6px;
+    font-size: .95rem;
 }
 
-.average-card div{
-    font-size:.9rem;
-    line-height:1.3;
+.average-card div {
+    font-size: .9rem;
+    line-height: 1.3;
 }
 
-.average-hint{
-    font-size:.72rem;
-    opacity:.7;
-    margin-top:4px;
+.average-hint {
+    font-size: .72rem;
+    opacity: .7;
+    margin-top: 4px;
 }
 
 /* DAY BADGES */
@@ -57,33 +57,55 @@
 }
 
 /* LAST 7 DAYS CARD */
-.average-card:last-child{
-    cursor:pointer;
-    transition:.2s;
+.average-card:last-child {
+    cursor: pointer;
+    transition: .2s;
 }
 
-.average-card:last-child:hover{
-    transform:translateY(-2px);
-    box-shadow:0 0 12px rgba(46,204,113,.35);
+.average-card:last-child:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 12px rgba(46, 204, 113, .35);
 }
 
-/* MOBILE */
-@media (max-width:768px){
-    .nutrition-averages{
-        display:block;
+/* RESPONSIVE */
+@media (max-width:1280px) {
+    .nutrition-averages {
+        display: flex;
+        gap: 8px;
+        align-items: stretch;
     }
 
-    .average-card{
-        min-width:0;
-        padding:0;
-        margin-bottom:14px;
-
-        background:none;
-        border:none;
-        border-radius:0;
+    .average-card {
+        min-width: 0;
+        flex: 1;
+        padding: 6px 8px;
     }
 
-    .average-card h3{
-        margin-bottom:4px;
+    .average-card:first-child {
+        flex: 1.8;
+    }
+
+    .average-card:last-child {
+        flex: 1;
+        margin-right: 2px;
+    }
+}
+
+@media (max-width:768px) {
+    .nutrition-averages {
+        display: block;
+    }
+
+    .average-card {
+        min-width: 0;
+        padding: 0;
+        margin-bottom: 14px;
+        background: none;
+        border: none;
+        border-radius: 0;
+    }
+
+    .average-card h3 {
+        margin-bottom: 4px;
     }
 }

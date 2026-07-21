@@ -1,10 +1,10 @@
 .meals-table {
   width: 100%;
   overflow-x: auto;
-  overflow-y: auto; 
-  max-height: 80vh; 
+  overflow-y: auto;
+  max-height: 80vh;
   display: grid;
-  grid-template-rows: auto 1fr; 
+  grid-template-rows: auto 1fr;
 }
 
 /* GRID */
@@ -16,9 +16,9 @@
 
 .table-header {
   display: grid;
-  position: static;  
-  top: 0;            
-  background-color: var(--component-bg); 
+  position: static;
+  top: 0;
+  background-color: var(--component-bg);
   z-index: 10;
   padding-bottom: 0.5rem;
   border-bottom: 2px solid var(--border-color, #444);
@@ -29,11 +29,11 @@
 }
 
 /* STICKY HEADER */
-.sticky-header{
-    position: sticky;
-    top: 0;
-    z-index: 80;
-    background: var(--component-bg);
+.sticky-header {
+  position: sticky;
+  top: 0;
+  z-index: 80;
+  background: var(--component-bg);
 }
 
 /* CELLS */
@@ -46,10 +46,10 @@
 }
 
 /* HIGHLIGHTED DAYS */
-.date-cell.highlighted-date{
-    background: color-mix(in srgb, var(--accent-color) 18%, transparent);
-    border-left:4px solid var(--accent-color);
-    font-weight:700;
+.date-cell.highlighted-date {
+  background: color-mix(in srgb, var(--accent-color) 18%, transparent);
+  border-left: 4px solid var(--accent-color);
+  font-weight: 700;
 }
 
 .meal-cell {
@@ -70,11 +70,11 @@
   font-size: 0.9rem;
 }
 
-.meal-cell ul li + li {
+.meal-cell ul li+li {
   border-top: 1px dashed rgba(0, 0, 0, 0.12);
 }
 
-.dark-theme .meal-cell ul li + li {
+.dark-theme .meal-cell ul li+li {
   border-top: 1px dashed rgba(255, 255, 255, 0.12);
 }
 
@@ -93,17 +93,36 @@
 }
 
 /* ADD MEAL BUTTON */
-.add-meal {
-  white-space: nowrap;
-  padding: 0.4rem 0.8rem;
+.page-container .add-meal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 120px;
+  padding: 6px 10px;
+
   font-size: 0.9rem;
+  font-weight: 600;
+  white-space: nowrap;
+
+  background: var(--component-bg);
+  color: var(--text-color);
+  border: 2px solid var(--accent-color);
+  border-radius: 8px;
+
   cursor: pointer;
+  margin: 0 4px;
+
+  transition: all 0.3s ease;
 }
 
-.add-meal:disabled {
-  opacity: 0.8;
-  background-color: #d3d3d3;
-  cursor: not-allowed;
+.page-container .add-meal:hover:not(:disabled) {
+    background: var(--recipe-add-button-hover);
+}
+
+.page-container .add-meal:disabled {
+    opacity: .6;
+    cursor: not-allowed;
 }
 
 /* CALORIES LIMIT */
@@ -141,7 +160,42 @@
   background: rgba(128, 128, 128, 0.12);
 }
 
-/* MOBILE */
+/* RESPONSIVE */
+@media (max-width:1280px) {
+  .date-column,
+  .date-cell,
+  .meal-column,
+  .meal-cell {
+    padding: .5rem;
+  }
+
+  .meal-name-input {
+    font-size: .9rem;
+  }
+
+  .add-meal {
+    font-size: .85rem;
+    padding: .35rem .6rem;
+  }
+
+  .meal-cell ul li {
+    font-size: .85rem;
+  }
+
+  .table-header {
+    padding-bottom: .25rem;
+  }
+
+  .meal-name-input {
+    margin-bottom: .25rem;
+  }
+
+  .delete-meal {
+    padding: .25rem;
+    font-size: .9rem;
+  }
+}
+
 @media (max-width: 768px) {
   .meal-cell.total {
     position: sticky;
