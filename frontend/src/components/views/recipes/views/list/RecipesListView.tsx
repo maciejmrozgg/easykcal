@@ -44,7 +44,7 @@ const RecipesListView = ({
                 ← Wszystkie kategorie
             </button>
 
-            <div ref={listRef} className="recipes-scroll-container">
+            <div ref={listRef} className="recipes-scroll-container custom-scrollbar">
                 {Object.entries(groupedRecipes).map(([category, recipesInCategory]) => (
                     <div key={category} className="recipe-category-section">
                         <h2 className="category-header">{category}</h2>

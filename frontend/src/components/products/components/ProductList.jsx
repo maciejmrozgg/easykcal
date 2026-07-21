@@ -3,7 +3,7 @@ import '../styles/ProductList.css';
 
 const ProductList = forwardRef(({ products, visibleCount, onEdit, user }, ref) => {
   return (
-    <ol ref={ref} className="scrollable-list">
+    <ol ref={ref} className="scrollable-list custom-scrollbar">
       {products.slice(0, visibleCount).map(p => (
         <li key={p.id}>
           <div className="li-content">

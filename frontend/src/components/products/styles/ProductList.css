@@ -102,20 +102,6 @@
   background: linear-gradient(90deg, #c0392b, #e55039);
 }
 
-.page-container .scrollable-list::-webkit-scrollbar {
-  width: 8px;
-}
-
-.page-container .scrollable-list::-webkit-scrollbar-thumb {
-  background: var(--scrollbar-thumb);
-  border-radius: 4px;
-}
-
-.page-container .scrollable-list::-webkit-scrollbar-track {
-  background: var(--scrollbar-track);
-  border-radius: 4px;
-}
-
 @media (max-width: 420px) {
   .page-container li .editbtn,
   .page-container li .delbtn {

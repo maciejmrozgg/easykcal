@@ -108,7 +108,7 @@ const MealsTable = ({
 
   /* ===== RENDER ===== */
   return (
-    <div className="meals-table">
+    <div className="meals-table custom-scrollbar">
       <div className="sticky-header">
         <NutritionAverages
           days={days}

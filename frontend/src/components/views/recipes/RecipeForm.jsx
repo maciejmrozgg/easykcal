@@ -96,7 +96,7 @@ const RecipeForm = ({ initialData = {}, onSubmit, onCancel }) => {
                     ))}
                 </select>
 
-                <div className="list-container">
+                <div className="list-container custom-scrollbar">
                     <strong>Składniki:</strong>
                     {ingredients.map((ing, i) => (
                         <div key={i} className="ingredient">
@@ -111,7 +111,7 @@ const RecipeForm = ({ initialData = {}, onSubmit, onCancel }) => {
                     <button type="button" className="add-btn" onClick={addIngredient}>Dodaj składnik</button>
                 </div>
 
-                <div className="list-container">
+                <div className="list-container custom-scrollbar">
                     <strong>Instrukcje:</strong>
                     {instructions.map((inst, i) => (
                         <div key={i} className="instruction">

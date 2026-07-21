@@ -57,7 +57,7 @@ const CategoryView = ({
                 ← Wszystkie kategorie
             </button>
 
-            <div ref={listRef} className="recipes-scroll-container">
+            <div ref={listRef} className="recipes-scroll-container custom-scrollbar">
                 {categoryName && groupedRecipes[categoryName]?.map((r) => (
                     <RecipeCard
                         key={r.id}
