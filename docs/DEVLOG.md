@@ -401,3 +401,29 @@ prepare product database for Schedule integration and Nutrition Summary.
 ### Notes
 - last 7 days averages are displayed only for the current month
 - averages ignore empty days without nutrition data
+
+## 2026-07-21
+
+### Done
+- improved Schedule layout to use the full available content width
+- replaced percentage-based sidebar widths with fixed CSS variables
+- introduced shared sidebar width variables for desktop layout
+- lifted sidebar collapsed state to App component
+- synchronized main content spacing with sidebar state
+- improved Schedule responsiveness across desktop resolutions
+- prepared layout for future tablet-specific breakpoint
+- extracted reusable custom scrollbar styles
+- reused shared scrollbar styling across Products, Recipes and Schedule views
+- improved tablet responsiveness for Schedule
+- optimized Schedule header and Nutrition Averages spacing
+- improved Schedule day navigation scrolling
+- aligned "Today" button and nutrition averages navigation to shared scroll handler
+- adjusted desktop day navigation to account for sticky schedule header
+
+### Notes
+- desktop layout now uses fixed sidebar dimensions instead of percentage widths
+- mobile layout keeps overlay sidebar behavior
+- tablet-specific responsive layout is planned as a separate improvement
+- custom scrollbar styling is now centralized and can be reused by future scrollable components
+- desktop scrolling now aligns the selected day below the sticky header using scroll-margin-top
+- mobile navigation behavior remains unchanged
