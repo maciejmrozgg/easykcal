@@ -2,10 +2,9 @@ import { useState, useEffect } from "react";
 import "./styles/Sidebar.css";
 import useMediaQuery from "../../hooks/useMediaQuery";
 
-const Sidebar = ({ user, setActiveView }) => {
+const Sidebar = ({ user, setActiveView, collapsed, setCollapsed }) => {
 
   const isMobile = useMediaQuery("(max-width: 768px)");
-  const [collapsed, setCollapsed] = useState(true);
 
   // State initialization
   useEffect(() => {

@@ -28,6 +28,7 @@ function App() {
   const [showLogin, setShowLogin] = useState(false);
   const [activeView, setActiveView] = useState("home");
   const [clearCalcSignal, setClearCalcSignal] = useState(0);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(true);
   const { showToast } = useToast();
 
   useEffect(() => {
@@ -106,10 +107,15 @@ function App() {
 
         {/* -------------------- Main Layout -------------------- */}
         <div className="main-layout">
-          <Sidebar user={user} setActiveView={setActiveView} />
+          <Sidebar
+            user={user}
+            setActiveView={setActiveView}
+            collapsed={sidebarCollapsed}
+            setCollapsed={setSidebarCollapsed}
+          />
 
-          <div className="main-content">
-            <div className="page-container">
+          <div className={`main-content ${sidebarCollapsed ? "sidebar-collapsed" : "sidebar-open" }`}>
+            <div className={`page-container ${activeView === "schedule" ? "page-container-schedule" : "" }`}>
               {activeView === "home" && (
                 <>
                   {!user && (

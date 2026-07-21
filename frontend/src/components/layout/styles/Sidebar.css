@@ -3,7 +3,7 @@
   top: 60px;
   left: 0;
   height: 100%;
-  width: 17.5%;
+  width: var(--sidebar-width);
   background: var(--component-bg);
   border-right: 2px solid var(--accent-color);
   display: flex;
@@ -53,7 +53,7 @@
 }
 
 .sidebar.closed {
-  width: 7.5%;  /*48px*/
+  width: var(--sidebar-collapsed-width);
 }
 
 .sidebar.closed .label {
