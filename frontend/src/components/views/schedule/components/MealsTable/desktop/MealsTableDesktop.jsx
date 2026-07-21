@@ -79,10 +79,8 @@ const MealsTable = ({
 
     const todayIndex = days.findIndex(day => day.date === scrollToDate);
 
-    if (todayIndex !== -1) {
-      rowRefs.current[todayIndex]?.scrollIntoView({ behavior: "smooth", block: "center" });
-      onScrollComplete();
-    }
+    scrollToRow(todayIndex);
+    onScrollComplete();
   }, [scrollToDate, days, onScrollComplete]);
 
   /* ===== MODAL HANDLERS ===== */
@@ -97,13 +95,16 @@ const MealsTable = ({
   /* ===== NAVIGATION ===== */
   const scrollToDay = (date) => {
     const index = days.findIndex(day => day.date === date);
+    scrollToRow(index);
+};
 
-    if (index !== -1) {
-      rowRefs.current[index]?.scrollIntoView({
-        behavior: "smooth",
-        block: "center"
-      });
-    }
+  const scrollToRow = (index) => {
+    if (index === -1) return;
+
+    rowRefs.current[index]?.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
   };
 
   /* ===== RENDER ===== */

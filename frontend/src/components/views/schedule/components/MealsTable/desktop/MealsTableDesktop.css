@@ -24,8 +24,10 @@
   border-bottom: 2px solid var(--border-color, #444);
 }
 
+/* Offset for sticky schedule header when scrolling to a day */
 .table-row {
   border-bottom: 1px solid var(--border-color, #333);
+  scroll-margin-top: 330px;
 }
 
 /* STICKY HEADER */
@@ -184,6 +186,10 @@
 
   .table-header {
     padding-bottom: .25rem;
+  }
+
+  .table-row {
+    scroll-margin-top: 310px;
   }
 
   .meal-name-input {
