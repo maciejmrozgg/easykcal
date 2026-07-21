@@ -108,7 +108,9 @@ export default function ProductManager({ user }) {
       <h3>Wyszukaj produkt</h3>
       <input type="text" placeholder="Wpisz nazwę..." value={search} onChange={handleSearchChange} />
 
-      <h3>Lista produktów</h3>
+      <h3>
+        Lista produktów <span className="product-count">({products.length})</span>
+      </h3>
       <ProductList
         products={products}
         visibleCount={visibleCount}
