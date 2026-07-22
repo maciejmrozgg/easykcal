@@ -1,6 +1,6 @@
 # Database Schema – EasyKcal
 
-Snapshot of the database schema as of **2026-02-16**.
+Snapshot of the database schema as of **2026-07-22**.
 
 This document describes the current structure of the PostgreSQL database.
 Schema changes over time are tracked separately using SQL migration files
@@ -30,11 +30,16 @@ located in `backend/migrations`.
 
 ### products
 
-| Column          | Type    | Notes        |
-|-----------------|---------|--------------|
-| id              | integer | Primary key  |
-| name            | varchar |              |
-| kcal_per_100g   | numeric |              |
+| Column           | Type      | Notes          |
+|------------------|-----------|----------------|
+| id               | integer   | Primary key    |
+| name             | varchar   |                |
+| kcal_per_100g    | numeric   |                |
+| fat_per_100g     | numeric   |                |
+| protein_per_100g | numeric   |                |
+| carbs_per_100g   | numeric   |                |
+| created_at       | timestamp | Default: now() |
+| updated_at       | timestamp | Auto-updated   |
 
 **Relations**
 - none
@@ -50,7 +55,7 @@ located in `backend/migrations`.
 | name         | varchar   | Category name                           |
 | image_url    | text      | Optional image path (static file)       |
 | created_at   | timestamp | Default: now()                          |
-| updated_at   | timestamp |                                         |
+| updated_at   | timestamp | Auto-updated                            |
 
 **Constraints**
 - UNIQUE(user_id, name)
@@ -95,7 +100,7 @@ located in `backend/migrations`.
 | meals            | jsonb     |                    |
 | days             | jsonb     |                    |
 | created_at       | timestamp | Default: now()     |
-| updated_at       | timestamp |                    |
+| updated_at       | timestamp | Auto-updated       |
 
 **Relations**
 - monthly_schedules.user_id → users.id
@@ -109,7 +114,7 @@ that automatically sets `updated_at = NOW()` before every UPDATE.
 
 Implemented via:
 - Function: update_updated_at_column()
-- Triggers on: users, recipes, categories, monthly_schedules
+- Triggers on: users, products, recipes, categories, monthly_schedules
 
 ## Notes
 
