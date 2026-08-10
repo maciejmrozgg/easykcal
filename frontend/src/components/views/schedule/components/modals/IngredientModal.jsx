@@ -172,7 +172,7 @@ const IngredientModal = ({ open, initialData, onSave, onDelete, onClose }) => {
       <label>
         Produkt z bazy:
         <select
-          className="product-select"
+          className="product-select custom-scrollbar"
           value={selectedProductId}
           onChange={(e) => setSelectedProductId(e.target.value)}
         >

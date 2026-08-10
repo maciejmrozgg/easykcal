@@ -427,3 +427,15 @@ prepare product database for Schedule integration and Nutrition Summary.
 - custom scrollbar styling is now centralized and can be reused by future scrollable components
 - desktop scrolling now aligns the selected day below the sticky header using scroll-margin-top
 - mobile navigation behavior remains unchanged
+
+## 2026-07-22
+
+### Done
+- added Nodemon as a backend development dependency
+- updated database schema documentation (SCHEMA.md)
+- added custom scrollbar styling to the Ingredient Modal product selector
+
+### Notes
+- backend development no longer depends on a globally installed Nodemon
+- project setup is now fully reproducible after installing project dependencies
+- Ingredient Modal product selector now uses the shared custom scrollbar styling
