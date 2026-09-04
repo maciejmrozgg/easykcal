@@ -7,13 +7,15 @@ type BaseModalProps = {
     title: string;
     onClose: () => void;
     children: ReactNode;
+    className?: string;
 };
 
 const BaseModal = ({
     open,
     onClose,
     title,
-    children
+    children,
+    className = ""
 }: BaseModalProps) => {
 
     if (!open) return null;
@@ -24,7 +26,7 @@ const BaseModal = ({
             onClick={onClose}
         >
             <div
-                className="modal-content"
+                className={`modal-content ${className}`}
                 onClick={(e) => e.stopPropagation()}
             >
                 <h2>{title}</h2>
