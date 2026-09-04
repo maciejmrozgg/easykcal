@@ -1,8 +1,11 @@
 import { useState, useEffect } from "react";
 import "./styles/Sidebar.css";
 import useMediaQuery from "../../hooks/useMediaQuery";
+import UserSettingsModal from "./modals/UserSettingsModal";
 
 const Sidebar = ({ user, setActiveView, collapsed, setCollapsed }) => {
+
+  const [settingsOpen, setSettingsOpen] = useState(false);
 
   const isMobile = useMediaQuery("(max-width: 768px)");
 
@@ -58,6 +61,13 @@ const Sidebar = ({ user, setActiveView, collapsed, setCollapsed }) => {
           >
             📦 <span className="label">Produkty</span>
           </button>
+
+          <button
+            title={collapsed ? "Ustawienia użytkownika" : undefined}
+            onClick={() => setSettingsOpen(true)}
+          >
+            ⚙️ <span className="label">Ustawienia użytkownika</span>
+          </button>
         </div>
 
         {/* Desktop collapse */}
@@ -80,6 +90,12 @@ const Sidebar = ({ user, setActiveView, collapsed, setCollapsed }) => {
           ☰
         </button>
       )}
+      
+      {/* User settings modal */}
+      <UserSettingsModal
+        open={settingsOpen}
+        onClose={() => setSettingsOpen(false)}
+      />
     </>
   );
 };
