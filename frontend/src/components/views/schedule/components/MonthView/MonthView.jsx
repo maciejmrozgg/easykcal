@@ -20,7 +20,7 @@ const buildDaysFromSchedule = (schedule, year, month) => {
   });
 };
 
-const MonthView = ({ year, month, onBack, onTodayButton, scrollToDate, onScrollComplete }) => {
+const MonthView = ({ year, month, onBack, onTodayButton, scrollToDate, onScrollComplete, userSettings }) => {
   const [meals, setMeals] = useState([]);
   const [days, setDays] = useState([]);
   const [deficitLimit, setDeficitLimit] = useState(0);
@@ -30,7 +30,7 @@ const MonthView = ({ year, month, onBack, onTodayButton, scrollToDate, onScrollC
   const [loading, setLoading] = useState(true);
   const { showToast } = useToast();
 
-  /* ===== FETCH ===== */
+  // Fetch schedule
   useEffect(() => {
     setLoading(true);
     scheduleApi.getMonth(year, month)
@@ -44,6 +44,7 @@ const MonthView = ({ year, month, onBack, onTodayButton, scrollToDate, onScrollC
       .finally(() => setLoading(false));
   }, [year, month]);
 
+  // Limit drafts
   useEffect(() => {
     setDeficitDraft(deficitLimit);
     setZeroDraft(zeroLimit);
@@ -54,7 +55,7 @@ const MonthView = ({ year, month, onBack, onTodayButton, scrollToDate, onScrollC
     setDays(buildDaysFromSchedule(schedule, year, month));
   };
 
-  /* ===== MEALS ===== */
+  // Meals
   const addMealColumn = async () => {
     if (meals.length >= MAX_MEALS) return;
     const schedule = await scheduleApi.addMeal(year, month, "Nowy posiłek");
@@ -88,7 +89,7 @@ const MonthView = ({ year, month, onBack, onTodayButton, scrollToDate, onScrollC
     );
   };
 
-  /* ===== INGREDIENTS ===== */
+  // Ingredients
   const handleUpdateIngredient = async (dayIndex, mealId, ingredientIndex, ingredient) => {
     const date = days[dayIndex].date;
     const mealName = meals.find(m => m.id === mealId)?.name;
@@ -129,7 +130,7 @@ const MonthView = ({ year, month, onBack, onTodayButton, scrollToDate, onScrollC
     refreshFromSchedule(schedule);
   };
 
-  /* ===== LIMITS ===== */
+  // Limits
   const updateLimits = async () => {
     if (zeroDraft < deficitDraft) {
       showToast(
@@ -149,11 +150,19 @@ const MonthView = ({ year, month, onBack, onTodayButton, scrollToDate, onScrollC
     );
   };
 
+  // Check current month
   const today = new Date();
 
   const isCurrentMonth =
     year === today.getFullYear() &&
     month === today.getMonth();
+
+  // Maps goal values to user-facing labels
+  const goalLabels = {
+    mass: "Masa",
+    reduction: "Redukcja",
+    maintenance: "Utrzymanie"
+  };
 
   if (loading) return <div>Ładowanie harmonogramu…</div>;
 
@@ -166,6 +175,22 @@ const MonthView = ({ year, month, onBack, onTodayButton, scrollToDate, onScrollC
           <button onClick={onTodayButton}>📅 Dzisiaj</button>
         </div>
         <div className="kcal-limit">
+          {/* CUSTOM TARGET INFO */}
+          {userSettings.calorie_target !== null && (
+            <div className="custom-target-info">
+              <strong>Cel: {goalLabels[userSettings.goal]}</strong>
+              <strong>Cel dzienny: {userSettings.calorie_target} kcal</strong>
+              <p className="custom-target-hint">Edytuj cele w ustawieniach użytkownika</p>
+            </div>
+          )}
+
+          {userSettings.calorie_target === null && (
+            <p className="custom-target-message">
+              Nie ustawiono własnego celu kcal i makro.
+              Ustaw cele w ustawieniach użytkownika.
+            </p>
+          )}
+
           <label>
             Deficyt kaloryczny:
             <input
@@ -194,6 +219,7 @@ const MonthView = ({ year, month, onBack, onTodayButton, scrollToDate, onScrollC
         meals={meals}
         days={days}
         isCurrentMonth={isCurrentMonth}
+        userSettings={userSettings}
         deficitLimit={deficitLimit}
         zeroLimit={zeroLimit}
         onAddMeal={addMealColumn}

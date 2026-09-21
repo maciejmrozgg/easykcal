@@ -10,7 +10,7 @@ const MONTHS = [
   "Wrzesień", "Październik", "Listopad", "Grudzień"
 ];
 
-const Schedule = () => {
+const Schedule = ({ userSettings }) => {
   const currentYear = new Date().getFullYear();
   const [year, setYear] = useState(currentYear);
   const [selectedMonth, setSelectedMonth] = useState(null);
@@ -65,6 +65,7 @@ const Schedule = () => {
           onTodayButton={handleGoToToday}
           scrollToDate={scrollToDate}
           onScrollComplete={() => setScrollToDate(null)}
+          userSettings={userSettings}
         />
       )}
 

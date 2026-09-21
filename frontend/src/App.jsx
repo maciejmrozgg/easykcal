@@ -15,6 +15,7 @@ import Schedule from './components/views/schedule/Schedule';
 import Calculator from './components/calculator/Calculator';
 import ProductManager from './components/products/ProductManager';
 import NutritionSummary from './components/nutrition/NutritionSummary';
+import userSettingsApi from './components/layout/api/userSettingsApi';
 import { useNutritionSummary } from './components/nutrition/hooks/useNutritionSummary';
 import { ProductsProvider } from './components/products/context/ProductsProvider';
 import { useToast } from './components/ui/toast/hooks/useToast';
@@ -29,12 +30,22 @@ function App() {
   const [activeView, setActiveView] = useState("home");
   const [clearCalcSignal, setClearCalcSignal] = useState(0);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(true);
+  const [userSettings, setUserSettings] = useState({
+    goal: null,
+    calorie_target: null,
+    protein_target: null,
+    fat_target: null,
+    carbs_target: null,
+    copy_targets_to_new_months: true
+  });
   const { showToast } = useToast();
 
+  // Apply theme
   useEffect(() => {
     document.body.className = darkMode ? 'dark-theme' : 'light-theme';
   }, [darkMode]);
 
+  // Check authenticated user
   useEffect(() => {
     async function checkUser() {
       try {
@@ -55,6 +66,23 @@ function App() {
     checkUser();
   }, []);
 
+  // Fetch user settings
+  useEffect(() => {
+    const fetchUserSettings = async () => {
+      if (!user)
+        return;
+      try {
+        const data = await userSettingsApi.getUserSettings()
+        setUserSettings(data);
+      } catch (error) {
+        console.error("Fetch user settings failed:", error);
+      }
+    };
+
+    fetchUserSettings();
+  }, [user])
+
+  // Handle user logout
   const handleLogout = async () => {
     try {
       await fetch(`${import.meta.env.VITE_API_URL}/auth/logout`, {
@@ -73,6 +101,7 @@ function App() {
     }
   };
 
+  // Nutrition summary state and actions
   const {
     selectedProducts,
     addProduct,
@@ -82,6 +111,7 @@ function App() {
     undoRemove
   } = useNutritionSummary();
 
+  // Nutrition summary handlers
   const wrappedRemove = (id) => {
     removeProduct(id);
     setClearCalcSignal(s => s + 1);
@@ -91,6 +121,11 @@ function App() {
     resetProducts();
     setClearCalcSignal(s => s + 1);
   };
+
+  // Update user settings in application state
+  const updateUserSettings = (userSettings) => {
+    setUserSettings(userSettings);
+  }
 
   return (
     <ProductsProvider>
@@ -112,10 +147,11 @@ function App() {
             setActiveView={setActiveView}
             collapsed={sidebarCollapsed}
             setCollapsed={setSidebarCollapsed}
+            updateUserSettings={updateUserSettings}
           />
 
-          <div className={`main-content ${sidebarCollapsed ? "sidebar-collapsed" : "sidebar-open" }`}>
-            <div className={`page-container ${activeView === "schedule" ? "page-container-schedule" : "" }`}>
+          <div className={`main-content ${sidebarCollapsed ? "sidebar-collapsed" : "sidebar-open"}`}>
+            <div className={`page-container ${activeView === "schedule" ? "page-container-schedule" : ""}`}>
               {activeView === "home" && (
                 <>
                   {!user && (
@@ -178,7 +214,9 @@ function App() {
 
               {activeView === "schedule" && (
                 user ? (
-                  <Schedule />
+                  <Schedule 
+                    userSettings={userSettings}
+                  />
                 ) : (
                   <GuestBanner
                     onLoginClick={() => setShowLogin(true)}

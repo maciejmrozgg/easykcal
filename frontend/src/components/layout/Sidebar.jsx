@@ -3,8 +3,7 @@ import "./styles/Sidebar.css";
 import useMediaQuery from "../../hooks/useMediaQuery";
 import UserSettingsModal from "./modals/UserSettingsModal";
 
-const Sidebar = ({ user, setActiveView, collapsed, setCollapsed }) => {
-
+const Sidebar = ({ user, setActiveView, collapsed, setCollapsed, updateUserSettings }) => {
   const [settingsOpen, setSettingsOpen] = useState(false);
 
   const isMobile = useMediaQuery("(max-width: 768px)");
@@ -95,6 +94,7 @@ const Sidebar = ({ user, setActiveView, collapsed, setCollapsed }) => {
       <UserSettingsModal
         open={settingsOpen}
         onClose={() => setSettingsOpen(false)}
+        updateUserSettings={updateUserSettings}
       />
     </>
   );

@@ -5,19 +5,20 @@ import "./MealsTableMobile.css";
 import NutritionAverages from "../../NutritionAverages/NutritionAverages";
 import { getMealTotals, getDayTotals } from "../../../utils/nutritionAverages";
 
-const MealsTableMobile = ({ days, meals, isCurrentMonth, onUpdateIngredient, zeroLimit, deficitLimit, onAddMeal, maxMeals, onDeleteMeal, scrollToDate, onScrollComplete }) => {
+const MealsTableMobile = ({ days, meals, isCurrentMonth, onUpdateIngredient, userSettings, zeroLimit, deficitLimit, onAddMeal, maxMeals, onDeleteMeal, scrollToDate, onScrollComplete }) => {
   const [dayIndex, setDayIndex] = useState(0);
-
+  const [isDeleting, setIsDeleting] = useState(false);
   const [openMeals, setOpenMeals] = useState(() =>
     Object.fromEntries(meals.map(meal => [meal.id, true]))
   );
-
+  
+  // Modal state
   const [modalOpen, setModalOpen] = useState(false);
   const [modalData, setModalData] = useState(null);
   const [modalMealId, setModalMealId] = useState(null);
   const [modalIngredientIndex, setModalIngredientIndex] = useState(null);
-  const [isDeleting, setIsDeleting] = useState(false);
 
+  // Update meal state when meals change
   useEffect(() => {
     setOpenMeals(prev => {
       const updated = { ...prev };
@@ -30,8 +31,10 @@ const MealsTableMobile = ({ days, meals, isCurrentMonth, onUpdateIngredient, zer
     });
   }, [meals]);
 
+  // Navigate to selected date
   useEffect(() => {
-    if (!scrollToDate) return;
+    if (!scrollToDate) 
+      return;
 
     const todayIndex = days.findIndex(day => day.date === scrollToDate);
 
@@ -41,8 +44,10 @@ const MealsTableMobile = ({ days, meals, isCurrentMonth, onUpdateIngredient, zer
     }
   }, [scrollToDate, days, onScrollComplete]);
 
+  // Current day
   const day = days[dayIndex];
 
+  // Meal handlers
   const toggleMeal = (mealId) => {
     setOpenMeals(prev => ({
       ...prev,
@@ -57,6 +62,7 @@ const MealsTableMobile = ({ days, meals, isCurrentMonth, onUpdateIngredient, zer
     setModalOpen(true);
   };
 
+  // Calculate day totals
   const dayTotals = getDayTotals(day);
 
   return (
@@ -178,6 +184,7 @@ const MealsTableMobile = ({ days, meals, isCurrentMonth, onUpdateIngredient, zer
       {/* SUMMARY */}
       <DaySummary
         dayTotals={dayTotals}
+        userSettings={userSettings}
         deficitLimit={deficitLimit}
         zeroLimit={zeroLimit}
       />

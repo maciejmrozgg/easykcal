@@ -5,7 +5,7 @@ import DaySummary from "../../DaySummary/DaySummary";
 import NutritionAverages from "../../NutritionAverages/NutritionAverages";
 import { getMealTotals, getDayTotals } from "../../../utils/nutritionAverages";
 
-/* ===== HEADER POSIŁKU (rename na blur) ===== */
+// Meal header - rename on blur
 const MealHeader = ({ meal, onRenameMeal, onDeleteMeal }) => {
   const [value, setValue] = useState(meal.name);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -42,11 +42,12 @@ const MealHeader = ({ meal, onRenameMeal, onDeleteMeal }) => {
   );
 };
 
-/* ===== GŁÓWNA TABELA ===== */
+// Main table
 const MealsTable = ({
   meals,
   days,
   isCurrentMonth,
+  userSettings,
   deficitLimit,
   zeroLimit,
   onAddMeal,
@@ -57,23 +58,23 @@ const MealsTable = ({
   scrollToDate,
   onScrollComplete
 }) => {
-  /* ===== TABLE LAYOUT ===== */
+  // Table layout
   const columnsTemplate = `140px repeat(${meals.length}, minmax(180px, 1fr)) 180px 140px`;
 
-  /* ===== COMPONENT STATE ===== */
+  // Component state
   const [highlightedDays, setHighlightedDays] = useState([]);
 
-  /* ===== MODAL STATE ===== */
+  // Modal state
   const [modalOpen, setModalOpen] = useState(false);
   const [modalData, setModalData] = useState(null);
   const [modalDayIndex, setModalDayIndex] = useState(null);
   const [modalMealId, setModalMealId] = useState(null);
   const [modalIngredientIndex, setModalIngredientIndex] = useState(null);
 
-  /* ===== ROW REFERENCES ===== */
+  // Row references
   const rowRefs = useRef([]);
 
-  /* ===== SCROLL HANDLERS ===== */
+  // Scroll handlers
   useEffect(() => {
     if (!scrollToDate) return;
 
@@ -83,7 +84,7 @@ const MealsTable = ({
     onScrollComplete();
   }, [scrollToDate, days, onScrollComplete]);
 
-  /* ===== MODAL HANDLERS ===== */
+  // Modal handlers
   const openIngredientModal = (dayIndex, mealId, ingredient = null, ingredientIndex = null) => {
     setModalDayIndex(dayIndex);
     setModalMealId(mealId);
@@ -92,11 +93,11 @@ const MealsTable = ({
     setModalOpen(true);
   };
 
-  /* ===== NAVIGATION ===== */
+  // Navigation
   const scrollToDay = (date) => {
     const index = days.findIndex(day => day.date === date);
     scrollToRow(index);
-};
+  };
 
   const scrollToRow = (index) => {
     if (index === -1) return;
@@ -107,7 +108,6 @@ const MealsTable = ({
     });
   };
 
-  /* ===== RENDER ===== */
   return (
     <div className="meals-table custom-scrollbar">
       <div className="sticky-header">
@@ -204,6 +204,7 @@ const MealsTable = ({
 
               <DaySummary
                 dayTotals={dayTotals}
+                userSettings={userSettings}
                 deficitLimit={deficitLimit}
                 zeroLimit={zeroLimit}
               />

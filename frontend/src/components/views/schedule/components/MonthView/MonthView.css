@@ -1,4 +1,4 @@
-/* MONTH VIEW LAYOUT */
+/* Month view layout */
 .month-view {
   display: flex;
   flex-direction: column;
@@ -19,7 +19,7 @@
   font-style: italic;
 }
 
-/* HEADER */
+/* Header */
 .month-header {
   display: flex;
   justify-content: space-between;
@@ -32,8 +32,9 @@
 }
 
 .kcal-limit {
-  display: flex;
-  align-items: center;
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-content: end;
   gap: 0.75rem;
   font-weight: bold;
 }
@@ -44,7 +45,31 @@
   font-size: 1rem;
 }
 
-/* RESPONSIVE */
+/* Custom target info */
+.custom-target-info {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.custom-target-hint {
+    margin: 0;
+    font-size: 0.8rem;
+    font-weight: normal;
+    font-style: italic;
+    opacity: 0.65;
+}
+
+.custom-target-message {
+    grid-column: 1 / -1;
+    font-size: 0.9rem;
+    font-weight: 600;
+    opacity: 0.8;
+    margin: 0;
+}
+
+/* Responsive */
 @media (max-width: 1280px) {
   .month-header {
     flex-wrap: wrap;
@@ -113,13 +138,11 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    justify-content: flex-start;
     gap: 0.5rem;
   }
 
   .kcal-limit label {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
     font-size: 0.85rem;
     font-weight: 600;
   }

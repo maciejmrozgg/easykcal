@@ -12,6 +12,7 @@ const errorHandler = require('./middleware/errorHandler');
 const corsOptions = require('./config/corsOptions');
 const authRoutes = require('./routes/authRoutes');
 const categoryRoutes = require('./routes/categoryRoutes');
+const userSettingsRoutes = require('./routes/userSettingsRoutes');
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.use('/products', productRoutes);
 app.use('/api/recipes', recipeRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/schedule', scheduleRoutes);
+app.use('/api/user-settings', userSettingsRoutes);
 app.use('/auth', authRoutes);
 app.use(errorHandler);
 
