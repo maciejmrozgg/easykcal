@@ -58,6 +58,12 @@ Current version: v1.1.2.
 ### 🔹 UI
 - Shared BaseModal component
 
+### 🔹 User Settings
+- Configurable calorie and macro targets
+- Nutrition goal selection (cut / maintenance / bulk)
+- Option to automatically copy targets to new months
+- Dedicated REST API endpoints for retrieving and updating user settings
+
 ---
 
 ## Project Roadmap
@@ -77,7 +83,6 @@ Planned improvements and future features for EasyKcal.
 - Docker containerization (backend + database)
 - Full deployment (frontend + backend + database)
 - CI pipeline for automated testing
-- User settings (calorie and macro targets, account preferences)
 
 ---
 
@@ -154,6 +159,7 @@ Test coverage includes:
 | `/api/recipes`                  | GET, POST, PUT, DELETE   | CRUD for cooking recipes                      |
 | `/api/categories`               | GET, POST, PUT, DELETE   | Categories (global + user)                    |
 | `/api/schedule/:year/:month`    | GET, PATCH, POST, DELETE | Retrieve and manage monthly meal schedule     |
+| `/api/user-settings`            | GET, PATCH               | Retrieve and update user settings             |
 | `/auth/register`                | POST                     | User registration                             |
 | `/auth/login`                   | POST                     | User login                                    |
 | `/auth/logout`                  | POST                     | User logout                                   |
@@ -371,6 +377,12 @@ Obecna wersja: v1.1.2.
 ### 🔹 UI
 - Współdzielony komponent BaseModal
 
+### 🔹 Ustawienia użytkownika
+- Konfigurowalne cele kalorii i makroskładników
+- Wybór celu żywieniowego (redukcja / utrzymanie / masa)
+- Opcja automatycznego kopiowania celów do nowych miesięcy
+- Dedykowane endpointy REST API do pobierania i aktualizacji ustawień
+
 ---
 
 ## Plan projektu
@@ -390,7 +402,6 @@ Planowane ulepszenia i przyszłe funkcje dla EasyKcal.
 - Konteneryzacja Dockera (backend + baza danych)
 - Pełne wdrożenie (frontend + backend + baza danych)
 - Automatyzacja testów przy pomocy CI pipeline
-- Ustawienia użytkownika (cele kcal i makroskładników, preferencje konta)
 
 ---
 
@@ -467,6 +478,7 @@ Testy obejmują:
 | `/api/recipes`                  | GET, POST, PUT, DELETE   | CRUD przepisów kulinarnych                    |
 | `/api/categories`               | GET, POST, PUT, DELETE   | Kategorie (global + user)                     |
 | `/api/schedule/:year/:month`    | GET, PATCH, POST, DELETE | Pobieranie i zarządzanie harmonogramem        |
+| `/api/user-settings`            | GET, PATCH               | Pobieranie i aktualizacja ustawień użytkownika|
 | `/auth/register`                | POST                     | Rejestracja użytkownika                       |
 | `/auth/login`                   | POST                     | Logowanie użytkownika                         |
 | `/auth/logout`                  | POST                     | Wylogowanie użytkownika                       |

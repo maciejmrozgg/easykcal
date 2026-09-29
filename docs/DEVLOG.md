@@ -439,3 +439,142 @@ prepare product database for Schedule integration and Nutrition Summary.
 - backend development no longer depends on a globally installed Nodemon
 - project setup is now fully reproducible after installing project dependencies
 - Ingredient Modal product selector now uses the shared custom scrollbar styling
+
+## 2026-09-04
+
+### Done
+- Added reusable `UserSettingsModal` component.
+- Styled the user settings modal for desktop and mobile layouts.
+- Added optional `className` support to `BaseModal` for component-specific styling.
+- Connected the user settings modal to the sidebar.
+- Improved modal responsiveness without affecting other modal components.
+- Prepared database migration for user nutrition settings.
+- Updated `SCHEMA.md` with the new `users` table fields.
+
+### Notes
+- The modal UI is complete.
+- Database schema has been prepared for user nutrition settings.
+- Next step is implementing user settings persistence (backend API and frontend integration).
+
+## 2026-09-07
+
+### Done
+- Implemented backend API for user settings.
+- Added authenticated GET /api/user-settings endpoint.
+- Added authenticated PATCH /api/user-settings endpoint.
+- Implemented user settings database queries.
+- Added frontend userSettingsApi service.
+- Verified backend endpoints using Postman.
+
+### Notes
+- Backend API for user settings is complete.
+- Remaining work focuses on React integration and user settings persistence in the UI.
+
+## 2026-09-16
+
+### Done
+- completed frontend integration of UserSettingsModal with user settings API
+- implemented loading and displaying user settings from backend
+- implemented saving user settings to backend
+- added frontend validation for user settings
+- added validation for required goal and custom nutrition targets
+- implemented validation for optional custom targets and prevention of partially configured targets
+- added error handling for GET and PATCH user settings requests
+- integrated success and error toast notifications for user settings
+- verified frontend validation and error handling behavior
+
+### Notes
+- user can leave all custom nutrition targets unset; existing deficit and zero-calorie limits remain active
+- when custom targets are configured, all four targets (kcal, protein, fat and carbs) must be provided
+- custom nutrition targets must be positive integers
+- backend validation remains to be verified
+- Schedule integration and frontend/backend tests are still pending
+
+## 2026-09-18
+
+### Done
+- completed backend validation for user nutrition settings
+- updated DaySummary to use userSettings instead of frontend macroTargets constants
+- lifted user settings state and fetching from MonthView to App
+- implemented custom daily calorie target progress in DaySummary
+- added calorie progress percentage with progress bar width capped at 100%
+- implemented calorie status colors for mass, reduction and maintenance goals
+- preserved existing deficit and zero-calorie limit behavior when custom calorie targets are not configured
+
+### Notes
+- custom calorie and macro targets remain optional
+- when custom targets are not configured, the existing deficit and zero-calorie limits remain active
+- calorie progress can exceed 100%, while the progress bar itself is capped at 100%
+- calorie status colors depend on the selected nutrition goal
+- Schedule/MonthView integration and frontend/backend tests are still pending
+
+## 2026-09-21
+
+### Done
+- completed conditional macro rendering in DaySummary
+- when custom targets are not configured, DaySummary displays only current macro values without percentages or progress bars
+- when custom targets are configured, DaySummary displays macro progress percentages and progress bars
+- completed MonthView integration with user nutrition settings
+- displayed selected nutrition goal and custom daily calorie target in Schedule header
+- added information that custom targets can be edited in User Settings
+- added message displayed when custom nutrition targets are not configured
+- improved MonthView header layout for custom target information and calorie limits
+- added goal label mapping for user-facing nutrition goal names
+- completed custom calorie and macro target integration in Schedule
+- verified custom target behavior on desktop and mobile layouts
+
+### Notes
+- custom calorie and macro targets remain optional
+- when custom targets are not configured, the existing deficit and zero-calorie limits remain active
+- calorie progress can exceed 100%, while the progress bar itself is capped at 100%
+- calorie status colors depend on the selected nutrition goal
+- DaySummary displays macro progress only when custom targets are configured
+- backend and frontend tests for user settings are still pending
+
+## 2026-09-23
+
+### Done
+- completed backend integration tests for user settings
+- added validation test coverage for user settings API
+- verified valid and invalid user settings payloads
+- updated existing frontend tests after userSettings integration
+- added required userSettings props to DaySummary, MonthView and desktop/mobile Schedule tests
+- verified frontend test suite after userSettings integration
+- started UserSettingsModal frontend tests
+- added tests for modal rendering when open
+- added test for modal not rendering when closed
+- added test for closing the modal using the Cancel button
+- mocked userSettingsApi.getUserSettings to prevent real API requests during frontend tests
+
+### Notes
+- backend user settings tests are complete
+- UserSettingsModal frontend tests are partially complete
+- current UserSettingsModal tests cover basic rendering and closing behavior
+- remaining UserSettingsModal tests should cover validation, saving settings, API errors and updateUserSettings callback
+- frontend tests currently pass, with an act(...) warning caused by the asynchronous settings fetch during component rendering
+
+### In Progress
+- UserSettingsModal frontend test coverage
+
+## 2026-09-24
+
+### Done
+- completed UserSettingsModal frontend rendering and interaction tests
+- added frontend validation tests for empty and partially configured nutrition targets
+- added validation error toast test
+- verified that invalid settings are not sent to the API
+
+### In Progress
+- remaining UserSettingsModal frontend validation tests
+
+## 2026-09-29
+
+### Done
+- completed UserSettingsModal frontend test coverage
+- added validation tests for valid and invalid nutrition targets
+- added API error handling test
+- verified frontend test suite: 80 tests passing
+
+### Notes
+- User Settings test coverage is complete
+- existing React test warnings in MonthView and ProductManager remain to be addressed separately

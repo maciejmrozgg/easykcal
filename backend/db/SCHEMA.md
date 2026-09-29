@@ -1,6 +1,6 @@
 # Database Schema – EasyKcal
 
-Snapshot of the database schema as of **2026-07-22**.
+Snapshot of the database schema as of **2026-09-29**.
 
 This document describes the current structure of the PostgreSQL database.
 Schema changes over time are tracked separately using SQL migration files
@@ -12,14 +12,21 @@ located in `backend/migrations`.
 
 ### users
 
-| Column       | Type      | Notes              |
-|--------------|-----------|--------------------|
-| id           | integer   | Primary key        |
-| email        | varchar   | Unique             |
-| password     | varchar   | Hashed             |
-| role         | enum      | user / admin       |
-| created_at   | timestamp | Default: now()     |
-| updated_at   | timestamp | Auto-updated       |
+| Column                     | Type      | Notes                          |
+|----------------------------|-----------|--------------------------------|
+| id                         | integer   | Primary key                    |
+| email                      | varchar   | Unique                         |
+| password                   | varchar   | Hashed                         |
+| role                       | enum      | user / admin                   |
+| created_at                 | timestamp | Default: now()                 |
+| updated_at                 | timestamp | Auto-updated                   |
+| goal                       | text      | reduction/ maintenance / mass  |
+| calorie_target             | integer   | daily calorie target           |
+| protein_target             | integer   | daily protein target           |
+| fat_target                 | integer   | daily fat target               |
+| carbs_target               | integer   | daily carbs target             |
+| copy_targets_to_new_months | boolean   | default target copying         |
+
 
 **Relations**
 - users.id → recipes.user_id

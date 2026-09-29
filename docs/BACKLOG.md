@@ -7,7 +7,7 @@
 
 - [x] Today button in Schedule
 - [x] Weekly and monthly nutrition averages
-- [ ] Custom daily kcal and macro targets
+- [x] Custom daily kcal and macro targets
 
 - [ ] Integrate Nutrition Summary with Schedule
 - [ ] Add recipe images support
@@ -25,9 +25,12 @@
 ## Backend improvements
 - [ ] Transactional tests
 - [ ] Test coverage reporting
+- [ ] Add automated CI workflow (run tests on every push / pull request)
+- [ ] Remove JWT from login response (use HttpOnly cookies only)
 - [x] Backup system for products (export / seed)
 
 ## Frontend improvements
+- [ ] Replace `activeView` navigation with React Router
 - [ ] Refactor product data flow to pass Product objects instead of individual fields
 - [x] Refactor Recipes.jsx into smaller components
   - [x] Extract RecipeCard
