@@ -2,16 +2,12 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 import MealsTableMobile from "../components/MealsTable/mobile/MealsTableMobile";
 
-// ==================
-// MOCK MODAL
-// ==================
+// Mock Modal
 vi.mock("../components/modals/IngredientModal", () => ({
   default: ({ open }) => (open ? <div>MODAL OPEN</div> : null),
 }));
 
-// ==================
-// MOCK DATA
-// ==================
+// Mock data
 const meals = [
   { id: "1", name: "Posiłek 1" },
   { id: "2", name: "Posiłek 2" },
@@ -52,21 +48,27 @@ const days = [
   },
 ];
 
-// ==================
-// TESTS
-// ==================
-describe("MealsTableMobile tests", () => {
-  const baseProps = {
-    meals,
-    days,
-    zeroLimit: 2500,
-    deficitLimit: 2000,
-    onAddMeal: vi.fn(),
-    onDeleteMeal: vi.fn(),
-    onUpdateIngredient: vi.fn(),
-    maxMeals: 6,
-  };
+const baseProps = {
+  meals,
+  days,
+  zeroLimit: 2500,
+  deficitLimit: 2000,
+  onAddMeal: vi.fn(),
+  onDeleteMeal: vi.fn(),
+  onUpdateIngredient: vi.fn(),
+  maxMeals: 6,
+  userSettings: {
+    goal: "maintenance",
+    calorie_target: 2000,
+    protein_target: 150,
+    fat_target: 70,
+    carbs_target: 400,
+    copy_targets_to_new_months: true
+  }
+};
 
+// Tests
+describe("MealsTableMobile tests", () => {
   it("renders meals and first day", () => {
     render(<MealsTableMobile {...baseProps} />);
 
@@ -100,6 +102,8 @@ describe("MealsTableMobile tests", () => {
     render(<MealsTableMobile {...baseProps} />);
 
     expect(screen.getByText(/Suma dnia:/i)).toBeInTheDocument();
+    expect(screen.getByText(/Cel kcal:/i)).toBeInTheDocument();
+    expect(screen.getByText(/Zjedzone:/i)).toBeInTheDocument();
   });
 
   it("calls onAddMeal", () => {

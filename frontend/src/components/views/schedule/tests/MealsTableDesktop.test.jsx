@@ -2,13 +2,12 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 import MealsTableDesktop from "../components/MealsTable/desktop/MealsTableDesktop";
 
-// ==================
-// MOCK MODAL
-// ==================
+// Mock Modal
 vi.mock("../components/modals/IngredientModal", () => ({
   default: ({ open }) => (open ? <div>MODAL OPEN</div> : null),
 }));
 
+// Mock data
 const meals = [
   { id: "1", name: "Posiłek 1" },
   { id: "2", name: "Posiłek 2" },
@@ -33,22 +32,28 @@ const days = [
   },
 ];
 
-// ==================
-// TESTS
-// ==================
-describe("MealsTableDesktop tests", () => {
-  const baseProps = {
-    meals,
-    days,
-    deficitLimit: 2000,
-    zeroLimit: 2500,
-    onAddMeal: vi.fn(),
-    onRenameMeal: vi.fn(),
-    onDeleteMeal: vi.fn(),
-    onUpdateIngredient: vi.fn(),
-    maxMeals: 6,
-  };
+const baseProps = {
+  meals,
+  days,
+  deficitLimit: 2000,
+  zeroLimit: 2500,
+  onAddMeal: vi.fn(),
+  onRenameMeal: vi.fn(),
+  onDeleteMeal: vi.fn(),
+  onUpdateIngredient: vi.fn(),
+  maxMeals: 6,
+  userSettings: {
+    goal: "maintenance",
+    calorie_target: 2000,
+    protein_target: 150,
+    fat_target: 70,
+    carbs_target: 400,
+    copy_targets_to_new_months: true
+  }
+};
 
+// Tests
+describe("MealsTableDesktop tests", () => {
   it("renders meal headers", () => {
     render(<MealsTableDesktop {...baseProps} />);
 

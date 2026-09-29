@@ -2,6 +2,7 @@ import { render, screen } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
 import DaySummary from "../components/DaySummary/DaySummary";
 
+// Mock data
 const defaultProps = {
     deficitLimit: 2000,
     zeroLimit: 2500,
@@ -12,18 +13,35 @@ const defaultProps = {
         fat: 70,
         carbs: 400,
     },
+    userSettings: {
+        goal: "maintenance",
+        calorie_target: 2000,
+        protein_target: 150,
+        fat_target: 70,
+        carbs_target: 400,
+        copy_targets_to_new_months: true
+    }
 };
 
+// Tests
 describe("DaySummary", () => {
     it("renders day summary", () => {
-        render(<DaySummary {...defaultProps} />);
+        render(
+            <DaySummary
+                {...defaultProps}
+            />
+        );
 
         expect(screen.getByText(/Suma dnia:/i)).toBeInTheDocument();
         expect(screen.getByText(/500g \/ 1800 kcal/i)).toBeInTheDocument();
     });
 
     it("renders all macro rows", () => {
-        render(<DaySummary {...defaultProps} />);
+        render(
+            <DaySummary
+                {...defaultProps}
+            />
+        );
 
         expect(screen.getByText(/B:/)).toBeInTheDocument();
         expect(screen.getByText(/T:/)).toBeInTheDocument();
@@ -31,7 +49,11 @@ describe("DaySummary", () => {
     });
 
     it("shows success status for completed protein target", () => {
-        render(<DaySummary {...defaultProps} />);
+        render(
+            <DaySummary
+                {...defaultProps}
+            />
+        );
 
         const proteinRow = screen.getByText(/B:/);
 

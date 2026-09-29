@@ -7,9 +7,7 @@ import * as productsModule from "../../../products/hooks/useProducts";
 
 vi.spyOn(productsModule, "useProducts");
 
-// ==================
-// MOCK API
-// ==================
+// Mock API
 vi.mock("../api/scheduleApi", () => ({
     default: {
         getMonth: vi.fn(),
@@ -23,6 +21,7 @@ vi.mock("../api/scheduleApi", () => ({
     },
 }));
 
+// Mock data
 const mockSchedule = {
     year: 2026,
     month: 0,
@@ -52,9 +51,16 @@ const mockSchedule = {
     ],
 };
 
-// ==================
-// SETUP
-// ==================
+const userSettings = {
+    goal: "maintenance",
+    calorie_target: 2000,
+    protein_target: 150,
+    fat_target: 70,
+    carbs_target: 400,
+    copy_targets_to_new_months: true
+}
+
+// Setup
 beforeEach(() => {
     vi.clearAllMocks();
 
@@ -65,16 +71,18 @@ beforeEach(() => {
     scheduleApi.getMonth.mockResolvedValue(mockSchedule);
 });
 
-// ==================
-// TESTS
-// ==================
+// Tests
 describe("MonthView component", () => {
     it("shows loading state before data loads", async () => {
         scheduleApi.getMonth.mockReturnValue(new Promise(() => { }));
 
         render(
             <ToastProvider>
-                <MonthView year={2026} month={0} />
+                <MonthView
+                    year={2026}
+                    month={0}
+                    userSettings={userSettings}
+                />
             </ToastProvider>
         );
 
@@ -84,7 +92,11 @@ describe("MonthView component", () => {
     it("renders meals returned from API", async () => {
         render(
             <ToastProvider>
-                <MonthView year={2026} month={0} />
+                <MonthView
+                    year={2026}
+                    month={0}
+                    userSettings={userSettings}
+                />
             </ToastProvider>
         );
 
@@ -103,7 +115,11 @@ describe("MonthView component", () => {
 
         render(
             <ToastProvider>
-                <MonthView year={2026} month={0} />
+                <MonthView
+                    year={2026}
+                    month={0}
+                    userSettings={userSettings}
+                />
             </ToastProvider>
         );
 
@@ -114,7 +130,11 @@ describe("MonthView component", () => {
     it("renders add ingredient buttons for each meal", async () => {
         render(
             <ToastProvider>
-                <MonthView year={2026} month={0} />
+                <MonthView
+                    year={2026}
+                    month={0}
+                    userSettings={userSettings}
+                />
             </ToastProvider>
         );
 

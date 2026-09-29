@@ -2,14 +2,15 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 16.0
--- Dumped by pg_dump version 16.0
+-- Dumped from database version 18.4
+-- Dumped by pg_dump version 18.4
 
--- Started on 2026-06-11 15:52:54
+-- Started on 2026-09-21 14:48:14
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET idle_in_transaction_session_timeout = 0;
+SET transaction_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SELECT pg_catalog.set_config('search_path', '', false);
@@ -19,7 +20,7 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- TOC entry 5 (class 2615 OID 19194)
+-- TOC entry 5 (class 2615 OID 2200)
 -- Name: public; Type: SCHEMA; Schema: -; Owner: postgres
 --
 
@@ -29,7 +30,7 @@ SET row_security = off;
 ALTER SCHEMA public OWNER TO postgres;
 
 --
--- TOC entry 4852 (class 0 OID 0)
+-- TOC entry 5080 (class 0 OID 0)
 -- Dependencies: 5
 -- Name: SCHEMA public; Type: COMMENT; Schema: -; Owner: postgres
 --
@@ -38,7 +39,7 @@ COMMENT ON SCHEMA public IS '';
 
 
 --
--- TOC entry 850 (class 1247 OID 19196)
+-- TOC entry 862 (class 1247 OID 16390)
 -- Name: user_role; Type: TYPE; Schema: public; Owner: postgres
 --
 
@@ -51,7 +52,7 @@ CREATE TYPE public.user_role AS ENUM (
 ALTER TYPE public.user_role OWNER TO postgres;
 
 --
--- TOC entry 225 (class 1255 OID 19201)
+-- TOC entry 229 (class 1255 OID 16395)
 -- Name: update_updated_at_column(); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
@@ -72,7 +73,7 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
--- TOC entry 215 (class 1259 OID 19202)
+-- TOC entry 219 (class 1259 OID 16396)
 -- Name: categories; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -89,7 +90,7 @@ CREATE TABLE public.categories (
 ALTER TABLE public.categories OWNER TO postgres;
 
 --
--- TOC entry 216 (class 1259 OID 19209)
+-- TOC entry 220 (class 1259 OID 16405)
 -- Name: categories_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -105,8 +106,8 @@ CREATE SEQUENCE public.categories_id_seq
 ALTER SEQUENCE public.categories_id_seq OWNER TO postgres;
 
 --
--- TOC entry 4854 (class 0 OID 0)
--- Dependencies: 216
+-- TOC entry 5082 (class 0 OID 0)
+-- Dependencies: 220
 -- Name: categories_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -114,7 +115,7 @@ ALTER SEQUENCE public.categories_id_seq OWNED BY public.categories.id;
 
 
 --
--- TOC entry 217 (class 1259 OID 19210)
+-- TOC entry 221 (class 1259 OID 16406)
 -- Name: monthly_schedules; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -135,7 +136,7 @@ CREATE TABLE public.monthly_schedules (
 ALTER TABLE public.monthly_schedules OWNER TO postgres;
 
 --
--- TOC entry 218 (class 1259 OID 19219)
+-- TOC entry 222 (class 1259 OID 16422)
 -- Name: monthly_schedules_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -151,8 +152,8 @@ CREATE SEQUENCE public.monthly_schedules_id_seq
 ALTER SEQUENCE public.monthly_schedules_id_seq OWNER TO postgres;
 
 --
--- TOC entry 4855 (class 0 OID 0)
--- Dependencies: 218
+-- TOC entry 5083 (class 0 OID 0)
+-- Dependencies: 222
 -- Name: monthly_schedules_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -160,7 +161,7 @@ ALTER SEQUENCE public.monthly_schedules_id_seq OWNED BY public.monthly_schedules
 
 
 --
--- TOC entry 219 (class 1259 OID 19220)
+-- TOC entry 223 (class 1259 OID 16423)
 -- Name: products; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -179,7 +180,7 @@ CREATE TABLE public.products (
 ALTER TABLE public.products OWNER TO postgres;
 
 --
--- TOC entry 220 (class 1259 OID 19225)
+-- TOC entry 224 (class 1259 OID 16433)
 -- Name: products_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -195,8 +196,8 @@ CREATE SEQUENCE public.products_id_seq
 ALTER SEQUENCE public.products_id_seq OWNER TO postgres;
 
 --
--- TOC entry 4856 (class 0 OID 0)
--- Dependencies: 220
+-- TOC entry 5084 (class 0 OID 0)
+-- Dependencies: 224
 -- Name: products_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -204,7 +205,7 @@ ALTER SEQUENCE public.products_id_seq OWNED BY public.products.id;
 
 
 --
--- TOC entry 221 (class 1259 OID 19226)
+-- TOC entry 225 (class 1259 OID 16434)
 -- Name: recipes; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -225,7 +226,7 @@ CREATE TABLE public.recipes (
 ALTER TABLE public.recipes OWNER TO postgres;
 
 --
--- TOC entry 222 (class 1259 OID 19235)
+-- TOC entry 226 (class 1259 OID 16448)
 -- Name: recipes_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -240,7 +241,7 @@ ALTER TABLE public.recipes ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
 
 
 --
--- TOC entry 223 (class 1259 OID 19236)
+-- TOC entry 227 (class 1259 OID 16449)
 -- Name: users; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -250,14 +251,20 @@ CREATE TABLE public.users (
     password character varying(255) NOT NULL,
     created_at timestamp without time zone DEFAULT now(),
     updated_at timestamp without time zone DEFAULT now(),
-    role public.user_role DEFAULT 'user'::public.user_role
+    role public.user_role DEFAULT 'user'::public.user_role,
+    goal text DEFAULT 'maintenance'::text,
+    calorie_target integer,
+    protein_target integer,
+    fat_target integer,
+    carbs_target integer,
+    copy_targets_to_new_months boolean DEFAULT true
 );
 
 
 ALTER TABLE public.users OWNER TO postgres;
 
 --
--- TOC entry 224 (class 1259 OID 19244)
+-- TOC entry 228 (class 1259 OID 16460)
 -- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -273,8 +280,8 @@ CREATE SEQUENCE public.users_id_seq
 ALTER SEQUENCE public.users_id_seq OWNER TO postgres;
 
 --
--- TOC entry 4857 (class 0 OID 0)
--- Dependencies: 224
+-- TOC entry 5085 (class 0 OID 0)
+-- Dependencies: 228
 -- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -282,7 +289,7 @@ ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
 
 
 --
--- TOC entry 4658 (class 2604 OID 19245)
+-- TOC entry 4880 (class 2604 OID 16461)
 -- Name: categories id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -290,7 +297,7 @@ ALTER TABLE ONLY public.categories ALTER COLUMN id SET DEFAULT nextval('public.c
 
 
 --
--- TOC entry 4661 (class 2604 OID 19246)
+-- TOC entry 4883 (class 2604 OID 16462)
 -- Name: monthly_schedules id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -298,7 +305,7 @@ ALTER TABLE ONLY public.monthly_schedules ALTER COLUMN id SET DEFAULT nextval('p
 
 
 --
--- TOC entry 4666 (class 2604 OID 19247)
+-- TOC entry 4888 (class 2604 OID 16463)
 -- Name: products id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -306,7 +313,7 @@ ALTER TABLE ONLY public.products ALTER COLUMN id SET DEFAULT nextval('public.pro
 
 
 --
--- TOC entry 4673 (class 2604 OID 19248)
+-- TOC entry 4895 (class 2604 OID 16464)
 -- Name: users id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -314,7 +321,7 @@ ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_
 
 
 --
--- TOC entry 4678 (class 2606 OID 19250)
+-- TOC entry 4902 (class 2606 OID 16469)
 -- Name: categories categories_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -323,7 +330,7 @@ ALTER TABLE ONLY public.categories
 
 
 --
--- TOC entry 4680 (class 2606 OID 19252)
+-- TOC entry 4904 (class 2606 OID 16471)
 -- Name: categories categories_user_id_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -332,7 +339,7 @@ ALTER TABLE ONLY public.categories
 
 
 --
--- TOC entry 4682 (class 2606 OID 19254)
+-- TOC entry 4906 (class 2606 OID 16473)
 -- Name: monthly_schedules monthly_schedules_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -341,7 +348,7 @@ ALTER TABLE ONLY public.monthly_schedules
 
 
 --
--- TOC entry 4684 (class 2606 OID 19256)
+-- TOC entry 4908 (class 2606 OID 16475)
 -- Name: monthly_schedules monthly_schedules_user_id_year_month_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -350,7 +357,7 @@ ALTER TABLE ONLY public.monthly_schedules
 
 
 --
--- TOC entry 4686 (class 2606 OID 19258)
+-- TOC entry 4910 (class 2606 OID 16477)
 -- Name: products products_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -359,7 +366,7 @@ ALTER TABLE ONLY public.products
 
 
 --
--- TOC entry 4688 (class 2606 OID 19260)
+-- TOC entry 4912 (class 2606 OID 16479)
 -- Name: recipes recipes_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -368,7 +375,7 @@ ALTER TABLE ONLY public.recipes
 
 
 --
--- TOC entry 4690 (class 2606 OID 19262)
+-- TOC entry 4914 (class 2606 OID 16481)
 -- Name: users unique_email; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -377,7 +384,7 @@ ALTER TABLE ONLY public.users
 
 
 --
--- TOC entry 4692 (class 2606 OID 19264)
+-- TOC entry 4916 (class 2606 OID 16483)
 -- Name: users users_email_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -386,7 +393,7 @@ ALTER TABLE ONLY public.users
 
 
 --
--- TOC entry 4694 (class 2606 OID 19266)
+-- TOC entry 4918 (class 2606 OID 16485)
 -- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -395,7 +402,7 @@ ALTER TABLE ONLY public.users
 
 
 --
--- TOC entry 4699 (class 2620 OID 19267)
+-- TOC entry 4923 (class 2620 OID 16486)
 -- Name: categories update_categories_updated_at; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -403,7 +410,7 @@ CREATE TRIGGER update_categories_updated_at BEFORE UPDATE ON public.categories F
 
 
 --
--- TOC entry 4700 (class 2620 OID 19268)
+-- TOC entry 4924 (class 2620 OID 16487)
 -- Name: monthly_schedules update_monthly_schedules_updated_at; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -411,7 +418,7 @@ CREATE TRIGGER update_monthly_schedules_updated_at BEFORE UPDATE ON public.month
 
 
 --
--- TOC entry 4701 (class 2620 OID 21768)
+-- TOC entry 4925 (class 2620 OID 16488)
 -- Name: products update_products_updated_at; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -419,7 +426,7 @@ CREATE TRIGGER update_products_updated_at BEFORE UPDATE ON public.products FOR E
 
 
 --
--- TOC entry 4702 (class 2620 OID 19269)
+-- TOC entry 4926 (class 2620 OID 16489)
 -- Name: recipes update_recipes_updated_at; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -427,7 +434,7 @@ CREATE TRIGGER update_recipes_updated_at BEFORE UPDATE ON public.recipes FOR EAC
 
 
 --
--- TOC entry 4703 (class 2620 OID 19270)
+-- TOC entry 4927 (class 2620 OID 16490)
 -- Name: users update_users_updated_at; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -435,7 +442,7 @@ CREATE TRIGGER update_users_updated_at BEFORE UPDATE ON public.users FOR EACH RO
 
 
 --
--- TOC entry 4695 (class 2606 OID 19271)
+-- TOC entry 4919 (class 2606 OID 16491)
 -- Name: categories categories_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -444,7 +451,7 @@ ALTER TABLE ONLY public.categories
 
 
 --
--- TOC entry 4697 (class 2606 OID 19276)
+-- TOC entry 4921 (class 2606 OID 16496)
 -- Name: recipes fk_recipes_user; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -453,7 +460,7 @@ ALTER TABLE ONLY public.recipes
 
 
 --
--- TOC entry 4696 (class 2606 OID 19281)
+-- TOC entry 4920 (class 2606 OID 16501)
 -- Name: monthly_schedules monthly_schedules_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -462,7 +469,7 @@ ALTER TABLE ONLY public.monthly_schedules
 
 
 --
--- TOC entry 4698 (class 2606 OID 19286)
+-- TOC entry 4922 (class 2606 OID 16506)
 -- Name: recipes recipes_category_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -471,7 +478,7 @@ ALTER TABLE ONLY public.recipes
 
 
 --
--- TOC entry 4853 (class 0 OID 0)
+-- TOC entry 5081 (class 0 OID 0)
 -- Dependencies: 5
 -- Name: SCHEMA public; Type: ACL; Schema: -; Owner: postgres
 --
@@ -479,7 +486,7 @@ ALTER TABLE ONLY public.recipes
 REVOKE USAGE ON SCHEMA public FROM PUBLIC;
 
 
--- Completed on 2026-06-11 15:52:55
+-- Completed on 2026-09-21 14:48:14
 
 --
 -- PostgreSQL database dump complete
