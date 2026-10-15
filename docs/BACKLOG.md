@@ -26,7 +26,8 @@
 - [ ] Transactional tests
 - [ ] Test coverage reporting
 - [ ] Add automated CI workflow (run tests on every push / pull request)
-- [ ] Remove JWT from login response (use HttpOnly cookies only)
+- [x] Remove JWT from login response (use HttpOnly cookies only)
+- [x] Add graceful shutdown handling for the HTTPS server and PostgreSQL connection pool
 - [x] Backup system for products (export / seed)
 
 ## Frontend improvements

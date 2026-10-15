@@ -51,7 +51,7 @@ Current version: v1.1.2.
 
 ### 🔹 Authentication
 - User registration and login
-- JWT
+- JWT authentication using HttpOnly cookies
 - Roles: user / admin
 - Protected endpoints
 
@@ -293,9 +293,10 @@ password: admin123
 
 ## 🛡️ Security
 - CORS limited to frontend domain
-- JWT authentication
+- JWT authentication stored in HttpOnly cookies
 - Role based access
 - HTTPS (local certificates or production SSL)
+- Graceful shutdown of the HTTPS server and PostgreSQL connection pool
 - Global error handler
 
 ## 📚 Educational purpose
@@ -370,7 +371,7 @@ Obecna wersja: v1.1.2.
 
 ### 🔹 Autoryzacja
 - Rejestracja i logowanie
-- JWT
+- Uwierzytelnianie JWT z wykorzystaniem ciasteczek HttpOnly
 - Role: user / admin
 - Ochrona endpointów
 
@@ -611,9 +612,10 @@ password: admin123
 
 ## 🛡️ Bezpieczeństwo
 - CORS ograniczony do domeny frontendowej
-- Uwierzytelnianie JWT
-- Dostęp oparty na rolach
+- Uwierzytelnianie JWT z tokenem przechowywanym w ciasteczku HttpOnly
+- Kontrola dostępu oparta na rolach
 - HTTPS (lokalne certyfikaty lub SSL na produkcji)
+- Kontrolowane zamykanie serwera HTTPS i puli połączeń PostgreSQL
 - Globalny handler błędów
 
 ## 📚 Cel edukacyjny

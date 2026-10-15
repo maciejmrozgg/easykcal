@@ -578,3 +578,21 @@ prepare product database for Schedule integration and Nutrition Summary.
 ### Notes
 - User Settings test coverage is complete
 - existing React test warnings in MonthView and ProductManager remain to be addressed separately
+
+## 2026-10-15
+
+### Done
+- Refactored authentication to use JWT stored in an HttpOnly cookie.
+- Removed the JWT from the login response body.
+- Migrated backend authentication tests from Bearer tokens to cookies using Supertest agents.
+- Added graceful shutdown handling in `index.js` for `SIGINT` and `SIGTERM`.
+- Implemented server shutdown before closing the PostgreSQL connection pool.
+- Fixed React test warnings in `ProductManager.test.jsx` and `MonthView.test.jsx`.
+- Verified Postman and frontend behavior after authentication changes.
+- Verified backend and frontend test suites.
+
+### Notes
+- JWT remains the authentication token; the HttpOnly cookie is used to store and transmit it.
+- `db.js` was reviewed and left unchanged because no additional changes were needed for this task.
+- Backend tests: 52 passed.
+- Frontend tests: 80 passed.
