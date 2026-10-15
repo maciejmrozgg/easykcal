@@ -2,30 +2,22 @@ const request = require("supertest");
 const app = require("../app");
 const { loginOrRegister } = require("./helpers/auth");
 
-let userToken;
-let adminToken;
+let userAgent;
 let id;
 let categoryName;
 
 beforeAll(async () => {
-  userToken = await loginOrRegister({
+  userAgent = await loginOrRegister({
     email: "testowy@mail.com",
     password: "Testowe123!",
     role: "user",
-  });
-
-  adminToken = await loginOrRegister({
-    email: "testowyadmin@mail.com",
-    password: "Testowe123!",
-    role: "admin",
   });
 });
 
 describe("Categories API – CRUD", () => {
   it("GET /api/categories - should return array", async () => {
-    const res = await request(app)
-      .get("/api/categories")
-      .set("Authorization", `Bearer ${userToken}`);
+    const res = await userAgent
+      .get("/api/categories");
 
     expect(res.statusCode).toBe(200);
     expect(Array.isArray(res.body)).toBe(true);
@@ -34,9 +26,8 @@ describe("Categories API – CRUD", () => {
   it("POST /api/categories - user creates category", async () => {
     categoryName = `Test Category ${Date.now()}`;
 
-    const res = await request(app)
+    const res = await userAgent
       .post("/api/categories")
-      .set("Authorization", `Bearer ${userToken}`)
       .send({ name: categoryName });
 
     expect(res.statusCode).toBe(201);
@@ -47,9 +38,8 @@ describe("Categories API – CRUD", () => {
   });
 
   it("PUT /api/categories/:id - owner updates", async () => {
-    const res = await request(app)
+    const res = await userAgent
       .put(`/api/categories/${id}`)
-      .set("Authorization", `Bearer ${userToken}`)
       .send({ name: "Updated Category" });
 
     expect(res.statusCode).toBe(200);
@@ -57,24 +47,22 @@ describe("Categories API – CRUD", () => {
   });
 
   it("PUT /api/categories/:id - other user forbidden", async () => {
-    const otherToken = await loginOrRegister({
+    const otherAgent = await loginOrRegister({
       email: "other@mail.com",
       password: "Test123!",
       role: "user",
     });
 
-    const res = await request(app)
+    const res = await otherAgent
       .put(`/api/categories/${id}`)
-      .set("Authorization", `Bearer ${otherToken}`)
       .send({ name: "Hack" });
 
     expect(res.statusCode).toBe(403);
   });
 
   it("DELETE /api/categories/:id - owner deletes", async () => {
-    const res = await request(app)
+    const res = await userAgent
       .delete(`/api/categories/${id}`)
-      .set("Authorization", `Bearer ${userToken}`);
 
     expect(res.statusCode).toBe(200);
     expect(res.body.message).toBe("Category deleted");

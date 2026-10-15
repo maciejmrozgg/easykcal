@@ -8,10 +8,33 @@ import * as productApi from '../api/productApi';
 
 // Mock API
 vi.mock('../api/productApi', () => ({
-    fetchProducts: vi.fn().mockResolvedValue([{ id: 1, name: 'Jabłko', kcalPer100g: 52, proteinPer100g: null, fatPer100g: null, carbsPer100g: 5 }]),
-    addProduct: vi.fn().mockImplementation((p) => Promise.resolve({ ...p, id: 2 })),
-    deleteProduct: vi.fn().mockResolvedValue({ success: true }),
-    updateProduct: vi.fn().mockImplementation((id, p) => Promise.resolve({ id, ...p })),
+    fetchProducts: vi.fn().mockResolvedValue([
+        {
+            id: 1,
+            name: 'Jabłko',
+            kcalPer100g: 52,
+            proteinPer100g: null,
+            fatPer100g: null,
+            carbsPer100g: 5
+        }
+    ]),
+    addProduct: vi.fn().mockImplementation((p) => Promise.resolve(
+        {
+            ...p,
+            id: 2
+        }
+    )),
+    deleteProduct: vi.fn().mockResolvedValue(
+        {
+            success: true
+        }
+    ),
+    updateProduct: vi.fn().mockImplementation((id, p) => Promise.resolve(
+        {
+            id,
+            ...p
+        }
+    )),
 }));
 
 describe('ProductManager', () => {
@@ -121,7 +144,7 @@ describe('ProductManager', () => {
         });
     });
 
-    it('hides CRUD actions for guests', () => {
+    it('hides CRUD actions for guests', async () => {
         cleanup();
 
         render(
@@ -131,6 +154,8 @@ describe('ProductManager', () => {
                 </ProductsProvider>
             </ToastProvider>
         );
+
+        await screen.findByText(/Jabłko/i);
 
         expect(screen.queryByText(/Dodaj produkt/i)).not.toBeInTheDocument();
         expect(screen.queryByText(/EDIT/i)).not.toBeInTheDocument();

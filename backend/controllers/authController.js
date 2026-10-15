@@ -96,7 +96,6 @@ async function login(req, res, next) {
     //Return only user data
     return res.status(200).json({
       message: "Zalogowano pomyślnie",
-      token, //for test purpose
       user: {
         id: user.id,
         email: user.email,

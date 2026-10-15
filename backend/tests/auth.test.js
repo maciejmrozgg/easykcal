@@ -31,6 +31,20 @@ describe("Auth API – validation & basic flow", () => {
     expect(res.statusCode).toBe(401);
   });
 
+  it("POST /auth/login - sets HttpOnly cookie without returning token", async () => {
+    await request(app)
+      .post("/auth/register")
+      .send({ email: "auth@token.com", password: "Token1234!" });
+
+    const res = await request(app)
+      .post("/auth/login")
+      .send({ email: "auth@token.com", password: "Token1234!" });
+
+    expect(res.statusCode).toBe(200);
+    expect(res.body.token).toBeUndefined();
+    expect(res.headers["set-cookie"].some((element) => element.includes("HttpOnly"))).toBe(true);
+  });
+
   it("GET /auth/me - without token", async () => {
     const res = await request(app)
       .get("/auth/me");

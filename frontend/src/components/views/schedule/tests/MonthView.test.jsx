@@ -25,8 +25,8 @@ vi.mock("../api/scheduleApi", () => ({
 const mockSchedule = {
     year: 2026,
     month: 0,
-    deficitLimit: 2200,
-    zeroKcalLimit: 1800,
+    kcal_limit: 2200,
+    zero_kcal_limit: 1800,
     meals: [
         { id: "1", name: "Posiłek 1" },
         { id: "2", name: "Posiłek 2" },

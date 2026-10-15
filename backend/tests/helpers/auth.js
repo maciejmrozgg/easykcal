@@ -3,18 +3,21 @@ const app = require("../../app");
 const pool = require("../../config/db");
 
 const loginOrRegister = async ({ email, password, role = "user" }) => {
+  // Create an agent that preserves cookies between requests
+  const agent = request.agent(app);
+
   // try login
-  let loginRes = await request(app)
+  let loginRes = await agent
     .post("/auth/login")
     .send({ email, password });
 
   if (loginRes.statusCode !== 200) {
     // if it doesn't exist → register
-    await request(app)
+    await agent
       .post("/auth/register")
       .send({ email, password });
 
-    loginRes = await request(app)
+    loginRes = await agent
       .post("/auth/login")
       .send({ email, password });
   }
@@ -27,12 +30,12 @@ const loginOrRegister = async ({ email, password, role = "user" }) => {
     );
 
     // re-login after role change
-    loginRes = await request(app)
+    loginRes = await agent
       .post("/auth/login")
       .send({ email, password });
   }
 
-  return loginRes.body.token;
+  return agent;
 };
 
 module.exports = { loginOrRegister };

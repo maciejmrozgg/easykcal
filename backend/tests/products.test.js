@@ -2,12 +2,12 @@ const request = require("supertest");
 const app = require("../app");
 const { loginOrRegister } = require("./helpers/auth");
 
-let userToken;
+let userAgent;
 let id;
 let productName;
 
 beforeAll(async () => {
-    userToken = await loginOrRegister({
+    userAgent = await loginOrRegister({
         email: "testowy@mail.com",
         password: "Testowe123!",
         role: "user",
@@ -16,9 +16,8 @@ beforeAll(async () => {
 
 describe("Products API – CRUD", () => {
     it("GET /products - should return array", async () => {
-        const res = await request(app)
-            .get("/products")
-            .set("Authorization", `Bearer ${userToken}`);
+        const res = await userAgent
+            .get("/products");
 
         expect(res.statusCode).toBe(200);
         expect(Array.isArray(res.body)).toBe(true);
@@ -36,9 +35,8 @@ describe("Products API – CRUD", () => {
     it("POST /products - user creates product", async () => {
         productName = `Test Product ${Date.now()}`;
 
-        const res = await request(app)
+        const res = await userAgent
             .post("/products")
-            .set("Authorization", `Bearer ${userToken}`)
             .send({
                 name: productName,
                 kcalPer100g: 250,
@@ -59,9 +57,8 @@ describe("Products API – CRUD", () => {
     });
 
     it("GET /products - should contain created product", async () => {
-        const res = await request(app)
-            .get("/products")
-            .set("Authorization", `Bearer ${userToken}`);
+        const res = await userAgent
+            .get("/products");
 
         expect(res.statusCode).toBe(200);
 
@@ -77,9 +74,8 @@ describe("Products API – CRUD", () => {
 
     it("PUT /products/:id - user updates product", async () => {
 
-        const res = await request(app)
+        const res = await userAgent
             .put(`/products/${id}`)
-            .set("Authorization", `Bearer ${userToken}`)
             .send({
                 name: `${productName} Updated`,
                 kcalPer100g: 450,
@@ -98,9 +94,8 @@ describe("Products API – CRUD", () => {
     });
 
     it("DELETE /products/:id - user deletes product", async () => {
-        const res = await request(app)
+        const res = await userAgent
             .delete(`/products/${id}`)
-            .set("Authorization", `Bearer ${userToken}`);
 
         expect(res.statusCode).toBe(200);
         expect(res.body.id).toBe(id);
@@ -109,9 +104,8 @@ describe("Products API – CRUD", () => {
 
 describe("Validation and error handling", () => {
     it("POST /products - invalid numeric values", async () => {
-        const res = await request(app)
+        const res = await userAgent
             .post("/products")
-            .set("Authorization", `Bearer ${userToken}`)
             .send({
                 name: "TestPOST",
                 kcalPer100g: "abc",
@@ -125,9 +119,8 @@ describe("Validation and error handling", () => {
     });
 
     it("PUT /products/:id - invalid numeric values", async () => {
-        const res = await request(app)
+        const res = await userAgent
             .put(`/products/${id}`)
-            .set("Authorization", `Bearer ${userToken}`)
             .send({
                 name: "TestPUT",
                 kcalPer100g: "abc",
@@ -158,18 +151,16 @@ describe("Validation and error handling", () => {
     });
 
     it("DELETE /products/:id - deleting non-existing product", async () => {
-        const res = await request(app)
+        const res = await userAgent
             .delete("/products/999999")
-            .set("Authorization", `Bearer ${userToken}`);
 
         expect(res.statusCode).toBe(404);
         expect(res.body.error).toBe("Produkt nie istnieje");
     });
 
     it("PUT /products/:id - updating non-existing product", async () => {
-        const res = await request(app)
+        const res = await userAgent
             .put("/products/999999")
-            .set("Authorization", `Bearer ${userToken}`)
             .send({
                 name: "Test",
                 kcalPer100g: 100,

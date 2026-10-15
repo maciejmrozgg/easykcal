@@ -2,10 +2,10 @@ const request = require("supertest");
 const app = require("../app");
 const { loginOrRegister } = require("./helpers/auth");
 
-let token;
+let userAgent;
 
 beforeAll(async () => {
-    token = await loginOrRegister({
+    userAgent = await loginOrRegister({
         email: "userSettings@test.com",
         password: "Testowe123!",
     });
@@ -13,17 +13,15 @@ beforeAll(async () => {
 
 describe("User settings API", () => {
     it("GET /api/user-settings - return user settings", async () => {
-        const res = await request(app)
-            .get(`/api/user-settings`)
-            .set("Authorization", `Bearer ${token}`);
+        const res = await userAgent
+            .get(`/api/user-settings`);
 
         expect(res.statusCode).toBe(200);
     });
 
     it("GET /api/user-settings - check if user settings fields exists", async () => {
-        const res = await request(app)
-            .get(`/api/user-settings`)
-            .set("Authorization", `Bearer ${token}`);
+        const res = await userAgent
+            .get(`/api/user-settings`);
 
         expect(res.statusCode).toBe(200);
         expect(res.body).toHaveProperty("goal");
@@ -35,9 +33,8 @@ describe("User settings API", () => {
     });
 
     it("GET /api/user-settings - check if backend returns proper default values", async () => {
-        const res = await request(app)
-            .get(`/api/user-settings`)
-            .set("Authorization", `Bearer ${token}`);
+        const res = await userAgent
+            .get(`/api/user-settings`);
 
         expect(res.statusCode).toBe(200);
         expect(res.body.goal).toBe("maintenance");
@@ -49,9 +46,8 @@ describe("User settings API", () => {
     });
 
     it("PATCH /api/user-settings - update user settings", async () => {
-        const res = await request(app)
+        const res = await userAgent
             .patch(`/api/user-settings`)
-            .set("Authorization", `Bearer ${token}`)
             .send({
                 goal: "mass",
                 calorie_target: 2500,
@@ -73,9 +69,8 @@ describe("User settings API", () => {
 
 describe("Validation user settings", () => {
     it("PATCH /api/user-settings - user goal", async () => {
-        const res = await request(app)
+        const res = await userAgent
             .patch(`/api/user-settings`)
-            .set("Authorization", `Bearer ${token}`)
             .send({
                 goal: "invalid"
             });
@@ -85,9 +80,8 @@ describe("Validation user settings", () => {
     });
 
     it("PATCH /api/user-settings - copy targets to the new months type", async () => {
-        const res = await request(app)
+        const res = await userAgent
             .patch(`/api/user-settings`)
-            .set("Authorization", `Bearer ${token}`)
             .send({
                 goal: "mass",
                 copy_targets_to_new_months: "false"
@@ -98,9 +92,8 @@ describe("Validation user settings", () => {
     });
 
     it("PATCH /api/user-settings - all nutritions are null", async () => {
-        const res = await request(app)
+        const res = await userAgent
             .patch(`/api/user-settings`)
-            .set("Authorization", `Bearer ${token}`)
             .send({
                 goal: "maintenance",
                 calorie_target: null,
@@ -114,9 +107,8 @@ describe("Validation user settings", () => {
     });
 
     it("PATCH /api/user-settings - part of targets are null", async () => {
-        const res = await request(app)
+        const res = await userAgent
             .patch(`/api/user-settings`)
-            .set("Authorization", `Bearer ${token}`)
             .send({
                 goal: "maintenance",
                 calorie_target: null,
@@ -131,9 +123,8 @@ describe("Validation user settings", () => {
     });
 
     it("PATCH /api/user-settings - all numbers are positive integers", async () => {
-        const res = await request(app)
+        const res = await userAgent
             .patch(`/api/user-settings`)
-            .set("Authorization", `Bearer ${token}`)
             .send({
                 goal: "maintenance",
                 calorie_target: 1,
@@ -147,9 +138,8 @@ describe("Validation user settings", () => {
     });
 
     it("PATCH /api/user-settings - one of target is negative integers", async () => {
-        const res = await request(app)
+        const res = await userAgent
             .patch(`/api/user-settings`)
-            .set("Authorization", `Bearer ${token}`)
             .send({
                 goal: "maintenance",
                 calorie_target: 1,
@@ -164,9 +154,8 @@ describe("Validation user settings", () => {
     });
 
     it("PATCH /api/user-settings - one of target is 0", async () => {
-        const res = await request(app)
+        const res = await userAgent
             .patch(`/api/user-settings`)
-            .set("Authorization", `Bearer ${token}`)
             .send({
                 goal: "maintenance",
                 calorie_target: 1,
@@ -181,9 +170,8 @@ describe("Validation user settings", () => {
     });
 
     it("PATCH /api/user-settings - one of the targets is non-integer value", async () => {
-        const res = await request(app)
+        const res = await userAgent
             .patch(`/api/user-settings`)
-            .set("Authorization", `Bearer ${token}`)
             .send({
                 goal: "maintenance",
                 calorie_target: 1,
@@ -198,9 +186,8 @@ describe("Validation user settings", () => {
     });
 
     it("PATCH /api/user-settings - one of the targets is a string instead of a number", async () => {
-        const res = await request(app)
+        const res = await userAgent
             .patch(`/api/user-settings`)
-            .set("Authorization", `Bearer ${token}`)
             .send({
                 goal: "maintenance",
                 calorie_target: 1,
@@ -215,9 +202,8 @@ describe("Validation user settings", () => {
     });
 
     it("PATCH /api/user-settings - one of the targets is completely missing", async () => {
-        const res = await request(app)
+        const res = await userAgent
             .patch(`/api/user-settings`)
-            .set("Authorization", `Bearer ${token}`)
             .send({
                 goal: "maintenance",
                 calorie_target: 1,
@@ -231,9 +217,8 @@ describe("Validation user settings", () => {
     });
 
     it("PATCH /api/user-settings - goal is missing", async () => {
-        const res = await request(app)
+        const res = await userAgent
             .patch(`/api/user-settings`)
-            .set("Authorization", `Bearer ${token}`)
             .send({
                 calorie_target: 1,
                 protein_target: 2,
@@ -247,9 +232,8 @@ describe("Validation user settings", () => {
     });
 
     it("PATCH /api/user-settings - copy targets to the new months is missing", async () => {
-        const res = await request(app)
+        const res = await userAgent
             .patch(`/api/user-settings`)
-            .set("Authorization", `Bearer ${token}`)
             .send({
                 goal: "maintenance",
                 calorie_target: 1,
