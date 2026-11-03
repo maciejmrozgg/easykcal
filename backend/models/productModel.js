@@ -1,5 +1,6 @@
 const pool = require('../config/db');
 
+// Transform database row into a product object with camelCase properties
 const mapProduct = (p) => ({
   id: p.id,
   name: p.name,
@@ -25,40 +26,105 @@ exports.getProducts = async (search) => {
 };
 
 //POST
-exports.insertProduct = async (name, kcal, fat, protein, carbs) => {
+exports.insertProduct = async (userId, name, kcal, fat, protein, carbs) => {
   const result = await pool.query(
-    'INSERT INTO products (name, kcal_per_100g, fat_per_100g, protein_per_100g, carbs_per_100g) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-    [name, kcal, fat, protein, carbs]
+    'INSERT INTO products (user_id, name, kcal_per_100g, fat_per_100g, protein_per_100g, carbs_per_100g) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+    [userId, name, kcal, fat, protein, carbs]
   );
 
   return mapProduct(result.rows[0]);
 };
 
 //DELETE
-exports.deleteProduct = async (id) => {
-  const result = await pool.query(
-    'DELETE FROM products WHERE id = $1 RETURNING *',
-    [id]
-  );
+exports.deleteProduct = async (id, userId, userRole) => {
+  const client = await pool.connect();
 
-  if (result.rows.length === 0) {
-    return null;
+  try {
+    await client.query('BEGIN');
+
+    // Check if product exists
+    const product = await client.query(
+      'SELECT * FROM products WHERE id = $1 FOR UPDATE',
+      [id]
+    );
+
+    if (product.rows.length === 0) {
+      await client.query('ROLLBACK');
+      return { status: 'not_found' };
+    }
+
+    // Check permissions
+    const isOwner = product.rows[0].user_id === userId;
+    const isAdmin = userRole === 'admin';
+
+    if (!isOwner && !isAdmin) {
+      await client.query('ROLLBACK');
+      return { status: 'forbidden' };
+    }
+
+    // Delete product
+    const result = await client.query(
+      'DELETE FROM products WHERE id = $1 RETURNING *',
+      [id]
+    );
+
+    await client.query('COMMIT');
+
+    return {
+      status: 'deleted',
+      product: mapProduct(result.rows[0])
+    };
+  } catch (err) {
+    await client.query('ROLLBACK');
+    throw err;
+  } finally {
+    client.release();
   }
-
-  return mapProduct(result.rows[0]);
-}
+};
 
 //PUT
-exports.updateProduct = async (id, name, kcal, fat, protein, carbs) => {
+exports.updateProduct = async (id, userId, userRole, name, kcal, fat, protein, carbs) => {
+  const client = await pool.connect();
 
-  const result = await pool.query(
-    'UPDATE products SET name = $1, kcal_per_100g = $2, fat_per_100g = $3, protein_per_100g = $4, carbs_per_100g = $5 WHERE id = $6 RETURNING *',
-    [name, kcal, fat, protein, carbs, id]
-  );
+  try {
+    await client.query('BEGIN');
 
-  if (result.rows.length === 0) {
-    return null;
+    // Check if product exists
+    const product = await client.query(
+      'SELECT * FROM products WHERE id = $1 FOR UPDATE',
+      [id]
+    );
+
+    if (product.rows.length === 0) {
+      await client.query('ROLLBACK');
+      return { status: 'not_found' };
+    }
+
+    // Check permissons
+    const isOwner = product.rows[0].user_id === userId;
+    const isAdmin = userRole === 'admin';
+
+    if (!isOwner && !isAdmin) {
+      await client.query('ROLLBACK');
+      return { status: 'forbidden' };
+    }
+
+    // Update product
+    const result = await client.query(
+      'UPDATE products SET name = $2, kcal_per_100g = $3, fat_per_100g = $4, protein_per_100g = $5, carbs_per_100g = $6 WHERE id = $1 RETURNING *',
+      [id, name, kcal, fat, protein, carbs]
+    );
+
+    await client.query('COMMIT');
+
+    return {
+      status: 'updated',
+      product: mapProduct(result.rows[0])
+    };
+  } catch (err) {
+    await client.query('ROLLBACK');
+    throw err
+  } finally {
+    client.release();
   }
-
-  return mapProduct(result.rows[0]);
 };

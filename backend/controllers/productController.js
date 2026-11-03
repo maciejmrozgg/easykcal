@@ -13,6 +13,7 @@ exports.getAllProducts = async (req, res, next) => {
 
 exports.addProduct = async (req, res, next) => {
   const { name, kcalPer100g, fatPer100g, proteinPer100g, carbsPer100g } = req.body;
+  const userId = req.user.id;
 
   const kcal = Number(kcalPer100g);
   const fat = fatPer100g === "" || fatPer100g === undefined ? null : Number(fatPer100g);
@@ -32,7 +33,7 @@ exports.addProduct = async (req, res, next) => {
   }
 
   try {
-    const newProduct = await productModel.insertProduct(name, kcal, fat, protein, carbs);
+    const newProduct = await productModel.insertProduct(userId, name, kcal, fat, protein, carbs);
     res.status(201).json(newProduct);
   } catch (err) {
     next(err);
@@ -42,13 +43,21 @@ exports.addProduct = async (req, res, next) => {
 exports.deleteOneProduct = async (req, res, next) => {
   try {
     const id = req.params.id;
-    const removedProduct = await productModel.deleteProduct(id);
+    const userId = req.user.id;
+    const userRole = req.user.role;
+    const removedProduct = await productModel.deleteProduct(id, userId, userRole);
 
-    if (!removedProduct) {
-      return res.status(404).json({ error: 'Produkt nie istnieje' });
+    if (removedProduct.status === "not_found") {
+      return res.status(404).json({
+        error: 'Produkt nie istnieje'
+      });
+    } else if (removedProduct.status === "forbidden") {
+      return res.status(403).json({
+        error: 'Brak uprawnień'
+      });
+    } else {
+      res.status(200).json(removedProduct.product);
     }
-
-    res.status(200).json(removedProduct);
   } catch (err) {
     next(err);
   }
@@ -56,6 +65,8 @@ exports.deleteOneProduct = async (req, res, next) => {
 
 exports.updateOneProduct = async (req, res, next) => {
   const id = req.params.id;
+  const userId = req.user.id;
+  const userRole = req.user.role;
   const { name, kcalPer100g, fatPer100g, proteinPer100g, carbsPer100g } = req.body;
 
   const kcal = Number(kcalPer100g);
@@ -72,15 +83,19 @@ exports.updateOneProduct = async (req, res, next) => {
   }
 
   try {
-    const updatedProduct = await productModel.updateProduct(id, name, kcal, fat, protein, carbs);
+    const updatedProduct = await productModel.updateProduct(id, userId, userRole, name, kcal, fat, protein, carbs);
 
-    if (!updatedProduct) {
+    if (updatedProduct.status === 'not_found') {
       return res.status(404).json({
         error: 'Produkt nie istnieje'
       });
+    } else if (updatedProduct.status === 'forbidden') {
+      return res.status(403).json({
+        error: 'Brak uprawnień'
+      });
+    } else {
+      res.status(200).json(updatedProduct.product);
     }
-
-    res.json(updatedProduct);
   } catch (err) {
     next(err);
   }

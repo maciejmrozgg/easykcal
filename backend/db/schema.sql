@@ -5,7 +5,7 @@
 -- Dumped from database version 18.4
 -- Dumped by pg_dump version 18.4
 
--- Started on 2026-09-21 14:48:14
+-- Started on 2026-10-30 13:26:58
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -30,7 +30,7 @@ SET row_security = off;
 ALTER SCHEMA public OWNER TO postgres;
 
 --
--- TOC entry 5080 (class 0 OID 0)
+-- TOC entry 5081 (class 0 OID 0)
 -- Dependencies: 5
 -- Name: SCHEMA public; Type: COMMENT; Schema: -; Owner: postgres
 --
@@ -106,7 +106,7 @@ CREATE SEQUENCE public.categories_id_seq
 ALTER SEQUENCE public.categories_id_seq OWNER TO postgres;
 
 --
--- TOC entry 5082 (class 0 OID 0)
+-- TOC entry 5083 (class 0 OID 0)
 -- Dependencies: 220
 -- Name: categories_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -152,7 +152,7 @@ CREATE SEQUENCE public.monthly_schedules_id_seq
 ALTER SEQUENCE public.monthly_schedules_id_seq OWNER TO postgres;
 
 --
--- TOC entry 5083 (class 0 OID 0)
+-- TOC entry 5084 (class 0 OID 0)
 -- Dependencies: 222
 -- Name: monthly_schedules_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -173,7 +173,8 @@ CREATE TABLE public.products (
     protein_per_100g numeric,
     carbs_per_100g numeric,
     created_at timestamp without time zone DEFAULT now(),
-    updated_at timestamp without time zone DEFAULT now()
+    updated_at timestamp without time zone DEFAULT now(),
+    user_id integer
 );
 
 
@@ -196,7 +197,7 @@ CREATE SEQUENCE public.products_id_seq
 ALTER SEQUENCE public.products_id_seq OWNER TO postgres;
 
 --
--- TOC entry 5084 (class 0 OID 0)
+-- TOC entry 5085 (class 0 OID 0)
 -- Dependencies: 224
 -- Name: products_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -280,7 +281,7 @@ CREATE SEQUENCE public.users_id_seq
 ALTER SEQUENCE public.users_id_seq OWNER TO postgres;
 
 --
--- TOC entry 5085 (class 0 OID 0)
+-- TOC entry 5086 (class 0 OID 0)
 -- Dependencies: 228
 -- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -402,7 +403,7 @@ ALTER TABLE ONLY public.users
 
 
 --
--- TOC entry 4923 (class 2620 OID 16486)
+-- TOC entry 4924 (class 2620 OID 16486)
 -- Name: categories update_categories_updated_at; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -410,7 +411,7 @@ CREATE TRIGGER update_categories_updated_at BEFORE UPDATE ON public.categories F
 
 
 --
--- TOC entry 4924 (class 2620 OID 16487)
+-- TOC entry 4925 (class 2620 OID 16487)
 -- Name: monthly_schedules update_monthly_schedules_updated_at; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -418,7 +419,7 @@ CREATE TRIGGER update_monthly_schedules_updated_at BEFORE UPDATE ON public.month
 
 
 --
--- TOC entry 4925 (class 2620 OID 16488)
+-- TOC entry 4926 (class 2620 OID 16488)
 -- Name: products update_products_updated_at; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -426,7 +427,7 @@ CREATE TRIGGER update_products_updated_at BEFORE UPDATE ON public.products FOR E
 
 
 --
--- TOC entry 4926 (class 2620 OID 16489)
+-- TOC entry 4927 (class 2620 OID 16489)
 -- Name: recipes update_recipes_updated_at; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -434,7 +435,7 @@ CREATE TRIGGER update_recipes_updated_at BEFORE UPDATE ON public.recipes FOR EAC
 
 
 --
--- TOC entry 4927 (class 2620 OID 16490)
+-- TOC entry 4928 (class 2620 OID 16490)
 -- Name: users update_users_updated_at; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -451,7 +452,7 @@ ALTER TABLE ONLY public.categories
 
 
 --
--- TOC entry 4921 (class 2606 OID 16496)
+-- TOC entry 4922 (class 2606 OID 16496)
 -- Name: recipes fk_recipes_user; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -469,7 +470,16 @@ ALTER TABLE ONLY public.monthly_schedules
 
 
 --
--- TOC entry 4922 (class 2606 OID 16506)
+-- TOC entry 4921 (class 2606 OID 37801)
+-- Name: products products_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.products
+    ADD CONSTRAINT products_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- TOC entry 4923 (class 2606 OID 16506)
 -- Name: recipes recipes_category_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -478,7 +488,7 @@ ALTER TABLE ONLY public.recipes
 
 
 --
--- TOC entry 5081 (class 0 OID 0)
+-- TOC entry 5082 (class 0 OID 0)
 -- Dependencies: 5
 -- Name: SCHEMA public; Type: ACL; Schema: -; Owner: postgres
 --
@@ -486,9 +496,8 @@ ALTER TABLE ONLY public.recipes
 REVOKE USAGE ON SCHEMA public FROM PUBLIC;
 
 
--- Completed on 2026-09-21 14:48:14
+-- Completed on 2026-10-30 13:26:58
 
 --
 -- PostgreSQL database dump complete
 --
-
