@@ -20,7 +20,7 @@ const ProductList = forwardRef(({ products, visibleCount, onEdit, user }, ref) =
               </div>
             </div>
 
-            {user && (
+            {user && (user.role === 'admin' || p.userId === user.id) && (
               <span>
                 <button
                   className="editbtn"
