@@ -15,13 +15,23 @@ vi.mock('../api/productApi', () => ({
             kcalPer100g: 52,
             proteinPer100g: null,
             fatPer100g: null,
-            carbsPer100g: 5
+            carbsPer100g: 5,
+            userId: 1
+        },
+        {
+            id: 2,
+            name: 'Banan',
+            kcalPer100g: 89,
+            proteinPer100g: 1.1,
+            fatPer100g: 0.3,
+            carbsPer100g: 23,
+            userId: null
         }
     ]),
     addProduct: vi.fn().mockImplementation((p) => Promise.resolve(
         {
             ...p,
-            id: 2
+            id: 3
         }
     )),
     deleteProduct: vi.fn().mockResolvedValue(
@@ -42,7 +52,7 @@ describe('ProductManager', () => {
         render(
             <ToastProvider>
                 <ProductsProvider>
-                    <ProductManager user={{ id: 1, username: 'test' }} />
+                    <ProductManager user={{ id: 1, username: 'test', role: 'user' }} />
                 </ProductsProvider>
             </ToastProvider>
         );
@@ -55,9 +65,9 @@ describe('ProductManager', () => {
         expect(screen.getByPlaceholderText(/Nazwa produktu/i)).toBeInTheDocument();
         expect(screen.getByPlaceholderText(/Wpisz nazwę/i)).toBeInTheDocument();
 
-        expect(screen.getByText(/B:/i)).toBeInTheDocument();
-        expect(screen.getByText(/T:/i)).toBeInTheDocument();
-        expect(screen.getByText(/W:/i)).toBeInTheDocument();
+        expect(screen.getAllByText(/B:/i)).toHaveLength(2);
+        expect(screen.getAllByText(/T:/i)).toHaveLength(2);
+        expect(screen.getAllByText(/W:/i)).toHaveLength(2);
     });
 
     it('adds a product and clears inputs', async () => {
@@ -109,6 +119,7 @@ describe('ProductManager', () => {
     it('edits a product using ProductModal', async () => {
         const editButton = await screen.findByText(/✏️ EDYTUJ/i);
 
+        expect(screen.getAllByRole('button', { name: /EDYTUJ/i })).toHaveLength(1);
         fireEvent.click(editButton);
 
         fireEvent.change(
@@ -158,6 +169,38 @@ describe('ProductManager', () => {
         await screen.findByText(/Jabłko/i);
 
         expect(screen.queryByText(/Dodaj produkt/i)).not.toBeInTheDocument();
-        expect(screen.queryByText(/EDIT/i)).not.toBeInTheDocument();
+        expect(screen.queryByText(/EDYTUJ/i)).not.toBeInTheDocument();
+    });
+
+    it('hides edit button for products owned by another user', async () => {
+        cleanup();
+
+        render(
+            <ToastProvider>
+                <ProductsProvider>
+                    <ProductManager user={{ id: 2, username: 'other', role: 'user' }} />
+                </ProductsProvider>
+            </ToastProvider>
+        );
+
+        await screen.findByText(/Jabłko/i);
+
+        expect(screen.queryByText(/EDYTUJ/i)).not.toBeInTheDocument();
+    });
+
+    it('admin should be able to edit products owned by other users', async () => {
+        cleanup();
+
+        render(
+            <ToastProvider>
+                <ProductsProvider>
+                    <ProductManager user={{ id: 99, username: 'admin', role: 'admin' }} />
+                </ProductsProvider>
+            </ToastProvider>
+        );
+
+        await screen.findByText(/Jabłko/i);
+
+        expect(screen.getAllByRole('button', { name: /EDYTUJ/i })).toHaveLength(2);
     });
 });
