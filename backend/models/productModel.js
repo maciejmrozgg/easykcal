@@ -8,6 +8,7 @@ const mapProduct = (p) => ({
   fatPer100g: p.fat_per_100g == null ? null : Number(p.fat_per_100g),
   proteinPer100g: p.protein_per_100g == null ? null : Number(p.protein_per_100g),
   carbsPer100g: p.carbs_per_100g == null ? null : Number(p.carbs_per_100g),
+  userId: p.user_id,
 });
 
 //GET
