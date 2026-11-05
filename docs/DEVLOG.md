@@ -596,3 +596,69 @@ prepare product database for Schedule integration and Nutrition Summary.
 - `db.js` was reviewed and left unchanged because no additional changes were needed for this task.
 - Backend tests: 52 passed.
 - Frontend tests: 80 passed.
+
+## 2026-10-30
+
+### Done
+- started Product Ownership implementation on `feature/product-ownership` branch
+- reviewed the current product database structure and ownership requirements
+- generated an updated database schema dump (`schema.sql`)
+- added nullable `user_id` column to the `products` table, with a foreign key referencing `users.id`
+- updated `SCHEMA.md` with the current database structure
+- updated product creation to assign the authenticated user's ID from `req.user.id`
+- updated the product model to store product ownership when inserting new products
+- verified that newly created products are correctly assigned to their owners
+- updated product deletion logic to allow users to delete their own products and admins to delete any product
+
+### Notes
+- existing products retain `user_id = NULL` and are treated as shared products
+- newly created products are assigned to the authenticated user
+- regular users cannot delete products belonging to other users or shared products
+- administrators can delete all products, including shared products
+- transaction-based deletion with separate `403 Forbidden` and `404 Not Found` responses was discussed and postponed for further implementation and review
+
+## 2026-11-04
+
+### Done
+- completed transaction-based product deletion using `BEGIN`, `COMMIT` and `ROLLBACK`
+- implemented row locking with `SELECT ... FOR UPDATE` to prevent concurrent modification issues
+- implemented product deletion authorization based on ownership and user role
+- completed analogous transaction-based authorization logic for product updates
+- restricted regular users to editing and deleting only their own products
+- allowed administrators to edit and delete all products, including shared products
+- implemented separate handling of `403 Forbidden` and `404 Not Found` responses
+- added backend integration tests for product ownership and admin permissions
+- added tests verifying that regular users cannot modify or delete shared products
+- added tests verifying that administrators can modify and delete shared and user-owned products
+- added a database-level test verifying that newly created products are assigned to the correct user
+- verified product backend tests: 20 tests passed
+
+### Notes
+- existing products with `user_id = NULL` remain shared products
+- newly created products are assigned to the authenticated user
+- regular users can modify and delete only products they own
+- administrators can modify and delete all products
+- product ownership and authorization logic is implemented and covered by backend integration tests
+
+### In Progress
+- frontend integration of product ownership and admin permissions
+- frontend tests for product ownership and conditional UI rendering
+- documentation updates after completing frontend implementation and tests
+
+## 2026-11-05
+
+### Done
+- Completed frontend integration of product ownership and role-based permissions
+- Restricted product editing in the frontend based on product ownership and user role
+- Added frontend tests covering product ownership and conditional UI rendering for users, admins and guests
+- Completed backend integration tests for product ownership and authorization
+- Verified frontend test suite (82 tests passed)
+- Verified backend test suite (62 tests passed)
+
+### Notes
+- Regular users can edit and delete only their own products
+- Admins can edit and delete all products, including global products
+- Guests have read-only access to products
+- The API returns the product owner ID (`userId`), which is used by the frontend to control the visibility of edit actions
+- Existing global products have `user_id = NULL`
+- Product ownership and authorization — completed

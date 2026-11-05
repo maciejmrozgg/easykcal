@@ -1,6 +1,6 @@
 # Database Schema – EasyKcal
 
-Snapshot of the database schema as of **2026-09-29**.
+Snapshot of the database schema as of **2026-10-30**.
 
 This document describes the current structure of the PostgreSQL database.
 Schema changes over time are tracked separately using SQL migration files
@@ -37,19 +37,20 @@ located in `backend/migrations`.
 
 ### products
 
-| Column           | Type      | Notes          |
-|------------------|-----------|----------------|
-| id               | integer   | Primary key    |
-| name             | varchar   |                |
-| kcal_per_100g    | numeric   |                |
-| fat_per_100g     | numeric   |                |
-| protein_per_100g | numeric   |                |
-| carbs_per_100g   | numeric   |                |
-| created_at       | timestamp | Default: now() |
-| updated_at       | timestamp | Auto-updated   |
+| Column           | Type      | Notes                                |
+|------------------|-----------|--------------------------------------|
+| id               | integer   | Primary key                          |
+| user_id          | integer   | FK → users.id (NULL = global product)|
+| name             | varchar   |                                      |
+| kcal_per_100g    | numeric   |                                      |
+| fat_per_100g     | numeric   |                                      |
+| protein_per_100g | numeric   |                                      |
+| carbs_per_100g   | numeric   |                                      |
+| created_at       | timestamp | Default: now()                       |
+| updated_at       | timestamp | Auto-updated                         |
 
 **Relations**
-- none
+- products.user_id → users.id
 
 ---
 

@@ -16,6 +16,7 @@
 - [x] BaseModal component for shared modal logic
 - [x] Default categories in production database
 - [x] Restrict product management for guests (read-only access)
+- [x] Product ownership and role-based product authorization
 - [x] Toast notifications for user actions
 - [x] Add protein, fat and carbs support for products
 

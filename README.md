@@ -29,7 +29,10 @@ Current version: v1.1.2.
 - JWT-protected product CRUD
 - Read-only access for guests
 - Product search functionality
-- Product data updates
+- Product ownership and role-based authorization
+- Users can edit and delete only their own products
+- Admins can manage all products, including global products
+- Shared global products available to all users
 - Calories, protein, fat and carbs per 100g
 
 ### 🔹 Recipes
@@ -349,7 +352,10 @@ Obecna wersja: v1.1.2.
 - CRUD produktów z autoryzacją JWT
 - Tryb tylko do odczytu dla gości
 - Wyszukiwanie produktów
-- Aktualizacja danych
+- Własność produktów i autoryzacja oparta na rolach
+- Użytkownicy mogą edytować i usuwać wyłącznie własne produkty
+- Administratorzy mogą zarządzać wszystkimi produktami, również globalnymi
+- Produkty globalne dostępne dla wszystkich użytkowników
 - Kalorie, białko, tłuszcz i węglowodany na 100g
 
 ### 🔹 Przepisy
